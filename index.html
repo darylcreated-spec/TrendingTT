@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Theme and mobile browser styling -->
+    <meta name="theme-color" content="#ce1126" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Trending TT" />
+    
+    <!-- Open Graph & Meta -->
+    <title>Trending TT | Real-Time News & Social Dashboard</title>
+    <meta name="description" content="Trinidad and Tobago's live aggregator for news (TTT, CNC3, TV6, Newsday) and trending social media (TikTok, Facebook, Instagram) in one unified dashboard." />
+    <meta property="og:title" content="Trending TT | All Trinidad News & Socials In One Place" />
+    <meta property="og:description" content="Live real-time dashboard aggregating TTT, CNC3, TV6, Newsday, TikTok, and Facebook posts." />
+    <meta property="og:image" content="/favicon.svg" />
+    
+    <!-- Google Fonts: Inter & Newsreader for editorial distinction -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((reg) => console.log('Trending TT PWA Service Worker registered:', reg.scope))
+            .catch((err) => console.log('Service Worker registration failed:', err));
+        });
+      }
+    </script>
+  </body>
+</html>

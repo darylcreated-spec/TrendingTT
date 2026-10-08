@@ -1,0 +1,92 @@
+import React, { useState, useEffect } from 'react';
+import { Download, X, Smartphone, PlusSquare, Share } from 'lucide-react';
+
+interface PWAInstallBannerProps {
+  onInstall: () => void;
+  canInstall: boolean;
+}
+
+export const PWAInstallBanner: React.FC<PWAInstallBannerProps> = ({ onInstall, canInstall }) => {
+  const [dismissed, setDismissed] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+  const [showIOSInstructions, setShowIOSInstructions] = useState(false);
+
+  useEffect(() => {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    if (isIosDevice && !isStandalone) {
+      setIsIOS(true);
+    }
+  }, []);
+
+  if (dismissed) return null;
+
+  return (
+    <div className="bg-gradient-to-r from-red-950 via-slate-900 to-slate-950 border-b border-red-900/60 text-slate-100 px-4 py-2.5">
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-2.5 text-center sm:text-left">
+          <div className="w-8 h-8 rounded-lg bg-red-600 text-white flex items-center justify-center shrink-0 shadow-sm font-black">
+            TT
+          </div>
+          <div>
+            <p className="font-bold text-slate-100">
+              Install Trending TT on your phone for instant breaking alerts
+            </p>
+            <p className="text-slate-400 text-[11px]">
+              Works offline, fast mobile experience, zero app store download needed.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          {canInstall ? (
+            <button
+              onClick={onInstall}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold transition-all shadow-md active:scale-95"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Install App</span>
+            </button>
+          ) : isIOS ? (
+            <button
+              onClick={() => setShowIOSInstructions(!showIOSInstructions)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold border border-slate-700 transition-all"
+            >
+              <Smartphone className="w-3.5 h-3.5 text-red-400" />
+              <span>How to Install on iPhone</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => alert('To install: open browser settings (three dots menu) and tap "Install app" or "Add to Home screen".')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold border border-slate-700 transition-all"
+            >
+              <Smartphone className="w-3.5 h-3.5 text-red-400" />
+              <span>Install to Home Screen</span>
+            </button>
+          )}
+
+          <button
+            onClick={() => setDismissed(true)}
+            className="p-1 rounded-lg text-slate-400 hover:text-white transition-colors"
+            title="Dismiss banner"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      {showIOSInstructions && (
+        <div className="max-w-7xl mx-auto mt-2 pt-2 border-t border-slate-800 text-[11px] text-slate-300 flex items-center justify-center gap-4 flex-wrap">
+          <span className="flex items-center gap-1">
+            1. Tap the Safari Share button <Share className="w-3.5 h-3.5 text-blue-400 inline" /> at the bottom
+          </span>
+          <span className="flex items-center gap-1">
+            2. Scroll down & select <PlusSquare className="w-3.5 h-3.5 text-red-400 inline" /> <strong>"Add to Home Screen"</strong>
+          </span>
+          <span>3. Enjoy fullscreen Trending TT on iOS!</span>
+        </div>
+      )}
+    </div>
+  );
+};

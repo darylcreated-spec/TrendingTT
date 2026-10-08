@@ -1,0 +1,195 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  RefreshCw, 
+  Download, 
+  Bookmark, 
+  Search, 
+  SlidersHorizontal,
+  X
+} from 'lucide-react';
+
+interface HeaderProps {
+  onRefresh: () => void;
+  isRefreshing: boolean;
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+  showBookmarks: boolean;
+  onToggleBookmarks: () => void;
+  bookmarksCount: number;
+  onOpenSourcesFilter: () => void;
+  onInstallPWA: () => void;
+  canInstallPWA: boolean;
+  lastScrapedTime?: string;
+}
+
+export const Header: React.FC<HeaderProps> = ({
+  onRefresh,
+  isRefreshing,
+  searchQuery,
+  onSearchChange,
+  showBookmarks,
+  onToggleBookmarks,
+  bookmarksCount,
+  onOpenSourcesFilter,
+  onInstallPWA,
+  canInstallPWA,
+  lastScrapedTime,
+}) => {
+  const [currentTime, setCurrentTime] = useState<string>('');
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      // Trinidad and Tobago AST timezone
+      const timeStr = now.toLocaleTimeString('en-US', {
+        timeZone: 'America/Port_of_Spain',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+      });
+      setCurrentTime(`${timeStr} AST (Port of Spain)`);
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-slate-100 shadow-lg">
+      {/* Top micro-bar: TT Live Clock & Status */}
+      <div className="bg-slate-950 px-4 py-1 text-xs text-slate-400 flex items-center justify-between border-b border-slate-800/80">
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            LIVE INGESTION ACTIVE
+          </span>
+          <span className="hidden sm:inline text-slate-600">|</span>
+          <span className="hidden sm:inline text-slate-400">
+            {currentTime}
+          </span>
+        </div>
+        <div className="flex items-center gap-2 text-xs">
+          {lastScrapedTime && (
+            <span className="text-slate-500 hidden md:inline">
+              Updated: {lastScrapedTime}
+            </span>
+          )}
+          <span className="text-red-500 font-bold tracking-wider">TRINIDAD & TOBAGO</span>
+        </div>
+      </div>
+
+      {/* Main Masthead */}
+      <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        {/* Logo and Tagline */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-red-600 flex items-center justify-center font-black text-white text-xl tracking-tighter shadow-md border border-red-500">
+              TT
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-2xl font-black tracking-tight text-white m-0 p-0 font-sans">
+                  TRENDING<span className="text-red-500">.TT</span>
+                </h1>
+                <span className="text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                  PWA 2.0
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 font-medium tracking-wide">
+                Unified News & Social Media Radar • TTT, CNC3, TV6, TikTok, Facebook & Newsday
+              </p>
+            </div>
+          </div>
+
+          {/* Mobile buttons */}
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              onClick={onRefresh}
+              disabled={isRefreshing}
+              className="p-2 rounded-lg bg-slate-800 text-slate-200 border border-slate-700 active:scale-95 transition-transform"
+              title="Refresh / Scrape Feeds"
+            >
+              <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-red-400' : ''}`} />
+            </button>
+            <button
+              onClick={onOpenSourcesFilter}
+              className="p-2 rounded-lg bg-slate-800 text-slate-200 border border-slate-700"
+              title="Filter Media Outlets"
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Search & Actions Bar */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-1 md:max-w-md md:justify-end">
+          {/* Search box */}
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Search Trinidad news, TikToks, WASA, crime, sports..."
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="w-full pl-9 pr-8 py-2 bg-slate-950 text-slate-100 placeholder-slate-500 text-sm rounded-lg border border-slate-800 focus:outline-none focus:border-red-500 transition-colors"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => onSearchChange('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center gap-2 shrink-0">
+            <button
+              onClick={onRefresh}
+              disabled={isRefreshing}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 active:scale-95 transition-all shadow-sm"
+              title="Trigger live scraper refresh"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-red-400' : ''}`} />
+              <span>{isRefreshing ? 'Scraping...' : 'Live Refresh'}</span>
+            </button>
+
+            <button
+              onClick={onOpenSourcesFilter}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors"
+              title="Filter outlets"
+            >
+              <SlidersHorizontal className="w-3.5 h-3.5" />
+              <span>Outlets</span>
+            </button>
+
+            <button
+              onClick={onToggleBookmarks}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold border transition-all ${
+                showBookmarks 
+                  ? 'bg-red-600 text-white border-red-500' 
+                  : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+              }`}
+              title="Saved Articles"
+            >
+              <Bookmark className="w-3.5 h-3.5" />
+              <span>Saved ({bookmarksCount})</span>
+            </button>
+
+            {canInstallPWA && (
+              <button
+                onClick={onInstallPWA}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-md shadow-red-950 active:scale-95 transition-all border border-red-500"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Install PWA</span>
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};

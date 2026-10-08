@@ -1,0 +1,42 @@
+{
+  "name": "Trending TT - Trinidad & Tobago News & Trends",
+  "short_name": "Trending TT",
+  "description": "Real-time aggregator for Trinidad & Tobago broadcast news (TTT, CNC3, TV6, Newsday) and trending social media (TikTok, Facebook, Instagram) in one unified dashboard.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#ce1126",
+  "orientation": "portrait-primary",
+  "categories": ["news", "social", "entertainment"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Breaking News",
+      "url": "/?category=breaking",
+      "description": "View breaking news across Trinidad & Tobago"
+    },
+    {
+      "name": "Broadcast Live",
+      "url": "/?category=broadcast",
+      "description": "Watch TTT, CNC3, and TV6 updates"
+    },
+    {
+      "name": "Trending TikToks",
+      "url": "/?category=social",
+      "description": "See viral TT social clips"
+    }
+  ]
+}

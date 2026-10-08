@@ -1,0 +1,195 @@
+import React, { useState, useEffect } from 'react';
+import type { Post, Comment } from '../types';
+import { Storage } from '../services/storage';
+import { X, Send, ThumbsUp, MessageSquare, MapPin, User } from 'lucide-react';
+
+interface CommentDrawerProps {
+  post: Post | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onCommentAdded: (postId: string) => void;
+}
+
+const TT_LOCATIONS = [
+  'Port of Spain',
+  'San Fernando',
+  'Chaguanas',
+  'Arima',
+  'Point Fortin',
+  'Couva',
+  'Scarborough, Tobago',
+  'Tunapuna',
+  'Diego Martin',
+  'Sangre Grande',
+  'Cedros / Icacos',
+  'Trinidad Diaspora (Abroad)',
+];
+
+export const CommentDrawer: React.FC<CommentDrawerProps> = ({
+  post,
+  isOpen,
+  onClose,
+  onCommentAdded,
+}) => {
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [commentText, setCommentText] = useState('');
+  const [authorName, setAuthorName] = useState('');
+  const [authorLocation, setAuthorLocation] = useState(TT_LOCATIONS[0]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (post && isOpen) {
+      const loaded = Storage.getComments(post.id);
+      setComments(loaded);
+    }
+  }, [post, isOpen]);
+
+  if (!isOpen || !post) return null;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!commentText.trim()) return;
+
+    setIsSubmitting(true);
+    const name = authorName.trim() || 'Trinbago Citizen';
+    const newComment = Storage.addComment(post.id, commentText.trim(), name, authorLocation);
+
+    setComments((prev) => [newComment, ...prev]);
+    setCommentText('');
+    setIsSubmitting(false);
+    onCommentAdded(post.id);
+  };
+
+  const formatTime = (isoString: string) => {
+    const diff = Math.max(0, Date.now() - new Date(isoString).getTime());
+    const mins = Math.floor(diff / (1000 * 60));
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h ago`;
+    return new Date(isoString).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-hidden bg-slate-950/80 backdrop-blur-sm flex justify-end transition-opacity">
+      <div 
+        className="w-full max-w-lg bg-slate-900 border-l border-slate-800 h-full flex flex-col shadow-2xl animate-in slide-in-from-right duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+          <div className="flex items-center gap-2">
+            <MessageSquare className="w-5 h-5 text-red-500" />
+            <h3 className="font-bold text-slate-100 text-base">
+              Community Discussion ({comments.length})
+            </h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Post Context Bar */}
+        <div className="p-4 bg-slate-900 border-b border-slate-800/80">
+          <span className="text-[11px] font-bold text-red-400 uppercase tracking-wider block mb-1">
+            {post.sourceName}
+          </span>
+          <p className="text-xs text-slate-300 font-semibold line-clamp-2">
+            {post.title}
+          </p>
+        </div>
+
+        {/* Comments Stream */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3.5">
+          {comments.length === 0 ? (
+            <div className="text-center py-12 text-slate-500">
+              <MessageSquare className="w-10 h-10 mx-auto mb-2 text-slate-600 opacity-60" />
+              <p className="text-sm font-medium">No comments yet.</p>
+              <p className="text-xs text-slate-600 mt-1">Be the first in Trinidad & Tobago to share your thoughts!</p>
+            </div>
+          ) : (
+            comments.map((comment) => (
+              <div
+                key={comment.id}
+                className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80 space-y-1.5"
+              >
+                <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-1.5 font-bold text-slate-200">
+                    <User className="w-3.5 h-3.5 text-red-500" />
+                    <span>{comment.authorName}</span>
+                    {comment.authorLocation && (
+                      <span className="text-[11px] text-slate-400 font-normal flex items-center gap-0.5">
+                        <MapPin className="w-3 h-3 text-slate-500" />
+                        {comment.authorLocation}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[11px] text-slate-500">
+                    {formatTime(comment.createdAt)}
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  {comment.text}
+                </p>
+                <div className="flex items-center gap-3 pt-1 text-[11px] text-slate-400">
+                  <button className="flex items-center gap-1 hover:text-red-400 transition-colors">
+                    <ThumbsUp className="w-3 h-3" />
+                    <span>{comment.upvotes || 1}</span>
+                  </button>
+                  <button className="hover:text-slate-200 transition-colors">
+                    Reply
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Add Comment Input Form */}
+        <form onSubmit={handleSubmit} className="p-4 bg-slate-950 border-t border-slate-800 space-y-3">
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <input
+              type="text"
+              placeholder="Your Name (e.g. Kern, Asha)"
+              value={authorName}
+              onChange={(e) => setAuthorName(e.target.value)}
+              className="px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none focus:border-red-500"
+            />
+            <select
+              value={authorLocation}
+              onChange={(e) => setAuthorLocation(e.target.value)}
+              className="px-2 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-slate-200 focus:outline-none focus:border-red-500"
+            >
+              {TT_LOCATIONS.map((loc) => (
+                <option key={loc} value={loc}>
+                  {loc}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <textarea
+              rows={2}
+              placeholder="Join the TT conversation..."
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              className="flex-1 px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-sm text-slate-200 placeholder-slate-500 resize-none focus:outline-none focus:border-red-500 font-sans"
+              required
+            />
+            <button
+              type="submit"
+              disabled={isSubmitting || !commentText.trim()}
+              className="px-4 py-3 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white rounded-lg font-bold text-xs flex items-center justify-center gap-1 active:scale-95 transition-all shadow-md"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
