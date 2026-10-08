@@ -29,7 +29,7 @@ export async function fetchLiveTTFeeds(): Promise<ScrapeResult> {
   const result: ScrapeResult = {
     newPosts: [],
     errors: [],
-    sourcesChecked: ['TTT Live Online', 'CNC3 Television', 'CCN TV6', 'T&T Newsday', 'Trinidad Express', 'Trinidad TikTok', 'Facebook TT Community', 'Instagram TT'],
+    sourcesChecked: ['TTT Live Online', 'CNC3 Television', 'CCN TV6', 'I.A.N Network', 'T&T Newsday', 'Trinidad Express', 'Trinidad TikTok', 'Facebook TT Community', 'Instagram TT'],
     timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) + ' AST',
   };
 

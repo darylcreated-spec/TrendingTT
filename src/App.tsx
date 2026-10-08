@@ -310,7 +310,7 @@ export const App: React.FC = () => {
             <span>Trinidad & Tobago News & Trends PWA</span>
           </div>
           <div className="text-slate-400 text-[11px]">
-            Aggregating TTT Live Online • CNC3 Television • CCN TV6 • T&T Newsday • Trinidad Express • Trinidad Guardian • TikTok TT • Facebook TT
+            Aggregating TTT Live Online • CNC3 Television • CCN TV6 • I.A.N Network • T&T Newsday • Trinidad Express • Trinidad Guardian • TikTok TT • Facebook TT
           </div>
           <div className="text-slate-500 text-[11px]">
             No AI Gimmick Emojis • Fast Offline PWA • Built for Trinbagonians

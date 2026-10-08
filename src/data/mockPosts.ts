@@ -199,10 +199,53 @@ export const INITIAL_POSTS: Post[] = [
       url: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1200&q=80',
       aspectRatio: 'landscape',
     },
+  },
+  {
+    id: 'ian-010',
+    title: 'I.A.N Network Live: Ian Alleyne exposes high-stakes Central Trinidad commercial robbery on Crime Watch',
+    summary: 'Ian Alleyne goes live on the I.A.N Network with exclusive CCTV footage, interviewing business owners and appealing to the Commissioner of Police to take swift action.',
+    content: 'Broadcasting live across the I.A.N Network and social feeds, Ian Alleyne analyzed exclusive surveillance footage of an armed break-in in Chaguanas. Over 85,000 live viewers tuned in as Alleyne broke down the suspect getaway route and urged citizens with information to contact Crime Watch dispatch immediately.',
+    sourceId: 'ian',
+    sourceName: 'I.A.N Network',
+    sourceType: 'broadcast',
+    author: 'Ian Alleyne (Crime Watch)',
+    originalUrl: 'https://www.facebook.com/ianalleyne/videos/crime-watch-special',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 24).toISOString(), // 24 mins ago
+    category: 'crime',
+    tags: ['Crime Watch', 'Ian Alleyne', 'Chaguanas', 'Central Trinidad', 'I.A.N Network'],
+    trendingScore: 99,
+    upvotes: 620,
+    commentsCount: 148,
+    isBreaking: true,
+    media: {
+      type: 'image',
+      url: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80',
+      aspectRatio: 'landscape',
+    },
   }
 ];
 
 export const INITIAL_COMMENTS: Record<string, import('../types').Comment[]> = {
+  'ian-010': [
+    {
+      id: 'c-ian-1',
+      postId: 'ian-010',
+      authorName: 'Marlon "Channa" Joseph',
+      authorLocation: 'Chaguanas',
+      text: 'Only Ian does get this kind of direct footage nah! Police need to act on this right away.',
+      createdAt: new Date(Date.now() - 1000 * 60 * 18).toISOString(),
+      upvotes: 45,
+    },
+    {
+      id: 'c-ian-2',
+      postId: 'ian-010',
+      authorName: 'Sunita Rampersad',
+      authorLocation: 'Cunupia',
+      text: 'Lord have mercy! The business community in Central really under pressure. Thank God for IAN Network shining light on this.',
+      createdAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(),
+      upvotes: 31,
+    }
+  ],
   'tv6-001': [
     {
       id: 'c1',

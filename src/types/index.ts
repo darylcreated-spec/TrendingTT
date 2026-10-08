@@ -5,6 +5,7 @@ export type SourceId =
   | 'newsday' 
   | 'express' 
   | 'guardian' 
+  | 'ian'
   | 'tiktok' 
   | 'facebook' 
   | 'instagram';

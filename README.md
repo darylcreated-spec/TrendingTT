@@ -12,6 +12,7 @@ The application follows an **editorial, human-first design policy** strictly dev
 - **CCN TV6** (`tv6tnt.com`): 7PM Evening news bulletins and investigative reporting.
 - **CNC3 Television** (`cnc3.co.tt`): Breaking news updates and live broadcast coverage.
 - **TTT Live Online** (`ttt.live`): State broadcasts and national proceedings.
+- **I.A.N Network (Ian Alleyne)**: Breaking crime investigations, Crime Watch live streams, and community affairs.
 
 ### National Newspapers
 - **T&T Newsday** (`newsday.co.tt`): Real-time RSS feeds and regional analysis.

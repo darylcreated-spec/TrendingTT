@@ -61,6 +61,16 @@ export const SOURCES: Record<SourceId, SourceMeta> = {
     website: 'https://www.guardian.co.tt',
     verified: true,
   },
+  ian: {
+    id: 'ian',
+    name: 'I.A.N Network',
+    type: 'broadcast',
+    color: '#DC2626',
+    badgeBg: 'bg-red-950/90 border-red-500/60 text-red-200',
+    badgeText: 'I.A.N Network',
+    website: 'https://www.facebook.com/ianalleyne',
+    verified: true,
+  },
   tiktok: {
     id: 'tiktok',
     name: 'Trinidad TikTok',

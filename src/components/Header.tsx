@@ -97,7 +97,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
               </div>
               <p className="text-xs text-slate-400 font-medium tracking-wide">
-                Unified News & Social Media Radar • TTT, CNC3, TV6, TikTok, Facebook & Newsday
+                Unified News & Social Media Radar • TV6, CNC3, TTT, I.A.N, TikTok, Facebook & Newsday
               </p>
             </div>
           </div>

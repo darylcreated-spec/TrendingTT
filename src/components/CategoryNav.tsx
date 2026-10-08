@@ -12,7 +12,7 @@ interface CategoryNavProps {
 const CATEGORIES: { id: Category; label: string; icon?: React.ReactNode }[] = [
   { id: 'all', label: 'All Feed' },
   { id: 'breaking', label: 'Breaking News' },
-  { id: 'broadcast', label: 'Broadcast (TTT/CNC3/TV6)' },
+  { id: 'broadcast', label: 'Broadcast (TV6/CNC3/TTT/I.A.N)' },
   { id: 'social', label: 'Social (TikTok/FB/IG)' },
   { id: 'crime', label: 'Crime & Security' },
   { id: 'politics', label: 'Politics & THA' },
