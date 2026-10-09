@@ -182,3 +182,69 @@ export interface NotificationSettings {
   trafficAlerts: boolean;
   dailyPolls: boolean;
 }
+
+// Utility Provider Types (T&TEC, WASA, Amplia, Flow, Digicel, bmobile)
+export type ActiveView = 'feed' | 'radar' | 'utilities' | 'polls';
+
+export type UtilityProviderId = 'ttec' | 'wasa' | 'amplia' | 'flow' | 'digicel' | 'bmobile';
+export type UtilityCategory = 'electricity' | 'water' | 'telecom' | 'cable_tv';
+export type DisruptionStatus = 'active' | 'scheduled' | 'restoring' | 'resolved';
+export type TrinidadRegion = 'North' | 'Central' | 'South' | 'East' | 'Tobago';
+
+export interface UtilityDisruption {
+  id: string;
+  providerId: UtilityProviderId;
+  providerName: string;
+  category: UtilityCategory;
+  title: string;
+  reason: string;
+  affectedAreas: string[];
+  region: TrinidadRegion;
+  scheduledTime: string;
+  estimatedRestoration?: string;
+  status: DisruptionStatus;
+  updatedAt: string;
+  hotline: string;
+  officialUrl: string;
+  bulletinNumber?: string;
+}
+
+export interface WaterSchedule {
+  id: string;
+  area: string;
+  boroughOrTown: string;
+  region: TrinidadRegion;
+  treatmentPlant: string;
+  scheduleDays: string;
+  supplyHours: string;
+  pressureStatus: 'Normal Pressure' | 'Low Pressure' | 'Off-Supply / Rotational' | 'Truck-Borne Priority';
+  truckBorneContact: string;
+  notes?: string;
+}
+
+export interface TelecomStatus {
+  id: string;
+  providerId: 'amplia' | 'flow' | 'digicel' | 'bmobile';
+  providerName: string;
+  serviceType: 'Fiber Internet' | 'Cable TV' | 'Mobile LTE/5G' | 'Unified Network';
+  headline: string;
+  affectedAreas: string[];
+  region: TrinidadRegion | 'Nationwide';
+  status: 'operational' | 'maintenance' | 'degraded';
+  supportHotline: string;
+  whatsappSupport?: string;
+  officialUrl: string;
+  updatedAt: string;
+}
+
+export interface UtilityReport {
+  id: string;
+  providerId: UtilityProviderId;
+  category: UtilityCategory;
+  location: string;
+  summary: string;
+  reportedTime: string;
+  confirmations: number;
+  status?: 'unverified' | 'investigating' | 'confirmed';
+}
+

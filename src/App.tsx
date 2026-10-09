@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import type { Post, Category, SortOption, SourceId } from './types';
+import type { Post, Category, SortOption, SourceId, ActiveView } from './types';
 import { INITIAL_POSTS } from './data/mockPosts';
 import { SOURCES } from './data/sources';
 import { Storage } from './services/storage';
@@ -15,6 +15,7 @@ import { SourcesModal } from './components/SourcesModal';
 import { PWAInstallBanner } from './components/PWAInstallBanner';
 import { TrafficWeatherRadar } from './components/TrafficWeatherRadar';
 import { TrinbagoPoll } from './components/TrinbagoPoll';
+import { UtilitiesDashboard } from './components/UtilitiesDashboard';
 import { NotificationModal } from './components/NotificationModal';
 import { RadarAlertBanner } from './components/RadarAlertBanner';
 import { MobileBottomNav } from './components/MobileBottomNav';
@@ -25,8 +26,8 @@ import {
 } from 'lucide-react';
 
 export const App: React.FC = () => {
-  // Navigation & View mode: Feed, Radar, or Polls
-  const [activeView, setActiveView] = useState<'feed' | 'radar' | 'polls'>('feed');
+  // Navigation & View mode: Feed, Radar, Utilities, or Polls
+  const [activeView, setActiveView] = useState<ActiveView>('feed');
 
   // Core Feed States
   const [posts, setPosts] = useState<Post[]>(INITIAL_POSTS);
@@ -68,11 +69,21 @@ export const App: React.FC = () => {
     // Minimum swipe threshold and enforce horizontal bias (to not trigger during vertical scrolling)
     if (Math.abs(deltaX) > 75 && Math.abs(deltaX) > Math.abs(deltaY) * 1.75) {
       if (deltaX < 0) {
-        // Swipe left -> advance view
-        setActiveView((curr) => (curr === 'feed' ? 'radar' : curr === 'radar' ? 'polls' : curr));
+        // Swipe left -> advance view: feed -> radar -> utilities -> polls
+        setActiveView((curr) => {
+          if (curr === 'feed') return 'radar';
+          if (curr === 'radar') return 'utilities';
+          if (curr === 'utilities') return 'polls';
+          return curr;
+        });
       } else {
-        // Swipe right -> previous view
-        setActiveView((curr) => (curr === 'polls' ? 'radar' : curr === 'radar' ? 'feed' : curr));
+        // Swipe right -> previous view: polls -> utilities -> radar -> feed
+        setActiveView((curr) => {
+          if (curr === 'polls') return 'utilities';
+          if (curr === 'utilities') return 'radar';
+          if (curr === 'radar') return 'feed';
+          return curr;
+        });
       }
     }
   };
@@ -343,6 +354,14 @@ export const App: React.FC = () => {
         {/* OPTION B VIEW: TRAFFIC & WEATHER RADAR */}
         {activeView === 'radar' && (
           <TrafficWeatherRadar
+            onShowToast={showToast}
+            onOpenNotifications={() => setIsNotificationModalOpen(true)}
+          />
+        )}
+
+        {/* UTILITIES RADAR VIEW: T&TEC, WASA, AMPLIA, FLOW, DIGICEL, BMOBILE */}
+        {activeView === 'utilities' && (
+          <UtilitiesDashboard
             onShowToast={showToast}
             onOpenNotifications={() => setIsNotificationModalOpen(true)}
           />

@@ -1,6 +1,7 @@
-import type { Comment, NotificationSettings, CommunityReport } from '../types';
+import type { Comment, NotificationSettings, CommunityReport, UtilityReport } from '../types';
 import { INITIAL_COMMENTS } from '../data/mockPosts';
 import { INITIAL_COMMUNITY_REPORTS } from '../data/radarAndPollData';
+import { INITIAL_UTILITY_REPORTS } from '../data/utilitiesData';
 
 const STORAGE_KEYS = {
   UPVOTES: 'trending_tt_upvotes',
@@ -11,7 +12,9 @@ const STORAGE_KEYS = {
   POLL_DYNAMIC_COUNTS: 'trending_tt_poll_extra_counts',
   NOTIFICATIONS: 'trending_tt_notification_settings',
   COMMUNITY_REPORTS: 'trending_tt_community_reports',
-  CONFIRMED_REPORTS: 'trending_tt_confirmed_reports'
+  CONFIRMED_REPORTS: 'trending_tt_confirmed_reports',
+  UTILITY_REPORTS: 'trending_tt_utility_reports',
+  CONFIRMED_UTILITY_REPORTS: 'trending_tt_confirmed_utility_reports'
 };
 
 const DEFAULT_NOTIFICATIONS: NotificationSettings = {
@@ -254,5 +257,65 @@ export const Storage = {
       void e;
     }
     return { confirmed: isNowConfirmed, allConfirmed: confirmed };
+  },
+
+  getUtilityReports(): UtilityReport[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.UTILITY_REPORTS);
+      const customReports: UtilityReport[] = data ? JSON.parse(data) : [];
+      return [...customReports, ...INITIAL_UTILITY_REPORTS];
+    } catch {
+      return INITIAL_UTILITY_REPORTS;
+    }
+  },
+
+  addUtilityReport(report: Omit<UtilityReport, 'id' | 'reportedTime' | 'confirmations'>): UtilityReport {
+    const newReport: UtilityReport = {
+      ...report,
+      id: `util-report-${Date.now()}`,
+      reportedTime: 'Just now',
+      confirmations: 1,
+      status: 'unverified'
+    };
+
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.UTILITY_REPORTS);
+      const existing: UtilityReport[] = data ? JSON.parse(data) : [];
+      existing.unshift(newReport);
+      localStorage.setItem(STORAGE_KEYS.UTILITY_REPORTS, JSON.stringify(existing));
+    } catch (e) {
+      void e;
+    }
+
+    return newReport;
+  },
+
+  getConfirmedUtilityReportIds(): string[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.CONFIRMED_UTILITY_REPORTS);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  },
+
+  toggleConfirmUtilityReport(reportId: string): { confirmed: boolean; allConfirmed: string[] } {
+    const confirmed = this.getConfirmedUtilityReportIds();
+    const index = confirmed.indexOf(reportId);
+    let isNowConfirmed = false;
+    if (index > -1) {
+      confirmed.splice(index, 1);
+      isNowConfirmed = false;
+    } else {
+      confirmed.push(reportId);
+      isNowConfirmed = true;
+    }
+    try {
+      localStorage.setItem(STORAGE_KEYS.CONFIRMED_UTILITY_REPORTS, JSON.stringify(confirmed));
+    } catch (e) {
+      void e;
+    }
+    return { confirmed: isNowConfirmed, allConfirmed: confirmed };
   }
 };
+

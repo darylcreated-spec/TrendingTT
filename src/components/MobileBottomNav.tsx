@@ -1,9 +1,10 @@
 import React from 'react';
-import { Newspaper, Compass, BarChart3, Bookmark, Bell } from 'lucide-react';
+import { Newspaper, Compass, Zap, BarChart3, Bookmark } from 'lucide-react';
+import type { ActiveView } from '../types';
 
 interface MobileBottomNavProps {
-  activeView: 'feed' | 'radar' | 'polls';
-  onSelectView: (view: 'feed' | 'radar' | 'polls') => void;
+  activeView: ActiveView;
+  onSelectView: (view: ActiveView) => void;
   showBookmarks: boolean;
   onToggleBookmarks: () => void;
   bookmarksCount: number;
@@ -16,7 +17,6 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   showBookmarks,
   onToggleBookmarks,
   bookmarksCount,
-  onOpenNotifications,
 }) => {
   return (
     <nav
@@ -61,6 +61,23 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           <span className="text-[10px] mt-0.5 tracking-tight">Radar</span>
         </button>
 
+        {/* Utilities: T&TEC, WASA, Cable TV */}
+        <button
+          type="button"
+          onClick={() => {
+            if (showBookmarks) onToggleBookmarks();
+            onSelectView('utilities');
+          }}
+          className={`flex flex-col items-center justify-center h-full min-h-[44px] transition-all active:scale-95 ${
+            activeView === 'utilities' && !showBookmarks
+              ? 'text-red-500 font-bold'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Zap className="w-5 h-5 text-amber-400" />
+          <span className="text-[10px] mt-0.5 tracking-tight">Utilities</span>
+        </button>
+
         {/* Trinbago Polls */}
         <button
           type="button"
@@ -97,16 +114,6 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
             )}
           </div>
           <span className="text-[10px] mt-0.5 tracking-tight">Saved</span>
-        </button>
-
-        {/* Push Notification Alerts */}
-        <button
-          type="button"
-          onClick={onOpenNotifications}
-          className="flex flex-col items-center justify-center h-full min-h-[44px] text-slate-400 hover:text-amber-400 transition-all active:scale-95"
-        >
-          <Bell className="w-5 h-5" />
-          <span className="text-[10px] mt-0.5 tracking-tight">Alerts</span>
         </button>
       </div>
     </nav>

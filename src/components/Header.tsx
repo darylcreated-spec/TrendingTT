@@ -9,10 +9,11 @@ import {
   Bell,
   Compass,
   BarChart3,
-  Newspaper
+  Newspaper,
+  Zap
 } from 'lucide-react';
 import { CarouselTabs } from './CarouselTabs';
-
+import type { ActiveView } from '../types';
 
 interface HeaderProps {
   onRefresh: () => void;
@@ -27,8 +28,8 @@ interface HeaderProps {
   canInstallPWA: boolean;
   lastScrapedTime?: string;
   onOpenNotifications: () => void;
-  activeView: 'feed' | 'radar' | 'polls';
-  onSelectView: (view: 'feed' | 'radar' | 'polls') => void;
+  activeView: ActiveView;
+  onSelectView: (view: ActiveView) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -236,7 +237,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="bg-slate-950 border-t border-slate-800/80 px-4 py-1.5">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
           <div className="flex-1 max-w-xl min-w-0">
-            <CarouselTabs<'feed' | 'radar' | 'polls'>
+            <CarouselTabs<ActiveView>
               items={[
                 { id: 'feed', label: 'National News Feed', icon: <Newspaper className="w-3.5 h-3.5" /> },
                 { 
@@ -244,6 +245,12 @@ export const Header: React.FC<HeaderProps> = ({
                   label: 'Traffic & Weather Radar', 
                   icon: <Compass className="w-3.5 h-3.5 text-amber-400" />,
                   badge: <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
+                },
+                {
+                  id: 'utilities',
+                  label: 'Utilities (T&TEC / WASA / Cable)',
+                  icon: <Zap className="w-3.5 h-3.5 text-amber-400" />,
+                  badge: <span className="text-[10px] bg-amber-950/80 text-amber-300 px-1 py-0.2 rounded border border-amber-800">Grid</span>
                 },
                 { 
                   id: 'polls', 

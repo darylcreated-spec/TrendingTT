@@ -402,5 +402,36 @@ assert(shareModalContent.includes('rounded-t-3xl'), 'ShareModal must render as a
 
 console.log('PASS: All Mobile Infrastructure, Scrolling, Zooming, Sharing & CarouselTabs verified.\n');
 
+// 10. Verify Utilities Tab (T&TEC, WASA, Amplia, Flow, Digicel, bmobile)
+console.log('10. Verifying Utilities Tab (T&TEC, WASA, Water Schedules, Cable TV & Telecom Providers)...');
+
+assert(fs.existsSync('src/data/utilitiesData.ts'), 'src/data/utilitiesData.ts must exist');
+const utilDataContent = fs.readFileSync('src/data/utilitiesData.ts', 'utf8');
+assert(utilDataContent.includes('https://ttec.co.tt/'), 'utilitiesData.ts must link to official T&TEC website');
+assert(utilDataContent.includes('https://www.wasa.gov.tt/'), 'utilitiesData.ts must link to official WASA website');
+assert(utilDataContent.includes('amplia'), 'utilitiesData.ts must include Amplia provider');
+assert(utilDataContent.includes('flow'), 'utilitiesData.ts must include Flow provider');
+assert(utilDataContent.includes('digicel'), 'utilitiesData.ts must include Digicel provider');
+assert(utilDataContent.includes('bmobile'), 'utilitiesData.ts must include bmobile provider');
+assert(utilDataContent.includes('INITIAL_WATER_SCHEDULES'), 'utilitiesData.ts must contain water schedules');
+
+// Check UtilitiesDashboard component
+assert(fs.existsSync('src/components/UtilitiesDashboard.tsx'), 'src/components/UtilitiesDashboard.tsx must exist');
+const utilDashContent = fs.readFileSync('src/components/UtilitiesDashboard.tsx', 'utf8');
+assert(utilDashContent.includes('T&TEC Planned Disruptions'), 'UtilitiesDashboard must feature T&TEC disruptions');
+assert(utilDashContent.includes('WASA Rotational Water Schedules'), 'UtilitiesDashboard must feature WASA water schedules');
+assert(utilDashContent.includes('Cable TV & Broadband Providers'), 'UtilitiesDashboard must feature cable TV & telecom providers');
+assert(utilDashContent.includes('Report Utility Disruption'), 'UtilitiesDashboard must allow citizen outage reporting');
+
+// Check App.tsx and Header.tsx integration
+const currentAppContent = fs.readFileSync('src/App.tsx', 'utf8');
+assert(currentAppContent.includes('UtilitiesDashboard'), 'App.tsx must render UtilitiesDashboard');
+const headerContent = fs.readFileSync('src/components/Header.tsx', 'utf8');
+assert(headerContent.includes('utilities'), 'Header.tsx must feature utilities tab');
+assert(bottomNavContent.includes('utilities'), 'MobileBottomNav.tsx must feature utilities tab');
+
+console.log('PASS: Utilities Tab (T&TEC, WASA, Water Schedules, Cable TV & Telecom) fully verified.\n');
+
 console.log('=== ALL VERIFICATION CHECKS PASSED SUCCESSFULLY ===');
+
 
