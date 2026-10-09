@@ -349,6 +349,58 @@ assert(shareModalContent.includes('Webhook & API Settings'), 'ShareModal missing
 assert(shareModalContent.includes('Customizable Message Formatting'), 'ShareModal missing custom message formatting');
 assert(shareModalContent.includes('Default Message Template'), 'ShareModal missing default template editor in settings');
 assert(shareModalContent.includes('Test Endpoint'), 'ShareModal missing Test Endpoint trigger');
-console.log('PASS: Cross-Posting engine, provider support, and ShareModal UI triggers verified.\n');
+// 9. Verify Mobile-First Infrastructure & UX Hardening
+console.log('9. Verifying Mobile Infrastructure, Scrolling, Zooming, Sharing & CarouselTabs...');
+
+// 9.1 Viewport Accessibility & Safe Areas
+const indexHtmlContent = fs.readFileSync('index.html', 'utf8');
+assert(indexHtmlContent.includes('viewport-fit=cover'), 'index.html must specify viewport-fit=cover for safe areas');
+assert(!indexHtmlContent.includes('user-scalable=no'), 'index.html must not forbid user scaling (WCAG accessibility violation)');
+
+// 9.2 CSS Mobile Rules & Input Zoom Protection
+const indexCssContent = fs.readFileSync('src/index.css', 'utf8');
+assert(indexCssContent.includes('-webkit-overflow-scrolling: touch'), 'Missing -webkit-overflow-scrolling: touch in src/index.css');
+assert(indexCssContent.includes('overscroll-behavior-y: contain'), 'Missing overscroll-behavior-y: contain in src/index.css');
+assert(indexCssContent.includes('touch-action: manipulation'), 'Missing touch-action: manipulation in src/index.css');
+assert(indexCssContent.includes('font-size: 16px !important'), 'Missing 16px minimum font size protection to prevent iOS input auto-zoom jump');
+assert(indexCssContent.includes('.pb-safe'), 'Missing pb-safe utility in src/index.css');
+
+// 9.3 CarouselTabs Component & Integration
+assert(fs.existsSync('src/components/CarouselTabs.tsx'), 'src/components/CarouselTabs.tsx must exist');
+const carouselTabsContent = fs.readFileSync('src/components/CarouselTabs.tsx', 'utf8');
+assert(carouselTabsContent.includes('snap-x snap-mandatory'), 'CarouselTabs must implement CSS scroll snap');
+assert(carouselTabsContent.includes('scrollIntoView'), 'CarouselTabs must auto-center active tab into view');
+
+const categoryNavContent = fs.readFileSync('src/components/CategoryNav.tsx', 'utf8');
+assert(categoryNavContent.includes('CarouselTabs'), 'CategoryNav must use CarouselTabs');
+
+const radarContent = fs.readFileSync('src/components/TrafficWeatherRadar.tsx', 'utf8');
+assert(radarContent.includes('CarouselTabs'), 'TrafficWeatherRadar must use CarouselTabs');
+
+// 9.4 Mobile Image Zoom Lightbox
+assert(fs.existsSync('src/components/ImageZoomLightbox.tsx'), 'src/components/ImageZoomLightbox.tsx must exist');
+const lightboxContent = fs.readFileSync('src/components/ImageZoomLightbox.tsx', 'utf8');
+assert(lightboxContent.includes('zoomLevel'), 'ImageZoomLightbox must support zoom level states');
+assert(lightboxContent.includes('handleDoubleTap'), 'ImageZoomLightbox must support double-tap zoom');
+assert(lightboxContent.includes('handleTouchMove'), 'ImageZoomLightbox must support touch pan dragging');
+
+// 9.5 Mobile Bottom Navigation & Touch Swipe
+assert(fs.existsSync('src/components/MobileBottomNav.tsx'), 'src/components/MobileBottomNav.tsx must exist');
+const bottomNavContent = fs.readFileSync('src/components/MobileBottomNav.tsx', 'utf8');
+assert(bottomNavContent.includes('md:hidden'), 'MobileBottomNav must be targeted to mobile devices');
+assert(bottomNavContent.includes('pb-safe'), 'MobileBottomNav must observe safe area insets');
+
+const appContent = fs.readFileSync('src/App.tsx', 'utf8');
+assert(appContent.includes('MobileBottomNav'), 'App.tsx must render MobileBottomNav');
+assert(appContent.includes('ImageZoomLightbox'), 'App.tsx must render ImageZoomLightbox');
+assert(appContent.includes('handleTouchStart') && appContent.includes('handleTouchEnd'), 'App.tsx must support touch swipe gestures between views');
+
+// 9.6 Mobile Share Bottom-Sheet & WhatsApp Deep Linking
+assert(shareModalContent.includes('pb-safe'), 'ShareModal must include safe area bottom padding');
+assert(shareModalContent.includes('whatsapp://send'), 'ShareModal must include direct mobile WhatsApp deep link');
+assert(shareModalContent.includes('rounded-t-3xl'), 'ShareModal must render as a mobile bottom-sheet');
+
+console.log('PASS: All Mobile Infrastructure, Scrolling, Zooming, Sharing & CarouselTabs verified.\n');
 
 console.log('=== ALL VERIFICATION CHECKS PASSED SUCCESSFULLY ===');
+

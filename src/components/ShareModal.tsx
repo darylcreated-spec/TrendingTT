@@ -64,16 +64,30 @@ export const ShareModal: React.FC<ShareModalProps> = ({ post, isOpen, onClose })
     : post.originalUrl;
   const shareText = `*${post.title}*\n\nRead on Trending TT (Trinidad & Tobago Live Dashboard):\n${shareUrl}\n\nSource: ${post.sourceName}`;
 
-  // Quick Share handlers
+  // Quick Share handlers with mobile deep-linking and haptics
   const handleCopy = () => {
+    if ('vibrate' in navigator) {
+      try { navigator.vibrate(15); } catch { /* ignore */ }
+    }
     navigator.clipboard.writeText(`${post.title}\n${shareUrl}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
 
   const handleWhatsApp = () => {
+    if ('vibrate' in navigator) {
+      try { navigator.vibrate(15); } catch { /* ignore */ }
+    }
     const encoded = encodeURIComponent(shareText);
-    window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
+    const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.location.href = `whatsapp://send?text=${encoded}`;
+      setTimeout(() => {
+        window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
+      }, 500);
+    } else {
+      window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
+    }
   };
 
   const handleFacebook = () => {
@@ -88,6 +102,9 @@ export const ShareModal: React.FC<ShareModalProps> = ({ post, isOpen, onClose })
   };
 
   const handleNativeShare = async () => {
+    if ('vibrate' in navigator) {
+      try { navigator.vibrate(15); } catch { /* ignore */ }
+    }
     if (navigator.share) {
       try {
         await navigator.share({
@@ -196,13 +213,15 @@ export const ShareModal: React.FC<ShareModalProps> = ({ post, isOpen, onClose })
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto"
       onClick={onClose}
     >
       <div 
-        className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-2xl relative my-auto animate-in zoom-in-95 duration-150 max-h-[92vh] flex flex-col"
+        className="w-full sm:max-w-lg bg-slate-900 border-t sm:border border-slate-800 rounded-t-3xl sm:rounded-2xl p-5 sm:p-6 shadow-2xl relative my-0 sm:my-auto animate-in slide-in-from-bottom sm:zoom-in-95 duration-200 max-h-[92vh] flex flex-col pb-safe"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Mobile Drag Indicator Bar */}
+        <div className="w-12 h-1.5 bg-slate-700/80 rounded-full mx-auto mb-3 sm:hidden shrink-0" />
         {/* Close Button */}
         <button
           onClick={onClose}

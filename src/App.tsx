@@ -17,6 +17,8 @@ import { TrafficWeatherRadar } from './components/TrafficWeatherRadar';
 import { TrinbagoPoll } from './components/TrinbagoPoll';
 import { NotificationModal } from './components/NotificationModal';
 import { RadarAlertBanner } from './components/RadarAlertBanner';
+import { MobileBottomNav } from './components/MobileBottomNav';
+import { ImageZoomLightbox, type ZoomMedia } from './components/ImageZoomLightbox';
 import { 
   Inbox, 
   CheckCircle,
@@ -45,6 +47,35 @@ export const App: React.FC = () => {
   const [sharePost, setSharePost] = useState<Post | null>(null);
   const [isSourcesModalOpen, setIsSourcesModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
+  const [zoomMedia, setZoomMedia] = useState<ZoomMedia | null>(null);
+
+  // Touch swipe navigation between views (Feed <-> Radar <-> Polls)
+  const touchStartRef = React.useRef<{ x: number; y: number } | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartRef.current.x;
+    const deltaY = e.changedTouches[0].clientY - touchStartRef.current.y;
+    touchStartRef.current = null;
+
+    // Minimum swipe threshold and enforce horizontal bias (to not trigger during vertical scrolling)
+    if (Math.abs(deltaX) > 75 && Math.abs(deltaX) > Math.abs(deltaY) * 1.75) {
+      if (deltaX < 0) {
+        // Swipe left -> advance view
+        setActiveView((curr) => (curr === 'feed' ? 'radar' : curr === 'radar' ? 'polls' : curr));
+      } else {
+        // Swipe right -> previous view
+        setActiveView((curr) => (curr === 'polls' ? 'radar' : curr === 'radar' ? 'feed' : curr));
+      }
+    }
+  };
 
   // Scraper & PWA status
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -303,8 +334,12 @@ export const App: React.FC = () => {
         />
       )}
 
-      {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
+      {/* Main Content Area with Touch Swipe Between Views */}
+      <main 
+        onTouchStart={handleTouchStart} 
+        onTouchEnd={handleTouchEnd} 
+        className="max-w-7xl mx-auto px-4 py-6 flex-1 w-full pb-24 md:pb-6"
+      >
         {/* OPTION B VIEW: TRAFFIC & WEATHER RADAR */}
         {activeView === 'radar' && (
           <TrafficWeatherRadar
@@ -392,6 +427,7 @@ export const App: React.FC = () => {
                     onOpenComments={setCommentPost}
                     onShare={setSharePost}
                     onWhatsAppShare={handleWhatsAppShare}
+                    onMediaClick={setZoomMedia}
                   />
                 ))}
               </div>
@@ -456,9 +492,25 @@ export const App: React.FC = () => {
         onShowToast={showToast}
       />
 
+      {/* Image / Media Zoom Lightbox Modal */}
+      <ImageZoomLightbox
+        media={zoomMedia}
+        isOpen={Boolean(zoomMedia)}
+        onClose={() => setZoomMedia(null)}
+      />
+
+      {/* Mobile Bottom Navigation Bar (1-Thumb Ergonomics) */}
+      <MobileBottomNav
+        activeView={activeView}
+        onSelectView={setActiveView}
+        showBookmarks={showBookmarksOnly}
+        onToggleBookmarks={() => setShowBookmarksOnly(!showBookmarksOnly)}
+        bookmarksCount={bookmarkedIds.length}
+        onOpenNotifications={() => setIsNotificationModalOpen(true)}
+      />
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 bg-slate-900 border border-red-500/50 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs font-semibold flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2">
+        <div className="fixed bottom-16 sm:bottom-5 right-5 z-50 bg-slate-900 border border-red-500/50 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs font-semibold flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2">
           <CheckCircle className="w-4 h-4 text-emerald-400" />
           <span>{toastMessage}</span>
         </div>

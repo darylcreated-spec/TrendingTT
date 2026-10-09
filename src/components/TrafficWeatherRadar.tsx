@@ -11,7 +11,6 @@ import {
   ShieldAlert, 
   ThumbsUp, 
   Compass, 
-  Filter,
   CheckCircle,
   TrendingUp,
   TrendingDown,
@@ -30,6 +29,7 @@ import {
   INITIAL_WASA_NOTICES 
 } from '../data/radarAndPollData';
 import { Storage } from '../services/storage';
+import { CarouselTabs, type CarouselTabItem } from './CarouselTabs';
 
 interface TrafficWeatherRadarProps {
   onShowToast: (msg: string) => void;
@@ -38,7 +38,15 @@ interface TrafficWeatherRadarProps {
 
 type RadarTab = 'all' | 'traffic' | 'weather' | 'wasa' | 'community';
 
-const HIGHWAY_FILTERS: { id: 'all' | HighwayId; label: string }[] = [
+const RADAR_TAB_ITEMS: CarouselTabItem<RadarTab>[] = [
+  { id: 'all', label: 'All Radar Feeds' },
+  { id: 'traffic', label: `Highways & Traffic (${INITIAL_TRAFFIC_SEGMENTS.length})`, icon: <Car className="w-3.5 h-3.5" /> },
+  { id: 'weather', label: 'TTMS & River Flooding', icon: <CloudRain className="w-3.5 h-3.5" /> },
+  { id: 'wasa', label: `WASA Water Notices (${INITIAL_WASA_NOTICES.length})`, icon: <Droplet className="w-3.5 h-3.5" /> },
+  { id: 'community', label: 'Driver Reports', icon: <ThumbsUp className="w-3.5 h-3.5" /> },
+];
+
+const HIGHWAY_FILTER_ITEMS: CarouselTabItem<'all' | HighwayId>[] = [
   { id: 'all', label: 'All Corridors' },
   { id: 'crh', label: 'Churchill Roosevelt (CRH)' },
   { id: 'ubh', label: 'Uriah Butler (UBH)' },
@@ -47,6 +55,7 @@ const HIGHWAY_FILTERS: { id: 'all' | HighwayId; label: string }[] = [
   { id: 'lady-young', label: 'Lady Young' },
   { id: 'south-trunk', label: 'South Trunk / Mosquito Creek' }
 ];
+
 
 export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
   onShowToast,
@@ -226,62 +235,15 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
         </div>
       </div>
 
-      {/* Radar Category Navigation Bar */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto no-scrollbar scrollbar-none">
-        <button
-          onClick={() => setActiveTab('all')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap border ${
-            activeTab === 'all'
-              ? 'bg-red-600 text-white border-red-500 shadow-sm'
-              : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
-          }`}
-        >
-          All Radar Feeds
-        </button>
-        <button
-          onClick={() => setActiveTab('traffic')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap border ${
-            activeTab === 'traffic'
-              ? 'bg-red-600 text-white border-red-500 shadow-sm'
-              : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
-          }`}
-        >
-          <Car className="w-3.5 h-3.5" />
-          <span>Highways & Traffic ({INITIAL_TRAFFIC_SEGMENTS.length})</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('weather')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap border ${
-            activeTab === 'weather'
-              ? 'bg-red-600 text-white border-red-500 shadow-sm'
-              : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
-          }`}
-        >
-          <CloudRain className="w-3.5 h-3.5" />
-          <span>TTMS & River Flooding</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('wasa')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap border ${
-            activeTab === 'wasa'
-              ? 'bg-red-600 text-white border-red-500 shadow-sm'
-              : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
-          }`}
-        >
-          <Droplet className="w-3.5 h-3.5" />
-          <span>WASA Water Notices ({INITIAL_WASA_NOTICES.length})</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('community')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap border ${
-            activeTab === 'community'
-              ? 'bg-red-600 text-white border-red-500 shadow-sm'
-              : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
-          }`}
-        >
-          <ThumbsUp className="w-3.5 h-3.5" />
-          <span>Driver Reports ({communityReports.length})</span>
-        </button>
+      {/* Radar Category Navigation Bar with CarouselTabs */}
+      <div className="border-b border-slate-800 pb-2">
+        <CarouselTabs<RadarTab>
+          items={RADAR_TAB_ITEMS}
+          activeId={activeTab}
+          onSelect={setActiveTab}
+          ariaLabel="Radar Categories"
+          showArrows
+        />
       </div>
 
       {/* SECTION 1: TTMS OFFICIAL WEATHER ADVISORY */}
@@ -439,22 +401,14 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
               </p>
             </div>
 
-            {/* Highway Filter Selector */}
-            <div className="flex items-center gap-1 overflow-x-auto no-scrollbar scrollbar-none">
-              <Filter className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-              {HIGHWAY_FILTERS.map(f => (
-                <button
-                  key={f.id}
-                  onClick={() => setSelectedHighway(f.id)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
-                    selectedHighway === f.id
-                      ? 'bg-slate-800 text-white font-bold border border-slate-700'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  {f.label}
-                </button>
-              ))}
+            {/* Highway Filter Selector with CarouselTabs */}
+            <div className="flex-1 sm:max-w-lg min-w-0">
+              <CarouselTabs<'all' | HighwayId>
+                items={HIGHWAY_FILTER_ITEMS}
+                activeId={selectedHighway}
+                onSelect={setSelectedHighway}
+                ariaLabel="Highway Corridors"
+              />
             </div>
           </div>
 

@@ -24,6 +24,7 @@ interface PostCardProps {
   onOpenComments: (post: Post) => void;
   onShare: (post: Post) => void;
   onWhatsAppShare: (post: Post) => void;
+  onMediaClick?: (media: { url: string; title: string; sourceName: string }) => void;
 }
 
 const formatRelativeTime = (isoString: string) => {
@@ -46,6 +47,7 @@ export const PostCard: React.FC<PostCardProps> = ({
   onOpenComments,
   onShare,
   onWhatsAppShare,
+  onMediaClick,
 }) => {
   const source = SOURCES[post.sourceId] || {
     name: post.sourceName,
@@ -62,9 +64,21 @@ export const PostCard: React.FC<PostCardProps> = ({
 
   return (
     <article className="bg-slate-900/90 rounded-xl border border-slate-800 hover:border-slate-700/80 transition-all duration-200 overflow-hidden flex flex-col justify-between shadow-md hover:shadow-xl group">
-      {/* Top Media / Thumbnail */}
+      {/* Top Media / Thumbnail with Tap-to-Zoom */}
       {post.media?.url && (
-        <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
+        <div 
+          onClick={() => {
+            if (onMediaClick && post.media?.url) {
+              onMediaClick({
+                url: post.media.url,
+                title: post.title,
+                sourceName: post.sourceName,
+              });
+            }
+          }}
+          className="relative aspect-video w-full overflow-hidden bg-slate-950 cursor-zoom-in"
+          title="Tap to zoom image"
+        >
           <img
             src={post.media.url}
             alt={post.title}

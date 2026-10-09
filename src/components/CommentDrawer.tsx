@@ -145,7 +145,7 @@ const CommentDrawerContent: React.FC<CommentDrawerContentProps> = ({
         </div>
 
         {/* Add Comment Input Form */}
-        <form onSubmit={handleSubmit} className="p-4 bg-slate-950 border-t border-slate-800 space-y-3">
+        <form onSubmit={handleSubmit} className="p-4 pb-safe bg-slate-950 border-t border-slate-800 space-y-3">
           <div className="grid grid-cols-2 gap-2 text-xs">
             <input
               type="text"

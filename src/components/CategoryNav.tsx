@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Category, SortOption } from '../types';
 import { Flame, Clock, MessageSquare } from 'lucide-react';
+import { CarouselTabs, type CarouselTabItem } from './CarouselTabs';
 
 interface CategoryNavProps {
   activeCategory: Category;
@@ -9,7 +10,7 @@ interface CategoryNavProps {
   onSelectSort: (sort: SortOption) => void;
 }
 
-const CATEGORIES: { id: Category; label: string; icon?: React.ReactNode }[] = [
+const CATEGORY_ITEMS: CarouselTabItem<Category>[] = [
   { id: 'all', label: 'All Feed' },
   { id: 'breaking', label: 'Breaking News' },
   { id: 'broadcast', label: 'Broadcast (TV6/CNC3/TTT/I.A.N)' },
@@ -29,24 +30,15 @@ export const CategoryNav: React.FC<CategoryNavProps> = ({
 }) => {
   return (
     <div className="bg-slate-900 border-b border-slate-800 px-4 py-2.5 max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      {/* Category Pills scrollable horizontally */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none no-scrollbar">
-        {CATEGORIES.map((cat) => {
-          const isActive = activeCategory === cat.id;
-          return (
-            <button
-              key={cat.id}
-              onClick={() => onSelectCategory(cat.id)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border ${
-                isActive
-                  ? 'bg-red-600 text-white border-red-500 shadow-sm'
-                  : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 border-slate-700/60 hover:text-white'
-              }`}
-            >
-              {cat.label}
-            </button>
-          );
-        })}
+      {/* Category Carousel Slider */}
+      <div className="flex-1 min-w-0">
+        <CarouselTabs<Category>
+          items={CATEGORY_ITEMS}
+          activeId={activeCategory}
+          onSelect={onSelectCategory}
+          ariaLabel="News Categories"
+          showArrows
+        />
       </div>
 
       {/* Sort Options */}

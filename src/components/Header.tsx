@@ -11,6 +11,8 @@ import {
   BarChart3,
   Newspaper
 } from 'lucide-react';
+import { CarouselTabs } from './CarouselTabs';
+
 
 interface HeaderProps {
   onRefresh: () => void;
@@ -232,50 +234,31 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Main Section Navigation Bar: News Feed, Traffic Radar, Trinbago Polls */}
       <div className="bg-slate-950 border-t border-slate-800/80 px-4 py-1.5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-x-auto no-scrollbar scrollbar-none">
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={() => onSelectView('feed')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                activeView === 'feed'
-                  ? 'bg-red-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-              }`}
-            >
-              <Newspaper className="w-3.5 h-3.5" />
-              <span>National News Feed</span>
-            </button>
-
-            <button
-              onClick={() => onSelectView('radar')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all relative ${
-                activeView === 'radar'
-                  ? 'bg-red-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-              }`}
-            >
-              <Compass className="w-3.5 h-3.5 text-amber-400" />
-              <span>Traffic & Weather Radar</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
-            </button>
-
-            <button
-              onClick={() => onSelectView('polls')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                activeView === 'polls'
-                  ? 'bg-red-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-              }`}
-            >
-              <BarChart3 className="w-3.5 h-3.5 text-purple-400" />
-              <span>Trinbago Polls</span>
-              <span className="text-[10px] bg-purple-950/80 text-purple-300 px-1.5 py-0.2 rounded border border-purple-800">
-                Vote
-              </span>
-            </button>
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+          <div className="flex-1 max-w-xl min-w-0">
+            <CarouselTabs<'feed' | 'radar' | 'polls'>
+              items={[
+                { id: 'feed', label: 'National News Feed', icon: <Newspaper className="w-3.5 h-3.5" /> },
+                { 
+                  id: 'radar', 
+                  label: 'Traffic & Weather Radar', 
+                  icon: <Compass className="w-3.5 h-3.5 text-amber-400" />,
+                  badge: <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
+                },
+                { 
+                  id: 'polls', 
+                  label: 'Trinbago Polls', 
+                  icon: <BarChart3 className="w-3.5 h-3.5 text-purple-400" />,
+                  badge: <span className="text-[10px] bg-purple-950/80 text-purple-300 px-1 py-0.2 rounded border border-purple-800">Vote</span>
+                },
+              ]}
+              activeId={activeView}
+              onSelect={onSelectView}
+              ariaLabel="Main View Modes"
+            />
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 text-[11px] text-slate-500 font-mono">
+          <div className="hidden lg:flex items-center gap-2 text-[11px] text-slate-500 font-mono">
             <span>Port of Spain • San Fernando • Chaguanas • Arima • Scarborough</span>
           </div>
         </div>
