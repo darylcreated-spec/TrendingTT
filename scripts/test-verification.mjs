@@ -107,4 +107,248 @@ assert(storageContent.includes('getCommunityReports'), 'Missing getCommunityRepo
 assert(storageContent.includes('addCommunityReport'), 'Missing addCommunityReport in Storage');
 console.log('PASS: Storage persistence layer contains all required contracts.\n');
 
+// 7. Verify Option 1: Ingestion Engine & Connectors
+console.log('7. Verifying Option 1 Ingestion Engine (yt-dlp & RSS-Bridge)...');
+assert(fs.existsSync('scripts/ingestion-worker.mjs'), 'scripts/ingestion-worker.mjs must exist');
+assert(fs.existsSync('src/services/socialIngestionEngine.ts'), 'src/services/socialIngestionEngine.ts must exist');
+
+const workerContent = fs.readFileSync('scripts/ingestion-worker.mjs', 'utf8');
+// Check yt-dlp targets
+assert(workerContent.includes('trinitiktok'), 'Worker missing TikTok #trinitiktok target');
+assert(workerContent.includes('youtube-tv6-news'), 'Worker missing TV6 YouTube evening newscast target');
+assert(workerContent.includes('youtube-cnc3-news'), 'Worker missing CNC3 YouTube evening newscast target');
+assert(workerContent.includes('youtube-ttt-news'), 'Worker missing TTT YouTube evening newscast target');
+assert(workerContent.includes('facebook-ian-reels'), 'Worker missing Facebook video reels target');
+
+// Check RSS-Bridge targets
+assert(workerContent.includes('CCNTV6'), 'Worker missing TV6 Facebook RSS-Bridge');
+assert(workerContent.includes('CNC3Television'), 'Worker missing CNC3 Facebook RSS-Bridge');
+assert(workerContent.includes('ianalleyne'), 'Worker missing I.A.N Network Facebook RSS-Bridge');
+assert(workerContent.includes('NewsdayTT'), 'Worker missing Newsday Facebook RSS-Bridge');
+assert(workerContent.includes('tv6tnt'), 'Worker missing TV6 Instagram RSS-Bridge');
+assert(workerContent.includes('cnc3news'), 'Worker missing CNC3 Instagram RSS-Bridge');
+
+// Import and run worker verification
+const { runIngestionWorker, INGESTION_TARGETS, OFFLINE_FALLBACK_POSTS, normalizeYtDlpToPost, normalizeRssBridgeToPost, findFallbackPost } = await import('./ingestion-worker.mjs');
+assert.strictEqual(INGESTION_TARGETS.ytDlp.length, 5, 'yt-dlp targets count should be exactly 5');
+assert.strictEqual(INGESTION_TARGETS.rssBridge.length, 6, 'RSS-Bridge targets count should be exactly 6');
+assert.strictEqual(OFFLINE_FALLBACK_POSTS.length, 11, 'Offline fallback posts must cover all 11 targets');
+
+// Test that each target has a dedicated distinct fallback post
+const matchedFallbackIds = new Set();
+for (const target of [...INGESTION_TARGETS.ytDlp, ...INGESTION_TARGETS.rssBridge]) {
+  const fallback = findFallbackPost(target);
+  assert(fallback, `Missing fallback post for target ${target.id}`);
+  assert(!matchedFallbackIds.has(fallback.id), `Duplicate fallback mapped for target ${target.id}: ${fallback.id}`);
+  matchedFallbackIds.add(fallback.id);
+}
+assert.strictEqual(matchedFallbackIds.size, 11, 'All 11 targets must resolve to distinct fallback posts');
+
+// Test normalize functions directly with edge cases
+const sampleYtPost = normalizeYtDlpToPost(
+  { id: 'sample-yt', title: 'Sample Title', description: 'Sample Desc', duration: 120 },
+  INGESTION_TARGETS.ytDlp[0]
+);
+assert.strictEqual(sampleYtPost.sourceId, 'tiktok');
+assert.strictEqual(sampleYtPost.media?.videoDuration, '2:00');
+
+// Edge case: null duration and missing title
+const sampleYtEdge = normalizeYtDlpToPost(
+  { id: 'edge-yt', title: '', description: '', duration: 0 },
+  INGESTION_TARGETS.ytDlp[1]
+);
+assert(sampleYtEdge.title.length > 0, 'Default title must be populated');
+assert.strictEqual(sampleYtEdge.media?.videoDuration, undefined, 'Zero duration should have undefined videoDuration');
+
+// Test RSS normalizer with HTML entity stripping
+const sampleRssPost = normalizeRssBridgeToPost(
+  { id: 'sample-rss', title: 'Sample &amp; Breaking', content_html: '<p>Paragraph <b>content</b></p>' },
+  INGESTION_TARGETS.rssBridge[0]
+);
+assert.strictEqual(sampleRssPost.sourceId, 'tv6');
+assert.strictEqual(sampleRssPost.content, 'Paragraph content');
+
+// Run worker in mock mode and verify output integrity
+const workerOutput = await runIngestionWorker({ mock: true, dryRun: true });
+assert.strictEqual(workerOutput.posts.length, 11, 'Worker must produce 11 normalized posts covering all targets');
+for (const p of workerOutput.posts) {
+  assert(p.id, 'Post missing id');
+  assert(p.title, 'Post missing title');
+  assert(p.summary, 'Post missing summary');
+  assert(p.sourceId, 'Post missing sourceId');
+  assert(p.sourceType, 'Post missing sourceType');
+  assert(p.publishedAt, 'Post missing publishedAt');
+  assert(p.category, 'Post missing category');
+  assert(Array.isArray(p.tags), 'Post tags must be an array');
+}
+
+// Runtime test of SocialIngestionEngine
+const { SocialIngestionEngine, socialIngestionEngine, OFFLINE_SOCIAL_FALLBACK } = await import('../src/services/socialIngestionEngine.ts');
+assert(socialIngestionEngine instanceof SocialIngestionEngine, 'socialIngestionEngine must be an instance of SocialIngestionEngine');
+assert.strictEqual(OFFLINE_SOCIAL_FALLBACK.length, 11, 'OFFLINE_SOCIAL_FALLBACK must contain 11 items');
+
+const initialFeed = await socialIngestionEngine.fetchIngestedFeed();
+assert(initialFeed.posts.length >= 11, 'fetchIngestedFeed must return all ingested/fallback posts');
+assert(initialFeed.isOfflineFallback === true || initialFeed.isOfflineFallback === false);
+
+// Test diagnostic connector health check
+const testDiag = await socialIngestionEngine.testConnector('rss-bridge', 'https://mock.invalid.local/test');
+assert.strictEqual(testDiag.connector, 'rss-bridge');
+assert.strictEqual(typeof testDiag.latencyMs, 'number');
+assert.strictEqual(testDiag.reachable, false);
+console.log('PASS: Ingestion Engine connectors (yt-dlp + RSS-Bridge) and normalizers fully verified.\n');
+
+// 8. Verify Option 2: Cross-Posting Engine & Trigger
+console.log('8. Verifying Option 2 Cross-Posting Engine & Modal Trigger...');
+assert(fs.existsSync('src/services/crossPostingService.ts'), 'src/services/crossPostingService.ts must exist');
+
+const { CrossPostingService, CHANNELS_META } = await import('../src/services/crossPostingService.ts');
+
+// Check channels: facebook, twitter, instagram, telegram, whatsapp
+const expectedChannels = ['facebook', 'twitter', 'instagram', 'telegram', 'whatsapp'];
+for (const ch of expectedChannels) {
+  assert(CHANNELS_META[ch], `Missing CHANNELS_META for ${ch}`);
+  assert(CHANNELS_META[ch].name, `Missing name for ${ch}`);
+}
+assert.strictEqual(CHANNELS_META.twitter.charLimit, 280, 'Twitter charLimit should be 280');
+
+// Test formatMessage interpolation
+const mockPost = {
+  id: 'test-crosspost-1',
+  title: 'Port of Spain Traffic Standoff',
+  summary: 'Major gridlock along Churchill Roosevelt Highway.',
+  sourceId: 'tv6',
+  sourceName: 'CCN TV6',
+  sourceType: 'broadcast',
+  originalUrl: 'https://tv6tnt.com/traffic-alert',
+  publishedAt: new Date().toISOString(),
+  category: 'broadcast',
+  tags: ['Traffic TT', '#CRH'],
+  trendingScore: 92,
+  upvotes: 210,
+  commentsCount: 45
+};
+
+const formattedMsg = CrossPostingService.formatMessage(mockPost);
+assert(formattedMsg.includes('Port of Spain Traffic Standoff'), 'Formatted message missing title');
+assert(formattedMsg.includes('Major gridlock along Churchill Roosevelt Highway.'), 'Formatted message missing summary');
+assert(formattedMsg.includes('#TrafficTT'), 'Formatted message missing hashtags');
+
+// Test custom template interpolation
+const customTpl = 'FLASH: {title} via {source} | Category: {category} | Read: {url}';
+const customFormatted = CrossPostingService.formatMessage(mockPost, customTpl);
+assert.strictEqual(customFormatted, 'FLASH: Port of Spain Traffic Standoff via CCN TV6 | Category: BROADCAST | Read: https://tv6tnt.com/traffic-alert');
+
+// Test dispatch in sandbox mode across all channels
+const dispatchRes = await CrossPostingService.dispatchCrossPost({
+  post: mockPost,
+  message: formattedMsg,
+  channels: ['facebook', 'twitter', 'telegram', 'whatsapp'],
+  config: {
+    provider: 'webhook',
+    webhookUrl: '',
+    apiKey: '',
+    defaultChannels: ['facebook', 'twitter'],
+    customTemplate: '',
+    autoAppendHashtags: true
+  }
+});
+
+assert(dispatchRes.id.startsWith('dispatch-'), 'Dispatch result should have valid dispatch id');
+assert.strictEqual(dispatchRes.overallSuccess, true, 'Sandbox dispatch should report overall success');
+assert.strictEqual(dispatchRes.channelStatuses.length, 4, 'Should contain 4 channel delivery receipts');
+for (const status of dispatchRes.channelStatuses) {
+  assert.strictEqual(status.success, true, `Channel ${status.channel} should succeed in sandbox mode`);
+  assert(status.messageId, 'Receipt must contain messageId');
+}
+
+// Test Postiz & Mixpost provider dispatches in sandbox mode
+const postizDispatch = await CrossPostingService.dispatchCrossPost({
+  post: mockPost,
+  message: formattedMsg,
+  channels: ['facebook', 'twitter'],
+  config: {
+    provider: 'postiz',
+    webhookUrl: '',
+    apiKey: '',
+    defaultChannels: ['facebook'],
+    customTemplate: '',
+    autoAppendHashtags: true
+  }
+});
+assert.strictEqual(postizDispatch.provider, 'postiz');
+assert.strictEqual(postizDispatch.overallSuccess, true);
+
+const mixpostDispatch = await CrossPostingService.dispatchCrossPost({
+  post: mockPost,
+  message: formattedMsg,
+  channels: ['facebook', 'instagram'],
+  config: {
+    provider: 'mixpost',
+    webhookUrl: '',
+    apiKey: '',
+    defaultChannels: ['facebook'],
+    customTemplate: '',
+    autoAppendHashtags: true
+  }
+});
+assert.strictEqual(mixpostDispatch.provider, 'mixpost');
+assert.strictEqual(mixpostDispatch.overallSuccess, true);
+
+// Test validation edge cases: empty channels must reject
+await assert.rejects(
+  async () => {
+    await CrossPostingService.dispatchCrossPost({
+      post: mockPost,
+      message: formattedMsg,
+      channels: []
+    });
+  },
+  /At least one target social channel must be selected/
+);
+
+// Test validation edge cases: empty message must reject
+await assert.rejects(
+  async () => {
+    await CrossPostingService.dispatchCrossPost({
+      post: mockPost,
+      message: '   ',
+      channels: ['facebook']
+    });
+  },
+  /formatted message must be provided/
+);
+
+// Test testWebhook edge cases
+const emptyWebhookTest = await CrossPostingService.testWebhook({
+  provider: 'webhook',
+  webhookUrl: '',
+  apiKey: '',
+  defaultChannels: ['facebook'],
+  customTemplate: '',
+  autoAppendHashtags: true
+});
+assert.strictEqual(emptyWebhookTest.success, true, 'Empty webhook URL should report sandbox mode');
+
+const invalidWebhookTest = await CrossPostingService.testWebhook({
+  provider: 'webhook',
+  webhookUrl: 'not-a-valid-http-url',
+  apiKey: '',
+  defaultChannels: ['facebook'],
+  customTemplate: '',
+  autoAppendHashtags: true
+});
+assert.strictEqual(invalidWebhookTest.success, false, 'Invalid webhook URL protocol must fail');
+
+// Check ShareModal.tsx integration and UI triggers
+const shareModalContent = fs.readFileSync('src/components/ShareModal.tsx', 'utf8');
+assert(shareModalContent.includes('CrossPostingService'), 'ShareModal missing CrossPostingService integration');
+assert(shareModalContent.includes('Cross-Post Dispatch'), 'ShareModal missing Cross-Post tab');
+assert(shareModalContent.includes('1-Click Dispatch'), 'ShareModal missing 1-Click Dispatch trigger');
+assert(shareModalContent.includes('Webhook & API Settings'), 'ShareModal missing persistent Webhook Settings');
+assert(shareModalContent.includes('Customizable Message Formatting'), 'ShareModal missing custom message formatting');
+assert(shareModalContent.includes('Default Message Template'), 'ShareModal missing default template editor in settings');
+assert(shareModalContent.includes('Test Endpoint'), 'ShareModal missing Test Endpoint trigger');
+console.log('PASS: Cross-Posting engine, provider support, and ShareModal UI triggers verified.\n');
+
 console.log('=== ALL VERIFICATION CHECKS PASSED SUCCESSFULLY ===');

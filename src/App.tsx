@@ -4,6 +4,7 @@ import { INITIAL_POSTS } from './data/mockPosts';
 import { SOURCES } from './data/sources';
 import { Storage } from './services/storage';
 import { fetchLiveTTFeeds, calculateTrendingVelocity } from './services/scraperEngine';
+import { socialIngestionEngine } from './services/socialIngestionEngine';
 import { Header } from './components/Header';
 import { BreakingTicker } from './components/BreakingTicker';
 import { CategoryNav } from './components/CategoryNav';
@@ -58,30 +59,54 @@ export const App: React.FC = () => {
 
   // Live Scrape Trigger (Manual or Auto-Background)
   const handleTriggerScrape = useCallback(async (silent = false) => {
-    setIsRefreshing(true);
+    if (!silent) {
+      setIsRefreshing(true);
+    }
     try {
-      const result = await fetchLiveTTFeeds();
-      if (result.newPosts.length > 0) {
+      const [liveRes, socialRes] = await Promise.allSettled([
+        fetchLiveTTFeeds(),
+        socialIngestionEngine.fetchIngestedFeed()
+      ]);
+
+      const freshPosts: Post[] = [];
+      let liveCount = 0;
+      let socialCount = 0;
+
+      if (liveRes.status === 'fulfilled' && liveRes.value.newPosts.length > 0) {
+        freshPosts.push(...liveRes.value.newPosts);
+        liveCount = liveRes.value.newPosts.length;
+        setLastScrapedTime(liveRes.value.timestamp);
+      }
+
+      if (socialRes.status === 'fulfilled' && socialRes.value.posts.length > 0) {
+        freshPosts.push(...socialRes.value.posts);
+        socialCount = socialRes.value.posts.length;
+      }
+
+      if (freshPosts.length > 0) {
         setPosts((prev) => {
-          const existingIds = new Set(prev.map((p) => p.title));
-          const uniqueNew = result.newPosts.filter((p) => !existingIds.has(p.title));
+          const existingIds = new Set(prev.map((p) => p.id));
+          const existingTitles = new Set(prev.map((p) => p.title.toLowerCase().trim()));
+          const uniqueNew = freshPosts.filter((p) => !existingIds.has(p.id) && !existingTitles.has(p.title.toLowerCase().trim()));
           return [...uniqueNew, ...prev];
         });
+
         if (!silent) {
-          showToast(`Scraped ${result.newPosts.length} fresh updates from TT media`);
+          showToast(`Ingested ${liveCount + socialCount} updates from broadcast, yt-dlp & social feeds`);
         }
       } else {
         if (!silent) {
           showToast('Feeds up to date. No new bulletins at this moment.');
         }
       }
-      setLastScrapedTime(result.timestamp);
     } catch {
       if (!silent) {
-        showToast('Scraper refresh finished.');
+        showToast('Ingestion refresh completed.');
       }
     } finally {
-      setIsRefreshing(false);
+      if (!silent) {
+        setIsRefreshing(false);
+      }
     }
   }, [showToast]);
 
@@ -93,6 +118,11 @@ export const App: React.FC = () => {
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+
+    // Initial background ingestion and feed refresh on startup
+    const initialTimeout = setTimeout(() => {
+      handleTriggerScrape(true);
+    }, 200);
 
     // Auto-refresh feeds every 5 minutes in the background
     const autoRefreshTimer = setInterval(() => {
@@ -109,6 +139,7 @@ export const App: React.FC = () => {
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+      clearTimeout(initialTimeout);
       clearInterval(autoRefreshTimer);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };

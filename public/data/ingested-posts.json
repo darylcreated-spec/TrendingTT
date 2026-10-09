@@ -1,0 +1,341 @@
+{
+  "meta": {
+    "generator": "Trending TT Ingestion Engine (yt-dlp + RSS-Bridge)",
+    "version": "1.2.0",
+    "timezone": "AST (America/Port_of_Spain)",
+    "generatedAt": "2026-10-09T21:00:26.727Z",
+    "stats": {
+      "ytDlpProcessed": 5,
+      "rssBridgeProcessed": 6,
+      "totalNormalized": 11,
+      "timestamp": "2026-10-09T21:00:24.511Z"
+    }
+  },
+  "posts": [
+    {
+      "id": "yt-dlp-tiktok-maracas-crowd",
+      "targetId": "tiktok-trini",
+      "title": "TikTok #trinitiktok: Massive weekend bake & shark frenzy hits Maracas Bay beachfront",
+      "summary": "Viral TikTok videos capture energetic crowds, fresh shark bakes with garlic and chadon beni sauce, and North Coast traffic updates trending across Trinidad.",
+      "content": "Creators along the North Coast road shared live clips showing lines at Richards and Patsys bake and shark stalls. Over 180k views under #trinitiktok within 12 hours.",
+      "sourceId": "tiktok",
+      "sourceName": "Trinidad TikTok",
+      "sourceType": "social",
+      "author": "@maracas_vibes868",
+      "originalUrl": "https://www.tiktok.com/tag/trinitiktok",
+      "publishedAt": "2026-10-09T20:24:24.510Z",
+      "category": "culture",
+      "tags": [
+        "#trinitiktok",
+        "Maracas Bay",
+        "Bake and Shark",
+        "TikTok TT"
+      ],
+      "trendingScore": 98,
+      "upvotes": 642,
+      "commentsCount": 147,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "0:58"
+      }
+    },
+    {
+      "id": "yt-dlp-tv6-evening-news-anchor",
+      "targetId": "youtube-tv6-news",
+      "title": "TV6 News 7PM: National Security ministers debate border patrol radar upgrade",
+      "summary": "CCN TV6 lead evening newscast covers parliament debate over offshore patrol vessel surveillance and coastal radar updates in the Gulf of Paria.",
+      "content": "CCN TV6 full broadcast segment. Anchor reports on parliamentary debate concerning maritime radar technology, police service updates, and South Trunk road drainage.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "CCN TV6 News Desk",
+      "originalUrl": "https://www.youtube.com/watch?v=tv6-sample-news-7pm",
+      "publishedAt": "2026-10-09T19:25:24.511Z",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Evening Broadcast",
+        "Parliament TT",
+        "Port of Spain"
+      ],
+      "trendingScore": 95,
+      "upvotes": 430,
+      "commentsCount": 88,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "48:12"
+      }
+    },
+    {
+      "id": "yt-dlp-cnc3-evening-bulletin",
+      "targetId": "youtube-cnc3-news",
+      "title": "CNC3 News at 7: Point Lisas petrochemical sector records positive Q1 trade output",
+      "summary": "CNC3 in-depth evening report examines ammonia and methanol export earnings, Point Lisas Industrial Estate maintenance schedules, and foreign exchange impact.",
+      "content": "CNC3 Business & Evening Desk report detailing energy sector revenue, downstream petrochemical performance, and discussions with the Energy Chamber of Trinidad & Tobago.",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 News Anchor",
+      "originalUrl": "https://www.youtube.com/watch?v=cnc3-sample-evening-7",
+      "publishedAt": "2026-10-09T19:10:24.511Z",
+      "category": "business",
+      "tags": [
+        "CNC3 News",
+        "Point Lisas",
+        "Energy TT",
+        "Economy"
+      ],
+      "trendingScore": 91,
+      "upvotes": 385,
+      "commentsCount": 42,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "42:30"
+      }
+    },
+    {
+      "id": "yt-dlp-ttt-national-roundup",
+      "targetId": "youtube-ttt-news",
+      "title": "TTT News at 7: Ministry of Works confirms Churchill Roosevelt Highway lane expansion",
+      "summary": "TTT Live Online coverage of highway infrastructure improvements between Curepe and Piarco junction, reducing peak-hour commute times for east-west commuters.",
+      "content": "Official government broadcast report featuring Minister of Works on Churchill Roosevelt Highway overpass progress and flyover infrastructure in East Trinidad.",
+      "sourceId": "ttt",
+      "sourceName": "TTT Live Online",
+      "sourceType": "broadcast",
+      "author": "TTT Live Studio",
+      "originalUrl": "https://www.youtube.com/watch?v=ttt-sample-news-7pm",
+      "publishedAt": "2026-10-09T18:40:24.511Z",
+      "category": "broadcast",
+      "tags": [
+        "TTT Live",
+        "Churchill Roosevelt Highway",
+        "Infrastructure",
+        "Curepe"
+      ],
+      "trendingScore": 89,
+      "upvotes": 312,
+      "commentsCount": 35,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "45:00"
+      }
+    },
+    {
+      "id": "yt-dlp-facebook-ian-live-investigation",
+      "targetId": "facebook-ian-reels",
+      "title": "I.A.N Network Reels: Live community standoff resolution in Morvant junction",
+      "summary": "Ian Alleyne streams on-the-ground Crime Watch investigation answering distress calls from residents regarding utility disruptions and neighborhood safety patrols.",
+      "content": "Exclusive live video reel from Ian Alleyne Crime Watch camera crew on location in Morvant. Community elders meet with local council representatives to resolve street lighting and drainage grievances.",
+      "sourceId": "ian",
+      "sourceName": "I.A.N Network",
+      "sourceType": "broadcast",
+      "author": "Ian Alleyne",
+      "originalUrl": "https://www.facebook.com/ianalleyne/videos/morvant-community-standoff",
+      "publishedAt": "2026-10-09T20:20:24.511Z",
+      "category": "crime",
+      "tags": [
+        "Crime Watch",
+        "Ian Alleyne",
+        "Morvant",
+        "Community Alert"
+      ],
+      "trendingScore": 96,
+      "upvotes": 890,
+      "commentsCount": 345,
+      "isBreaking": true,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "portrait",
+        "videoDuration": "18:45"
+      }
+    },
+    {
+      "id": "rss-bridge-facebook-6ae47cbad593f288dd0700d1f858ad64eaa2a1b2",
+      "title": "“As you know, this amendment was triggered by what transpired in the Siparia Borough Corporation wit...",
+      "summary": "“As you know, this amendment was triggered by what transpired in the Siparia Borough Corporation with Jason Ali and alderman Victor Roberts; those two traitors who crossed the f...",
+      "content": "“As you know, this amendment was triggered by what transpired in the Siparia Borough Corporation with Jason Ali and alderman Victor Roberts; those two traitors who crossed the floor and went across to the PNM,” Mayrhoo said. READ HERE:https://trinidadexpress.com/newsextra/traitors-triggered-floor-crossing-amendment/article_8455c260-3e3b-4778-b1d8-1a905b7e516d.html",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "CCN TV6: Trinidad and Tobago",
+      "originalUrl": "https://www.facebook.com/CCNTV6/posts/pfbid02PbAoGUrUdMSuH3Fwj79RfyHRgHFRpwRhstW4gTeM5RByQ84btQVLPMbQD5EKe7Lvl",
+      "publishedAt": "2026-10-09T21:00:25.108Z",
+      "category": "broadcast",
+      "tags": [
+        "TV6 Facebook",
+        "News Alert",
+        "Trinidad"
+      ],
+      "trendingScore": 84,
+      "upvotes": 187,
+      "commentsCount": 49,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://scontent.xx.fbcdn.net/v/t39.99422-6/841229430_1512874854028812_972300313730591282_n.png?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s640x640&_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=pFSpIuphbhkQ7kNvwEgevGa&_nc_oc=AdqHs-hn0jRHDoVpLMw2Hmnv-9zKuifWAtSiDn5X6jEIh3Dkksia0JgHgJvDkBiI5rM&_nc_zt=14&_nc_ht=scontent.xx&_nc_gid=2AkiFBBiZFw3xqwmXxRWfw&_nc_ss=72289&oh=00_AQN1gbaNNeeLKGyw_tL5cRlllJE7qBh_xIkkjOMsag5MVg&oe=6ACF13BD",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "rss-bridge-facebook-9b01699d61fdc7f49bb34a4f7d4230b7cbc5d273",
+      "title": "Videos from Saildrone and NOAA capture choppy waves and stormy seas filmed by a drone, as Hurricane ...",
+      "summary": "Videos from Saildrone and NOAA capture choppy waves and stormy seas filmed by a drone, as Hurricane Isaias moves through the Gulf of Mexico toward Florida on Friday.\nThe Categor...",
+      "content": "Videos from Saildrone and NOAA capture choppy waves and stormy seas filmed by a drone, as Hurricane Isaias moves through the Gulf of Mexico toward Florida on Friday.\nThe Category 3 storm has grown into a major hurricane — the first of an unusually quiet Atlantic season — and is expected to make landfall Friday night.\n[Video courtesy CNN]",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 Television, Trinidad and Tobago",
+      "originalUrl": "https://www.facebook.com/reel/1537784948112925/",
+      "publishedAt": "2026-10-09T21:00:25.630Z",
+      "category": "broadcast",
+      "tags": [
+        "CNC3 Facebook",
+        "Digital Desk",
+        "Trinidad"
+      ],
+      "trendingScore": 92,
+      "upvotes": 155,
+      "commentsCount": 49,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "bridge-fb-ian-breaking",
+      "targetId": "bridge-fb-ian",
+      "title": "I.A.N Network: Police intercept robbery suspect along Uriah Butler Highway in Chaguanas",
+      "summary": "Live Facebook video report by Ian Alleyne showing rapid TTPS Highway Patrol response, vehicle pursuit, and traffic standoff near Chaguanas flyover.",
+      "content": "Ian Alleyne Crime Watch Network Facebook stream. Central Division TTPS officers apprehended two suspects following an attempted armed robbery. Highway traffic diverted onto Caroni Savannah Road.",
+      "sourceId": "ian",
+      "sourceName": "I.A.N Network",
+      "sourceType": "broadcast",
+      "author": "Ian Alleyne",
+      "originalUrl": "https://www.facebook.com/ianalleyne/posts/central-division-highway",
+      "publishedAt": "2026-10-09T20:10:24.511Z",
+      "category": "crime",
+      "tags": [
+        "Crime Watch",
+        "Ian Alleyne",
+        "Uriah Butler Highway",
+        "Chaguanas"
+      ],
+      "trendingScore": 97,
+      "upvotes": 820,
+      "commentsCount": 310,
+      "isBreaking": true,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "portrait",
+        "videoDuration": "14:22"
+      }
+    },
+    {
+      "id": "bridge-fb-newsday-education",
+      "targetId": "bridge-fb-newsday",
+      "title": "Newsday Facebook: SEA Exam candidates celebrate results across Port of Spain schools",
+      "summary": "T&T Newsday Facebook page highlights heartfelt moments as parents and primary school students collect Secondary Entrance Assessment placement slips.",
+      "content": "Newsday journalists visited schools in Belmont, Woodbrook, and San Fernando capturing reactions of students, teachers, and school principals after results delivery.",
+      "sourceId": "newsday",
+      "sourceName": "T&T Newsday",
+      "sourceType": "newspaper",
+      "author": "Newsday Digital Desk",
+      "originalUrl": "https://www.facebook.com/NewsdayTT/posts/sea-results-celebrations",
+      "publishedAt": "2026-10-09T18:00:24.511Z",
+      "category": "culture",
+      "tags": [
+        "Newsday",
+        "SEA Exam",
+        "Education TT",
+        "Port of Spain"
+      ],
+      "trendingScore": 86,
+      "upvotes": 460,
+      "commentsCount": 52,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "bridge-ig-tv6-sports-cricket",
+      "targetId": "bridge-ig-tv6",
+      "title": "Instagram Reels: Nicholas Pooran smashes 84 off 32 balls at Queen's Park Oval",
+      "summary": "High-energy highlights shared by TV6 Sports on Instagram show Pooran lighting up the St Clair venue with towering sixes into the Trini Posse stand.",
+      "content": "Queens Park Oval cricket highlights reel reposted by TV6 TNT. West Indies batsman entertains enthusiastic local crowd during domestic T20 cricket clash.",
+      "sourceId": "instagram",
+      "sourceName": "Instagram TT Reels",
+      "sourceType": "social",
+      "author": "@tv6tnt",
+      "originalUrl": "https://www.instagram.com/reel/tv6-pooran-sixes",
+      "publishedAt": "2026-10-09T18:50:24.511Z",
+      "category": "sports",
+      "tags": [
+        "Cricket TT",
+        "Queens Park Oval",
+        "Nicholas Pooran",
+        "Instagram Reels"
+      ],
+      "trendingScore": 94,
+      "upvotes": 755,
+      "commentsCount": 168,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1531415074868-836332ff4296?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "portrait",
+        "videoDuration": "0:45"
+      }
+    },
+    {
+      "id": "bridge-ig-cnc3-pan-carnival-reel",
+      "targetId": "bridge-ig-cnc3",
+      "title": "Instagram Reels: Massy Trinidad All Stars electrify Duke Street rehearsal yard",
+      "summary": "CNC3 News cultural reel showcases vibrant steelpan arrangement rehearsals on Duke Street as crowds gather to experience sweet iron rhythm sections.",
+      "content": "Duke Street panyard comes alive. CNC3 News Instagram captures youth pan players mastering the musical arrangement alongside veteran pan tuners in East Port of Spain.",
+      "sourceId": "instagram",
+      "sourceName": "Instagram TT Reels",
+      "sourceType": "social",
+      "author": "@cnc3news",
+      "originalUrl": "https://www.instagram.com/reel/cnc3-all-stars-duke-street",
+      "publishedAt": "2026-10-09T19:55:24.511Z",
+      "category": "culture",
+      "tags": [
+        "CNC3 Reels",
+        "Steelpan TT",
+        "All Stars",
+        "Duke Street",
+        "Pan Yard"
+      ],
+      "trendingScore": 93,
+      "upvotes": 680,
+      "commentsCount": 112,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "portrait",
+        "videoDuration": "0:52"
+      }
+    }
+  ],
+  "errors": []
+}
