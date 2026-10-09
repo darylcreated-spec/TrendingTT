@@ -70,8 +70,11 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
         </div>
         <div className="flex items-center gap-2 text-xs">
+          <span className="text-emerald-400/90 font-medium hidden sm:inline bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">
+            Auto-refresh: Every 5m
+          </span>
           {lastScrapedTime && (
-            <span className="text-slate-500 hidden md:inline">
+            <span className="text-slate-400 hidden md:inline">
               Updated: {lastScrapedTime}
             </span>
           )}

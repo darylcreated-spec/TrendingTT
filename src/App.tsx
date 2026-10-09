@@ -53,7 +53,25 @@ export const App: React.FC = () => {
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
-    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+
+    // Auto-refresh feeds every 5 minutes in the background
+    const autoRefreshTimer = setInterval(() => {
+      handleTriggerScrape(true);
+    }, 5 * 60 * 1000);
+
+    // Auto-refresh when user returns to the app / unlocks phone
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        handleTriggerScrape(true);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+      clearInterval(autoRefreshTimer);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
   const showToast = (msg: string) => {
@@ -105,8 +123,8 @@ export const App: React.FC = () => {
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
   };
 
-  // Live Scrape Trigger
-  const handleTriggerScrape = async () => {
+  // Live Scrape Trigger (Manual or Auto-Background)
+  const handleTriggerScrape = async (silent = false) => {
     setIsRefreshing(true);
     try {
       const result = await fetchLiveTTFeeds();
@@ -116,13 +134,19 @@ export const App: React.FC = () => {
           const uniqueNew = result.newPosts.filter((p) => !existingIds.has(p.title));
           return [...uniqueNew, ...prev];
         });
-        showToast(`Scraped ${result.newPosts.length} fresh updates from TT media`);
+        if (!silent) {
+          showToast(`Scraped ${result.newPosts.length} fresh updates from TT media`);
+        }
       } else {
-        showToast('Feeds up to date. No new bulletins at this moment.');
+        if (!silent) {
+          showToast('Feeds up to date. No new bulletins at this moment.');
+        }
       }
       setLastScrapedTime(result.timestamp);
     } catch {
-      showToast('Scraper refresh finished.');
+      if (!silent) {
+        showToast('Scraper refresh finished.');
+      }
     } finally {
       setIsRefreshing(false);
     }
