@@ -52,7 +52,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ post, isOpen, onClose })
           text: `Trending in Trinidad & Tobago: ${post.title}`,
           url: shareUrl,
         });
-      } catch (err) {
+      } catch {
         // User cancelled or not supported
       }
     } else {

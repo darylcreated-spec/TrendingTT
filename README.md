@@ -44,10 +44,22 @@ The application follows an **editorial, human-first design policy** strictly dev
    - Formatted WhatsApp group chat sharing with headline, source, and direct link.
    - Direct sharing to Facebook, X (Twitter), and the native mobile device Share Sheet (`navigator.share`).
 
-5. **Live Editorial Masthead**:
+5. **Live Editorial Masthead & Navigation Switcher**:
    - Live Trinidad & Tobago AST clock (`America/Port_of_Spain`).
    - Animated Breaking News marquee ticker.
-   - Outlets filter modal allowing users to customize their personal newsfeed.
+   - 3-Way Top Navigation Switcher: National News Feed, Traffic & Weather Radar, and Trinbago Polls.
+
+6. **Live Traffic, Flood & TTMS Weather Radar**:
+   - Real-time congestion monitoring across major arteries: Uriah Butler Highway (UBH), Churchill Roosevelt Highway (CRH), Priority Bus Route (PBR), and Solomon Hochoy Highway.
+   - Official TTMS Yellow/Orange adverse weather advisories, Riverine Flood Basin gauges (Caroni, Caparo, Oropouche, Diego Martin), and WASA water disruption notices.
+
+7. **Trinbago Sentiment Poll of the Day**:
+   - Interactive civic & cultural polling on hot national talking points (Debe vs Curepe doubles, highway speed limits, fiscal priorities).
+   - Dynamic real-time vote percentage bars with 1-device verification and persistent storage.
+
+8. **Native Web Push Notifications**:
+   - Native PWA push notification support via `/sw.js`.
+   - Granular channel subscriptions for Breaking Bulletins, Weather & Floods, and Highway Gridlocks.
 
 ---
 

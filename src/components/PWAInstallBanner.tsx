@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Download, X, Smartphone, PlusSquare, Share } from 'lucide-react';
 
 interface PWAInstallBannerProps {
@@ -8,17 +8,14 @@ interface PWAInstallBannerProps {
 
 export const PWAInstallBanner: React.FC<PWAInstallBannerProps> = ({ onInstall, canInstall }) => {
   const [dismissed, setDismissed] = useState(false);
-  const [isIOS, setIsIOS] = useState(false);
-  const [showIOSInstructions, setShowIOSInstructions] = useState(false);
-
-  useEffect(() => {
+  const [isIOS] = useState(() => {
+    if (typeof window === 'undefined') return false;
     const userAgent = window.navigator.userAgent.toLowerCase();
     const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-    if (isIosDevice && !isStandalone) {
-      setIsIOS(true);
-    }
-  }, []);
+    return isIosDevice && !isStandalone;
+  });
+  const [showIOSInstructions, setShowIOSInstructions] = useState(false);
 
   if (dismissed) return null;
 

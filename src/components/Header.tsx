@@ -5,7 +5,11 @@ import {
   Bookmark, 
   Search, 
   SlidersHorizontal,
-  X
+  X,
+  Bell,
+  Compass,
+  BarChart3,
+  Newspaper
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -20,6 +24,9 @@ interface HeaderProps {
   onInstallPWA: () => void;
   canInstallPWA: boolean;
   lastScrapedTime?: string;
+  onOpenNotifications: () => void;
+  activeView: 'feed' | 'radar' | 'polls';
+  onSelectView: (view: 'feed' | 'radar' | 'polls') => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -34,6 +41,9 @@ export const Header: React.FC<HeaderProps> = ({
   onInstallPWA,
   canInstallPWA,
   lastScrapedTime,
+  onOpenNotifications,
+  activeView,
+  onSelectView
 }) => {
   const [currentTime, setCurrentTime] = useState<string>('');
 
@@ -87,26 +97,42 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Logo and Tagline */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-red-600 flex items-center justify-center font-black text-white text-xl tracking-tighter shadow-md border border-red-500">
+            <button 
+              onClick={() => onSelectView('feed')}
+              className="w-10 h-10 rounded-lg bg-red-600 hover:bg-red-500 flex items-center justify-center font-black text-white text-xl tracking-tighter shadow-md border border-red-500 text-left transition-colors"
+              title="Return to Home Feed"
+            >
               TT
-            </div>
+            </button>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-black tracking-tight text-white m-0 p-0 font-sans">
-                  TRENDING<span className="text-red-500">.TT</span>
-                </h1>
+                <button
+                  onClick={() => onSelectView('feed')}
+                  className="text-left group"
+                >
+                  <h1 className="text-2xl font-black tracking-tight text-white m-0 p-0 font-sans group-hover:text-red-400 transition-colors">
+                    TRENDING<span className="text-red-500">.TT</span>
+                  </h1>
+                </button>
                 <span className="text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
                   PWA 2.0
                 </span>
               </div>
               <p className="text-xs text-slate-400 font-medium tracking-wide">
-                Unified News & Social Media Radar • TV6, CNC3, TTT, I.A.N, TikTok, Facebook & Newsday
+                Unified News & Social Media Radar • TV6, CNC3, TTT, I.A.N, TikTok & Newsday
               </p>
             </div>
           </div>
 
           {/* Mobile buttons */}
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-1.5 md:hidden">
+            <button
+              onClick={onOpenNotifications}
+              className="p-2 rounded-lg bg-slate-800 text-amber-400 border border-slate-700 active:scale-95 transition-transform"
+              title="Push Notifications"
+            >
+              <Bell className="w-4 h-4" />
+            </button>
             <button
               onClick={onRefresh}
               disabled={isRefreshing}
@@ -132,7 +158,7 @@ export const Header: React.FC<HeaderProps> = ({
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search Trinidad news, TikToks, WASA, crime, sports..."
+              placeholder="Search Trinidad news, TikToks, WASA, highways..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               className="w-full pl-9 pr-8 py-2 bg-slate-950 text-slate-100 placeholder-slate-500 text-sm rounded-lg border border-slate-800 focus:outline-none focus:border-red-500 transition-colors"
@@ -149,6 +175,16 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-2 shrink-0">
+            {/* Notification Bell */}
+            <button
+              onClick={onOpenNotifications}
+              className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition-colors relative"
+              title="Push Notification Settings"
+            >
+              <Bell className="w-4 h-4" />
+              <span className="w-2 h-2 rounded-full bg-red-500 absolute top-1.5 right-1.5 animate-pulse" />
+            </button>
+
             <button
               onClick={onRefresh}
               disabled={isRefreshing}
@@ -190,6 +226,57 @@ export const Header: React.FC<HeaderProps> = ({
                 <span>Install PWA</span>
               </button>
             )}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Section Navigation Bar: News Feed, Traffic Radar, Trinbago Polls */}
+      <div className="bg-slate-950 border-t border-slate-800/80 px-4 py-1.5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-x-auto no-scrollbar scrollbar-none">
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => onSelectView('feed')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                activeView === 'feed'
+                  ? 'bg-red-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              }`}
+            >
+              <Newspaper className="w-3.5 h-3.5" />
+              <span>National News Feed</span>
+            </button>
+
+            <button
+              onClick={() => onSelectView('radar')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all relative ${
+                activeView === 'radar'
+                  ? 'bg-red-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5 text-amber-400" />
+              <span>Traffic & Weather Radar</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+            </button>
+
+            <button
+              onClick={() => onSelectView('polls')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                activeView === 'polls'
+                  ? 'bg-red-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              }`}
+            >
+              <BarChart3 className="w-3.5 h-3.5 text-purple-400" />
+              <span>Trinbago Polls</span>
+              <span className="text-[10px] bg-purple-950/80 text-purple-300 px-1.5 py-0.2 rounded border border-purple-800">
+                Vote
+              </span>
+            </button>
+          </div>
+
+          <div className="hidden sm:flex items-center gap-2 text-[11px] text-slate-500 font-mono">
+            <span>Port of Spain • San Fernando • Chaguanas • Arima • Scarborough</span>
           </div>
         </div>
       </div>

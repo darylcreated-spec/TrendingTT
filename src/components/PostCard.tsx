@@ -26,6 +26,17 @@ interface PostCardProps {
   onWhatsAppShare: (post: Post) => void;
 }
 
+const formatRelativeTime = (isoString: string) => {
+  const diff = Math.max(0, Date.now() - new Date(isoString).getTime());
+  const mins = Math.floor(diff / (1000 * 60));
+  if (mins < 1) return 'Just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+};
+
 export const PostCard: React.FC<PostCardProps> = ({
   post,
   isUpvoted,
@@ -41,17 +52,6 @@ export const PostCard: React.FC<PostCardProps> = ({
     badgeBg: 'bg-slate-800 text-slate-300 border-slate-700',
     badgeText: post.sourceName,
     verified: false,
-  };
-
-  const formatRelativeTime = (isoString: string) => {
-    const diff = Math.max(0, Date.now() - new Date(isoString).getTime());
-    const mins = Math.floor(diff / (1000 * 60));
-    if (mins < 1) return 'Just now';
-    if (mins < 60) return `${mins}m ago`;
-    const hours = Math.floor(mins / 60);
-    if (hours < 24) return `${hours}h ago`;
-    const days = Math.floor(hours / 24);
-    return `${days}d ago`;
   };
 
   const getSourceIcon = () => {

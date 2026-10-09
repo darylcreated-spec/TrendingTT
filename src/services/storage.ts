@@ -1,11 +1,26 @@
-import type { Comment } from '../types';
+import type { Comment, NotificationSettings, CommunityReport } from '../types';
 import { INITIAL_COMMENTS } from '../data/mockPosts';
+import { INITIAL_COMMUNITY_REPORTS } from '../data/radarAndPollData';
 
 const STORAGE_KEYS = {
   UPVOTES: 'trending_tt_upvotes',
   BOOKMARKS: 'trending_tt_bookmarks',
   COMMENTS: 'trending_tt_comments',
   CUSTOM_POSTS: 'trending_tt_custom_posts',
+  POLL_VOTES: 'trending_tt_user_poll_votes',
+  POLL_DYNAMIC_COUNTS: 'trending_tt_poll_extra_counts',
+  NOTIFICATIONS: 'trending_tt_notification_settings',
+  COMMUNITY_REPORTS: 'trending_tt_community_reports',
+  CONFIRMED_REPORTS: 'trending_tt_confirmed_reports'
+};
+
+const DEFAULT_NOTIFICATIONS: NotificationSettings = {
+  enabled: false,
+  permission: typeof window !== 'undefined' && 'Notification' in window ? Notification.permission : 'default',
+  breakingNews: true,
+  weatherAlerts: true,
+  trafficAlerts: true,
+  dailyPolls: false,
 };
 
 export const Storage = {
@@ -88,10 +103,156 @@ export const Storage = {
       }
       parsedCustom[postId].unshift(newComment);
       localStorage.setItem(STORAGE_KEYS.COMMENTS, JSON.stringify(parsedCustom));
-    } catch (err) {
-      console.error('Failed to store comment:', err);
+    } catch (e) {
+      void e;
     }
 
     return newComment;
+  },
+
+  // Option C: Trinbago Sentiment Poll Storage
+  getUserPollVotes(): Record<string, string> {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.POLL_VOTES);
+      return data ? JSON.parse(data) : {};
+    } catch {
+      return {};
+    }
+  },
+
+  getPollExtraCounts(): Record<string, Record<string, number>> {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.POLL_DYNAMIC_COUNTS);
+      return data ? JSON.parse(data) : {};
+    } catch {
+      return {};
+    }
+  },
+
+  castPollVote(pollId: string, optionId: string): { 
+    userVotes: Record<string, string>; 
+    extraCounts: Record<string, Record<string, number>> 
+  } {
+    const userVotes = this.getUserPollVotes();
+    const extraCounts = this.getPollExtraCounts();
+
+    const previousOptionId = userVotes[pollId];
+
+    if (!extraCounts[pollId]) {
+      extraCounts[pollId] = {};
+    }
+
+    // If changing vote from an earlier option, decrement previous
+    if (previousOptionId && previousOptionId !== optionId) {
+      extraCounts[pollId][previousOptionId] = Math.max(0, (extraCounts[pollId][previousOptionId] || 1) - 1);
+    }
+
+    // Increment newly voted option
+    if (previousOptionId !== optionId) {
+      extraCounts[pollId][optionId] = (extraCounts[pollId][optionId] || 0) + 1;
+      userVotes[pollId] = optionId;
+    }
+
+    try {
+      localStorage.setItem(STORAGE_KEYS.POLL_VOTES, JSON.stringify(userVotes));
+      localStorage.setItem(STORAGE_KEYS.POLL_DYNAMIC_COUNTS, JSON.stringify(extraCounts));
+    } catch (e) {
+      void e;
+    }
+
+    return { userVotes, extraCounts };
+  },
+
+  // Option D: Push Notification Storage
+  getNotificationSettings(): NotificationSettings {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS);
+      if (data) {
+        const parsed = JSON.parse(data);
+        return {
+          ...DEFAULT_NOTIFICATIONS,
+          ...parsed,
+          permission: typeof window !== 'undefined' && 'Notification' in window ? Notification.permission : 'default'
+        };
+      }
+    } catch {
+      // Fallback
+    }
+    return DEFAULT_NOTIFICATIONS;
+  },
+
+  saveNotificationSettings(settings: Partial<NotificationSettings>): NotificationSettings {
+    const current = this.getNotificationSettings();
+    const updated: NotificationSettings = {
+      ...current,
+      ...settings,
+      permission: typeof window !== 'undefined' && 'Notification' in window ? Notification.permission : 'default'
+    };
+    try {
+      localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(updated));
+    } catch (e) {
+      void e;
+    }
+    return updated;
+  },
+
+  // Option B: Community Traffic & Flood Reports
+  getCommunityReports(): CommunityReport[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.COMMUNITY_REPORTS);
+      const customReports: CommunityReport[] = data ? JSON.parse(data) : [];
+      return [...customReports, ...INITIAL_COMMUNITY_REPORTS];
+    } catch {
+      return INITIAL_COMMUNITY_REPORTS;
+    }
+  },
+
+  addCommunityReport(report: Omit<CommunityReport, 'id' | 'reportedTime' | 'confirmations'>): CommunityReport {
+    const newReport: CommunityReport = {
+      ...report,
+      id: `report-${Date.now()}`,
+      reportedTime: 'Just now',
+      confirmations: 1,
+      isVerified: false
+    };
+
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.COMMUNITY_REPORTS);
+      const existing: CommunityReport[] = data ? JSON.parse(data) : [];
+      existing.unshift(newReport);
+      localStorage.setItem(STORAGE_KEYS.COMMUNITY_REPORTS, JSON.stringify(existing));
+    } catch (e) {
+      void e;
+    }
+
+    return newReport;
+  },
+
+  getConfirmedReportIds(): string[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.CONFIRMED_REPORTS);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  },
+
+  toggleConfirmReport(reportId: string): { confirmed: boolean; allConfirmed: string[] } {
+    const confirmed = this.getConfirmedReportIds();
+    const index = confirmed.indexOf(reportId);
+    let isNowConfirmed = false;
+    if (index > -1) {
+      confirmed.splice(index, 1);
+      isNowConfirmed = false;
+    } else {
+      confirmed.push(reportId);
+      isNowConfirmed = true;
+    }
+    try {
+      localStorage.setItem(STORAGE_KEYS.CONFIRMED_REPORTS, JSON.stringify(confirmed));
+    } catch (e) {
+      void e;
+    }
+    return { confirmed: isNowConfirmed, allConfirmed: confirmed };
   }
 };

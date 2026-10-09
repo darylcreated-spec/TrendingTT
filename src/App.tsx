@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import type { Post, Category, SortOption, SourceId } from './types';
 import { INITIAL_POSTS } from './data/mockPosts';
 import { SOURCES } from './data/sources';
@@ -12,29 +12,38 @@ import { CommentDrawer } from './components/CommentDrawer';
 import { ShareModal } from './components/ShareModal';
 import { SourcesModal } from './components/SourcesModal';
 import { PWAInstallBanner } from './components/PWAInstallBanner';
+import { TrafficWeatherRadar } from './components/TrafficWeatherRadar';
+import { TrinbagoPoll } from './components/TrinbagoPoll';
+import { NotificationModal } from './components/NotificationModal';
+import { RadarAlertBanner } from './components/RadarAlertBanner';
 import { 
   Inbox, 
   CheckCircle,
 } from 'lucide-react';
 
 export const App: React.FC = () => {
+  // Navigation & View mode: Feed, Radar, or Polls
+  const [activeView, setActiveView] = useState<'feed' | 'radar' | 'polls'>('feed');
+
+  // Core Feed States
   const [posts, setPosts] = useState<Post[]>(INITIAL_POSTS);
   const [category, setCategory] = useState<Category>('all');
   const [sortOption, setSortOption] = useState<SortOption>('trending');
-  const [selectedSources, setSelectedSources] = useState<SourceId[]>(
+  const [selectedSources, setSelectedSources] = useState<SourceId[]>(() =>
     Object.keys(SOURCES) as SourceId[]
   );
   const [searchQuery, setSearchQuery] = useState('');
   const [showBookmarksOnly, setShowBookmarksOnly] = useState(false);
 
-  // Persistence States
-  const [upvotedIds, setUpvotedIds] = useState<string[]>([]);
-  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
+  // Persistence States (lazy initialized)
+  const [upvotedIds, setUpvotedIds] = useState<string[]>(() => Storage.getUpvotedPosts());
+  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(() => Storage.getBookmarks());
 
   // Modals & Drawers
   const [commentPost, setCommentPost] = useState<Post | null>(null);
   const [sharePost, setSharePost] = useState<Post | null>(null);
   const [isSourcesModalOpen, setIsSourcesModalOpen] = useState(false);
+  const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
 
   // Scraper & PWA status
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -42,11 +51,42 @@ export const App: React.FC = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Initialize stored upvotes, bookmarks, and PWA install events
-  useEffect(() => {
-    setUpvotedIds(Storage.getUpvotedPosts());
-    setBookmarkedIds(Storage.getBookmarks());
+  const showToast = useCallback((msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3500);
+  }, []);
 
+  // Live Scrape Trigger (Manual or Auto-Background)
+  const handleTriggerScrape = useCallback(async (silent = false) => {
+    setIsRefreshing(true);
+    try {
+      const result = await fetchLiveTTFeeds();
+      if (result.newPosts.length > 0) {
+        setPosts((prev) => {
+          const existingIds = new Set(prev.map((p) => p.title));
+          const uniqueNew = result.newPosts.filter((p) => !existingIds.has(p.title));
+          return [...uniqueNew, ...prev];
+        });
+        if (!silent) {
+          showToast(`Scraped ${result.newPosts.length} fresh updates from TT media`);
+        }
+      } else {
+        if (!silent) {
+          showToast('Feeds up to date. No new bulletins at this moment.');
+        }
+      }
+      setLastScrapedTime(result.timestamp);
+    } catch {
+      if (!silent) {
+        showToast('Scraper refresh finished.');
+      }
+    } finally {
+      setIsRefreshing(false);
+    }
+  }, [showToast]);
+
+  // Initialize PWA install events and auto-refresh timers
+  useEffect(() => {
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e);
@@ -72,12 +112,7 @@ export const App: React.FC = () => {
       clearInterval(autoRefreshTimer);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
-
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3000);
-  };
+  }, [handleTriggerScrape]);
 
   // Upvote Handler
   const handleToggleUpvote = (postId: string) => {
@@ -121,35 +156,6 @@ export const App: React.FC = () => {
     const url = window.location.origin ? `${window.location.origin}/#post-${post.id}` : post.originalUrl;
     const text = `*${post.title}*\n\nRead on Trending TT (Trinidad & Tobago Live Dashboard):\n${url}\n\nSource: ${post.sourceName}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-  };
-
-  // Live Scrape Trigger (Manual or Auto-Background)
-  const handleTriggerScrape = async (silent = false) => {
-    setIsRefreshing(true);
-    try {
-      const result = await fetchLiveTTFeeds();
-      if (result.newPosts.length > 0) {
-        setPosts((prev) => {
-          const existingIds = new Set(prev.map((p) => p.title));
-          const uniqueNew = result.newPosts.filter((p) => !existingIds.has(p.title));
-          return [...uniqueNew, ...prev];
-        });
-        if (!silent) {
-          showToast(`Scraped ${result.newPosts.length} fresh updates from TT media`);
-        }
-      } else {
-        if (!silent) {
-          showToast('Feeds up to date. No new bulletins at this moment.');
-        }
-      }
-      setLastScrapedTime(result.timestamp);
-    } catch {
-      if (!silent) {
-        showToast('Scraper refresh finished.');
-      }
-    } finally {
-      setIsRefreshing(false);
-    }
   };
 
   // PWA Install Prompt
@@ -234,7 +240,7 @@ export const App: React.FC = () => {
 
       {/* Main Masthead Header */}
       <Header
-        onRefresh={handleTriggerScrape}
+        onRefresh={() => handleTriggerScrape(false)}
         isRefreshing={isRefreshing}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
@@ -245,6 +251,9 @@ export const App: React.FC = () => {
         onInstallPWA={handleInstallPWA}
         canInstallPWA={Boolean(deferredPrompt)}
         lastScrapedTime={lastScrapedTime}
+        onOpenNotifications={() => setIsNotificationModalOpen(true)}
+        activeView={activeView}
+        onSelectView={setActiveView}
       />
 
       {/* Breaking News Ticker Bar */}
@@ -253,79 +262,115 @@ export const App: React.FC = () => {
         onSelectPost={(post) => setCommentPost(post)}
       />
 
-      {/* Category Navigation & Sorting Tabs */}
-      <CategoryNav
-        activeCategory={category}
-        onSelectCategory={setCategory}
-        activeSort={sortOption}
-        onSelectSort={setSortOption}
-      />
+      {/* Category Navigation & Sorting Tabs (Only shown on news feed) */}
+      {activeView === 'feed' && (
+        <CategoryNav
+          activeCategory={category}
+          onSelectCategory={setCategory}
+          activeSort={sortOption}
+          onSelectSort={setSortOption}
+        />
+      )}
 
-      {/* Main Feed Content Area */}
+      {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
-        {/* Active Filter Indicator */}
-        {(showBookmarksOnly || searchQuery || selectedSources.length < Object.keys(SOURCES).length) && (
-          <div className="mb-4 p-3 bg-slate-900 rounded-xl border border-slate-800 flex items-center justify-between text-xs">
-            <span className="text-slate-300">
-              {showBookmarksOnly && <strong className="text-red-400">Showing Saved Articles • </strong>}
-              {searchQuery && <>Filtering by: &quot;{searchQuery}&quot; • </>}
-              <span>{selectedSources.length} of {Object.keys(SOURCES).length} outlets active</span>
-            </span>
-            <button
-              onClick={() => {
-                setShowBookmarksOnly(false);
-                setSearchQuery('');
-                setSelectedSources(Object.keys(SOURCES) as SourceId[]);
-                setCategory('all');
-              }}
-              className="text-red-400 hover:text-red-300 font-bold underline ml-2"
-            >
-              Reset Filters
-            </button>
+        {/* OPTION B VIEW: TRAFFIC & WEATHER RADAR */}
+        {activeView === 'radar' && (
+          <TrafficWeatherRadar
+            onShowToast={showToast}
+            onOpenNotifications={() => setIsNotificationModalOpen(true)}
+          />
+        )}
+
+        {/* OPTION C VIEW: TRINBAGO SENTIMENT POLLS */}
+        {activeView === 'polls' && (
+          <div className="space-y-6">
+            <TrinbagoPoll 
+              onShowToast={showToast} 
+              featuredOnly={false} 
+            />
           </div>
         )}
 
-        {/* Posts Grid */}
-        {sortedPosts.length === 0 ? (
-          <div className="text-center py-20 bg-slate-900/50 rounded-2xl border border-slate-800 p-8 my-8">
-            <Inbox className="w-12 h-12 mx-auto text-slate-600 mb-3" />
-            <h3 className="text-lg font-bold text-slate-200">No stories match your filter</h3>
-            <p className="text-xs text-slate-400 max-w-md mx-auto mt-1 mb-5">
-              Try adjusting your category selection, search terms, or enable more media outlets.
-            </p>
-            <button
-              onClick={() => {
-                setCategory('all');
-                setSearchQuery('');
-                setShowBookmarksOnly(false);
-                setSelectedSources(Object.keys(SOURCES) as SourceId[]);
-              }}
-              className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-bold"
-            >
-              Show All Feeds
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {sortedPosts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                isUpvoted={upvotedIds.includes(post.id)}
-                isBookmarked={bookmarkedIds.includes(post.id)}
-                onToggleUpvote={handleToggleUpvote}
-                onToggleBookmark={handleToggleBookmark}
-                onOpenComments={setCommentPost}
-                onShare={setSharePost}
-                onWhatsAppShare={handleWhatsAppShare}
+        {/* DEFAULT VIEW: NATIONAL NEWS FEED */}
+        {activeView === 'feed' && (
+          <>
+            {/* Live Traffic & Weather Radar Teaser Banner */}
+            <RadarAlertBanner onOpenRadar={() => setActiveView('radar')} />
+
+            {/* Featured Trinbago Poll of the Day Card */}
+            <div className="mb-6">
+              <TrinbagoPoll 
+                onShowToast={showToast} 
+                featuredOnly={true} 
               />
-            ))}
-          </div>
+            </div>
+
+            {/* Active Filter Indicator */}
+            {(showBookmarksOnly || searchQuery || selectedSources.length < Object.keys(SOURCES).length) && (
+              <div className="mb-4 p-3 bg-slate-900 rounded-xl border border-slate-800 flex items-center justify-between text-xs">
+                <span className="text-slate-300">
+                  {showBookmarksOnly && <strong className="text-red-400">Showing Saved Articles • </strong>}
+                  {searchQuery && <>Filtering by: &quot;{searchQuery}&quot; • </>}
+                  <span>{selectedSources.length} of {Object.keys(SOURCES).length} outlets active</span>
+                </span>
+                <button
+                  onClick={() => {
+                    setShowBookmarksOnly(false);
+                    setSearchQuery('');
+                    setSelectedSources(Object.keys(SOURCES) as SourceId[]);
+                    setCategory('all');
+                  }}
+                  className="text-red-400 hover:text-red-300 font-bold underline ml-2"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            )}
+
+            {/* Posts Grid */}
+            {sortedPosts.length === 0 ? (
+              <div className="text-center py-20 bg-slate-900/50 rounded-2xl border border-slate-800 p-8 my-8">
+                <Inbox className="w-12 h-12 mx-auto text-slate-600 mb-3" />
+                <h3 className="text-lg font-bold text-slate-200">No stories match your filter</h3>
+                <p className="text-xs text-slate-400 max-w-md mx-auto mt-1 mb-5">
+                  Try adjusting your category selection, search terms, or enable more media outlets.
+                </p>
+                <button
+                  onClick={() => {
+                    setCategory('all');
+                    setSearchQuery('');
+                    setShowBookmarksOnly(false);
+                    setSelectedSources(Object.keys(SOURCES) as SourceId[]);
+                  }}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-bold"
+                >
+                  Show All Feeds
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {sortedPosts.map((post) => (
+                  <PostCard
+                    key={post.id}
+                    post={post}
+                    isUpvoted={upvotedIds.includes(post.id)}
+                    isBookmarked={bookmarkedIds.includes(post.id)}
+                    onToggleUpvote={handleToggleUpvote}
+                    onToggleBookmark={handleToggleBookmark}
+                    onOpenComments={setCommentPost}
+                    onShare={setSharePost}
+                    onWhatsAppShare={handleWhatsAppShare}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-950 border-t border-slate-850 py-8 px-4 text-center text-xs text-slate-500 border-t border-slate-800">
+      <footer className="bg-slate-950 py-8 px-4 text-center text-xs text-slate-500 border-t border-slate-800">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-red-600"></span>
@@ -371,6 +416,13 @@ export const App: React.FC = () => {
         }}
         onSelectAll={() => setSelectedSources(Object.keys(SOURCES) as SourceId[])}
         onDeselectAll={() => setSelectedSources([])}
+      />
+
+      {/* Push Notification Settings Modal */}
+      <NotificationModal
+        isOpen={isNotificationModalOpen}
+        onClose={() => setIsNotificationModalOpen(false)}
+        onShowToast={showToast}
       />
 
       {/* Toast Notification */}

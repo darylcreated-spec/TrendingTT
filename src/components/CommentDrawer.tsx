@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import type { Post, Comment } from '../types';
 import { Storage } from '../services/storage';
 import { X, Send, ThumbsUp, MessageSquare, MapPin, User } from 'lucide-react';
@@ -25,26 +25,32 @@ const TT_LOCATIONS = [
   'Trinidad Diaspora (Abroad)',
 ];
 
-export const CommentDrawer: React.FC<CommentDrawerProps> = ({
+const formatTime = (isoString: string) => {
+  const diff = Math.max(0, Date.now() - new Date(isoString).getTime());
+  const mins = Math.floor(diff / (1000 * 60));
+  if (mins < 1) return 'Just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return new Date(isoString).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+};
+
+interface CommentDrawerContentProps {
+  post: Post;
+  onClose: () => void;
+  onCommentAdded: (postId: string) => void;
+}
+
+const CommentDrawerContent: React.FC<CommentDrawerContentProps> = ({
   post,
-  isOpen,
   onClose,
   onCommentAdded,
 }) => {
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<Comment[]>(() => Storage.getComments(post.id));
   const [commentText, setCommentText] = useState('');
   const [authorName, setAuthorName] = useState('');
   const [authorLocation, setAuthorLocation] = useState(TT_LOCATIONS[0]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    if (post && isOpen) {
-      const loaded = Storage.getComments(post.id);
-      setComments(loaded);
-    }
-  }, [post, isOpen]);
-
-  if (!isOpen || !post) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,16 +64,6 @@ export const CommentDrawer: React.FC<CommentDrawerProps> = ({
     setCommentText('');
     setIsSubmitting(false);
     onCommentAdded(post.id);
-  };
-
-  const formatTime = (isoString: string) => {
-    const diff = Math.max(0, Date.now() - new Date(isoString).getTime());
-    const mins = Math.floor(diff / (1000 * 60));
-    if (mins < 1) return 'Just now';
-    if (mins < 60) return `${mins}m ago`;
-    const hours = Math.floor(mins / 60);
-    if (hours < 24) return `${hours}h ago`;
-    return new Date(isoString).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
   return (
@@ -193,3 +189,21 @@ export const CommentDrawer: React.FC<CommentDrawerProps> = ({
     </div>
   );
 };
+
+export const CommentDrawer: React.FC<CommentDrawerProps> = ({
+  post,
+  isOpen,
+  onClose,
+  onCommentAdded,
+}) => {
+  if (!isOpen || !post) return null;
+  return (
+    <CommentDrawerContent
+      key={post.id}
+      post={post}
+      onClose={onClose}
+      onCommentAdded={onCommentAdded}
+    />
+  );
+};
+
