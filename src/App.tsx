@@ -20,6 +20,8 @@ import { NotificationModal } from './components/NotificationModal';
 import { RadarAlertBanner } from './components/RadarAlertBanner';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { ImageZoomLightbox, type ZoomMedia } from './components/ImageZoomLightbox';
+import { SectionedFeed } from './components/SectionedFeed';
+import { BriefingModal } from './components/BriefingModal';
 import { 
   Inbox, 
   CheckCircle,
@@ -48,6 +50,8 @@ export const App: React.FC = () => {
   const [sharePost, setSharePost] = useState<Post | null>(null);
   const [isSourcesModalOpen, setIsSourcesModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
+  const [isBriefingModalOpen, setIsBriefingModalOpen] = useState(false);
+  const [feedLayout, setFeedLayout] = useState<'sections' | 'stream'>('sections');
   const [zoomMedia, setZoomMedia] = useState<ZoomMedia | null>(null);
 
   // Touch swipe navigation between views (Feed <-> Radar <-> Polls)
@@ -327,6 +331,7 @@ export const App: React.FC = () => {
         onOpenNotifications={() => setIsNotificationModalOpen(true)}
         activeView={activeView}
         onSelectView={setActiveView}
+        onOpenBriefing={() => setIsBriefingModalOpen(true)}
       />
 
       {/* Breaking News Ticker Bar */}
@@ -342,6 +347,8 @@ export const App: React.FC = () => {
           onSelectCategory={setCategory}
           activeSort={sortOption}
           onSelectSort={setSortOption}
+          feedLayout={feedLayout}
+          onToggleFeedLayout={setFeedLayout}
         />
       )}
 
@@ -413,7 +420,7 @@ export const App: React.FC = () => {
               </div>
             )}
 
-            {/* Posts Grid */}
+            {/* Posts Content: Curated Editorial Sections vs Stream Grid */}
             {sortedPosts.length === 0 ? (
               <div className="text-center py-20 bg-slate-900/50 rounded-2xl border border-slate-800 p-8 my-8">
                 <Inbox className="w-12 h-12 mx-auto text-slate-600 mb-3" />
@@ -433,6 +440,20 @@ export const App: React.FC = () => {
                   Show All Feeds
                 </button>
               </div>
+            ) : feedLayout === 'sections' && !showBookmarksOnly && !searchQuery && category === 'all' ? (
+              <SectionedFeed
+                posts={sortedPosts}
+                upvotedIds={upvotedIds}
+                bookmarkedIds={bookmarkedIds}
+                onToggleUpvote={handleToggleUpvote}
+                onToggleBookmark={handleToggleBookmark}
+                onOpenComments={setCommentPost}
+                onShare={setSharePost}
+                onWhatsAppShare={handleWhatsAppShare}
+                onMediaClick={setZoomMedia}
+                onOpenBriefingModal={() => setIsBriefingModalOpen(true)}
+                onSelectCategory={setCategory}
+              />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {sortedPosts.map((post) => (
@@ -516,6 +537,18 @@ export const App: React.FC = () => {
         media={zoomMedia}
         isOpen={Boolean(zoomMedia)}
         onClose={() => setZoomMedia(null)}
+      />
+
+      {/* Intelligence Briefing & NotebookLM Synthesizer Modal */}
+      <BriefingModal
+        isOpen={isBriefingModalOpen}
+        onClose={() => setIsBriefingModalOpen(false)}
+        posts={posts}
+        onPublishPost={(newPost) => {
+          setPosts((prev) => [newPost, ...prev]);
+        }}
+        onCrossPost={(post) => setSharePost(post)}
+        onShowToast={showToast}
       />
 
       {/* Mobile Bottom Navigation Bar (1-Thumb Ergonomics) */}

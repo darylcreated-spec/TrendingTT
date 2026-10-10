@@ -8,6 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "test": "node scripts/test-verification.mjs",
+    "ingest": "node scripts/ingestion-worker.mjs",
+    "ingest:mock": "node scripts/ingestion-worker.mjs --mock",
+    "ingest:dry": "node scripts/ingestion-worker.mjs --dry-run",
     "preview": "vite preview"
   },
   "dependencies": {

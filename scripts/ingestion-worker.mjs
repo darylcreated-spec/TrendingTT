@@ -140,6 +140,17 @@ export const INGESTION_TARGETS = {
       category: 'social',
       label: 'CNC3 News Instagram Reels',
       tags: ['CNC3 Reels', 'Breaking Instagram', 'Caribbean']
+    },
+    {
+      id: 'bridge-fb-express-sports',
+      bridgeType: 'Facebook',
+      username: 'TrinidadExpressNewspapers',
+      sourceId: 'express',
+      sourceName: 'Trinidad Express Sports',
+      sourceType: 'newspaper',
+      category: 'sports',
+      label: 'Express Sports & Cricket Desk',
+      tags: ['Soca Warriors', 'Red Force', 'CPL', 'Secondary Schools Cricket']
     }
   ]
 };
@@ -416,6 +427,54 @@ export const OFFLINE_FALLBACK_POSTS = [
       url: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80',
       aspectRatio: 'portrait',
       videoDuration: '0:52'
+    }
+  },
+  {
+    id: 'sports-express-soca-warriors-brief',
+    targetId: 'bridge-fb-express-sports',
+    title: 'Soca Warriors Squad Confirmed for Concacaf Nations League Knockout Stage',
+    summary: 'National football coaches release a sharp 24-man roster blending European-based strikers with standout TT Premier Football League midfielders.',
+    content: 'The Trinidad & Tobago Football Association (TTFA) announced the 24-player squad preparing for next week\'s fixture at Hasely Crawford Stadium. Fan ticket sales surpass 10,000.',
+    sourceId: 'express',
+    sourceName: 'Trinidad Express Sports',
+    sourceType: 'newspaper',
+    author: 'Express Sports Editor',
+    originalUrl: 'https://trinidadexpress.com/sports/soca-warriors-knockout-roster',
+    publishedAt: new Date(Date.now() - 25 * 60 * 1000).toISOString(),
+    category: 'sports',
+    tags: ['Soca Warriors', 'TTFA', 'Concacaf', 'Hasely Crawford Stadium'],
+    trendingScore: 97,
+    upvotes: 512,
+    commentsCount: 94,
+    isBreaking: false,
+    media: {
+      type: 'image',
+      url: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
+      aspectRatio: 'landscape'
+    }
+  },
+  {
+    id: 'sports-guardian-red-force-century',
+    targetId: 'bridge-fb-express-sports',
+    title: 'Super50 Cricket: Red Force storm past rivals with dominant century at Queen\'s Park Oval',
+    summary: 'A masterclass innings with 8 boundaries and 4 towering sixes propelled Trinidad & Tobago Red Force to a comprehensive victory in Port of Spain.',
+    content: 'Queen\'s Park Oval roared on Saturday afternoon as the Trinidad & Tobago Red Force defended their target with lethal pace and spin partnerships.',
+    sourceId: 'guardian',
+    sourceName: 'Guardian Media TT',
+    sourceType: 'newspaper',
+    author: 'Guardian Sports Reporter',
+    originalUrl: 'https://www.guardian.co.tt/sports/red-force-super50-masterclass',
+    publishedAt: new Date(Date.now() - 48 * 60 * 1000).toISOString(),
+    category: 'sports',
+    tags: ['Red Force', 'Cricket', 'Queens Park Oval', 'Super50 Regional'],
+    trendingScore: 93,
+    upvotes: 367,
+    commentsCount: 52,
+    isBreaking: false,
+    media: {
+      type: 'image',
+      url: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1200&q=80',
+      aspectRatio: 'landscape'
     }
   }
 ];

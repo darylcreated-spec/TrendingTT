@@ -30,6 +30,7 @@ interface HeaderProps {
   onOpenNotifications: () => void;
   activeView: ActiveView;
   onSelectView: (view: ActiveView) => void;
+  onOpenBriefing?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -46,7 +47,8 @@ export const Header: React.FC<HeaderProps> = ({
   lastScrapedTime,
   onOpenNotifications,
   activeView,
-  onSelectView
+  onSelectView,
+  onOpenBriefing
 }) => {
   const [currentTime, setCurrentTime] = useState<string>('');
 
@@ -129,6 +131,15 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Mobile buttons */}
           <div className="flex items-center gap-1.5 md:hidden">
+            {onOpenBriefing && (
+              <button
+                onClick={onOpenBriefing}
+                className="p-2 rounded-lg bg-red-950/80 text-red-400 border border-red-800/80 active:scale-95 transition-transform"
+                title="Intelligence Briefing & Synthesizer"
+              >
+                <Zap className="w-4 h-4" />
+              </button>
+            )}
             <button
               onClick={onOpenNotifications}
               className="p-2 rounded-lg bg-slate-800 text-amber-400 border border-slate-700 active:scale-95 transition-transform"
@@ -178,6 +189,17 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-2 shrink-0">
+            {onOpenBriefing && (
+              <button
+                onClick={onOpenBriefing}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-950/70 hover:bg-red-900/80 text-red-300 text-xs font-bold border border-red-800/80 active:scale-95 transition-all shadow-sm"
+                title="Intelligence Briefing & Synthesizer"
+              >
+                <Zap className="w-3.5 h-3.5 text-red-400" />
+                <span>Daily Brief</span>
+              </button>
+            )}
+
             {/* Notification Bell */}
             <button
               onClick={onOpenNotifications}

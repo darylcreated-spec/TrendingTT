@@ -3,12 +3,12 @@
     "generator": "Trending TT Ingestion Engine (yt-dlp + RSS-Bridge)",
     "version": "1.2.0",
     "timezone": "AST (America/Port_of_Spain)",
-    "generatedAt": "2026-10-09T21:00:26.727Z",
+    "generatedAt": "2026-10-10T10:18:12.444Z",
     "stats": {
       "ytDlpProcessed": 5,
-      "rssBridgeProcessed": 6,
-      "totalNormalized": 11,
-      "timestamp": "2026-10-09T21:00:24.511Z"
+      "rssBridgeProcessed": 7,
+      "totalNormalized": 12,
+      "timestamp": "2026-10-10T10:18:12.444Z"
     }
   },
   "posts": [
@@ -23,7 +23,7 @@
       "sourceType": "social",
       "author": "@maracas_vibes868",
       "originalUrl": "https://www.tiktok.com/tag/trinitiktok",
-      "publishedAt": "2026-10-09T20:24:24.510Z",
+      "publishedAt": "2026-10-10T09:42:12.444Z",
       "category": "culture",
       "tags": [
         "#trinitiktok",
@@ -53,7 +53,7 @@
       "sourceType": "broadcast",
       "author": "CCN TV6 News Desk",
       "originalUrl": "https://www.youtube.com/watch?v=tv6-sample-news-7pm",
-      "publishedAt": "2026-10-09T19:25:24.511Z",
+      "publishedAt": "2026-10-10T08:43:12.444Z",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -83,7 +83,7 @@
       "sourceType": "broadcast",
       "author": "CNC3 News Anchor",
       "originalUrl": "https://www.youtube.com/watch?v=cnc3-sample-evening-7",
-      "publishedAt": "2026-10-09T19:10:24.511Z",
+      "publishedAt": "2026-10-10T08:28:12.444Z",
       "category": "business",
       "tags": [
         "CNC3 News",
@@ -113,7 +113,7 @@
       "sourceType": "broadcast",
       "author": "TTT Live Studio",
       "originalUrl": "https://www.youtube.com/watch?v=ttt-sample-news-7pm",
-      "publishedAt": "2026-10-09T18:40:24.511Z",
+      "publishedAt": "2026-10-10T07:58:12.444Z",
       "category": "broadcast",
       "tags": [
         "TTT Live",
@@ -143,7 +143,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/videos/morvant-community-standoff",
-      "publishedAt": "2026-10-09T20:20:24.511Z",
+      "publishedAt": "2026-10-10T09:38:12.444Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -163,56 +163,60 @@
       }
     },
     {
-      "id": "rss-bridge-facebook-6ae47cbad593f288dd0700d1f858ad64eaa2a1b2",
-      "title": "“As you know, this amendment was triggered by what transpired in the Siparia Borough Corporation wit...",
-      "summary": "“As you know, this amendment was triggered by what transpired in the Siparia Borough Corporation with Jason Ali and alderman Victor Roberts; those two traitors who crossed the f...",
-      "content": "“As you know, this amendment was triggered by what transpired in the Siparia Borough Corporation with Jason Ali and alderman Victor Roberts; those two traitors who crossed the floor and went across to the PNM,” Mayrhoo said. READ HERE:https://trinidadexpress.com/newsextra/traitors-triggered-floor-crossing-amendment/article_8455c260-3e3b-4778-b1d8-1a905b7e516d.html",
+      "id": "bridge-fb-tv6-morning-edition",
+      "targetId": "bridge-fb-tv6",
+      "title": "CCN TV6 Facebook: Morning Edition panel debates food security and local agricultural incentives",
+      "summary": "TV6 official Facebook desk shares key takeaways from parliamentary discussion on local farming subsidies, root crop production, and lowering supermarket import bills.",
+      "content": "Viewers engaged in heated commentary under TV6 Morning Edition discussion regarding Trinidadian farmers, flood mitigation subsidies in Plum Mitan, and vegetable market price stabilization.",
       "sourceId": "tv6",
       "sourceName": "CCN TV6",
       "sourceType": "broadcast",
-      "author": "CCN TV6: Trinidad and Tobago",
-      "originalUrl": "https://www.facebook.com/CCNTV6/posts/pfbid02PbAoGUrUdMSuH3Fwj79RfyHRgHFRpwRhstW4gTeM5RByQ84btQVLPMbQD5EKe7Lvl",
-      "publishedAt": "2026-10-09T21:00:25.108Z",
+      "author": "CCN TV6 Digital Desk",
+      "originalUrl": "https://www.facebook.com/CCNTV6/posts/morning-edition-agriculture",
+      "publishedAt": "2026-10-10T09:03:12.444Z",
       "category": "broadcast",
       "tags": [
         "TV6 Facebook",
-        "News Alert",
-        "Trinidad"
+        "Morning Edition",
+        "Food Security",
+        "Trinidad Agriculture"
       ],
-      "trendingScore": 84,
-      "upvotes": 187,
-      "commentsCount": 49,
+      "trendingScore": 88,
+      "upvotes": 395,
+      "commentsCount": 94,
       "isBreaking": false,
       "media": {
         "type": "image",
-        "url": "https://scontent.xx.fbcdn.net/v/t39.99422-6/841229430_1512874854028812_972300313730591282_n.png?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s640x640&_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=pFSpIuphbhkQ7kNvwEgevGa&_nc_oc=AdqHs-hn0jRHDoVpLMw2Hmnv-9zKuifWAtSiDn5X6jEIh3Dkksia0JgHgJvDkBiI5rM&_nc_zt=14&_nc_ht=scontent.xx&_nc_gid=2AkiFBBiZFw3xqwmXxRWfw&_nc_ss=72289&oh=00_AQN1gbaNNeeLKGyw_tL5cRlllJE7qBh_xIkkjOMsag5MVg&oe=6ACF13BD",
+        "url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80",
         "aspectRatio": "landscape"
       }
     },
     {
-      "id": "rss-bridge-facebook-9b01699d61fdc7f49bb34a4f7d4230b7cbc5d273",
-      "title": "Videos from Saildrone and NOAA capture choppy waves and stormy seas filmed by a drone, as Hurricane ...",
-      "summary": "Videos from Saildrone and NOAA capture choppy waves and stormy seas filmed by a drone, as Hurricane Isaias moves through the Gulf of Mexico toward Florida on Friday.\nThe Categor...",
-      "content": "Videos from Saildrone and NOAA capture choppy waves and stormy seas filmed by a drone, as Hurricane Isaias moves through the Gulf of Mexico toward Florida on Friday.\nThe Category 3 storm has grown into a major hurricane — the first of an unusually quiet Atlantic season — and is expected to make landfall Friday night.\n[Video courtesy CNN]",
+      "id": "bridge-fb-cnc3-port-upgrade",
+      "targetId": "bridge-fb-cnc3",
+      "title": "CNC3 Facebook: Port of Spain container terminal deploys automated gate logistics",
+      "summary": "CNC3 Television Facebook feed highlights new digital processing systems at the Port Authority aimed at slashing trucker dwell times and freight delays.",
+      "content": "The Port Authority of Trinidad and Tobago announced completion of its Phase 2 automated gate logistics system. CNC3 Digital desk covers container terminal trucker reactions and port efficiency metrics.",
       "sourceId": "cnc3",
       "sourceName": "CNC3 Television",
       "sourceType": "broadcast",
-      "author": "CNC3 Television, Trinidad and Tobago",
-      "originalUrl": "https://www.facebook.com/reel/1537784948112925/",
-      "publishedAt": "2026-10-09T21:00:25.630Z",
-      "category": "broadcast",
+      "author": "CNC3 Television Digital Desk",
+      "originalUrl": "https://www.facebook.com/CNC3Television/posts/port-logistics-update",
+      "publishedAt": "2026-10-10T08:53:12.444Z",
+      "category": "business",
       "tags": [
         "CNC3 Facebook",
-        "Digital Desk",
-        "Trinidad"
+        "Port of Spain",
+        "Trade TT",
+        "Infrastructure"
       ],
-      "trendingScore": 92,
-      "upvotes": 155,
-      "commentsCount": 49,
+      "trendingScore": 87,
+      "upvotes": 340,
+      "commentsCount": 61,
       "isBreaking": false,
       "media": {
         "type": "image",
-        "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+        "url": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=80",
         "aspectRatio": "landscape"
       }
     },
@@ -227,7 +231,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/posts/central-division-highway",
-      "publishedAt": "2026-10-09T20:10:24.511Z",
+      "publishedAt": "2026-10-10T09:28:12.444Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -257,7 +261,7 @@
       "sourceType": "newspaper",
       "author": "Newsday Digital Desk",
       "originalUrl": "https://www.facebook.com/NewsdayTT/posts/sea-results-celebrations",
-      "publishedAt": "2026-10-09T18:00:24.511Z",
+      "publishedAt": "2026-10-10T07:18:12.444Z",
       "category": "culture",
       "tags": [
         "Newsday",
@@ -286,7 +290,7 @@
       "sourceType": "social",
       "author": "@tv6tnt",
       "originalUrl": "https://www.instagram.com/reel/tv6-pooran-sixes",
-      "publishedAt": "2026-10-09T18:50:24.511Z",
+      "publishedAt": "2026-10-10T08:08:12.444Z",
       "category": "sports",
       "tags": [
         "Cricket TT",
@@ -316,7 +320,7 @@
       "sourceType": "social",
       "author": "@cnc3news",
       "originalUrl": "https://www.instagram.com/reel/cnc3-all-stars-duke-street",
-      "publishedAt": "2026-10-09T19:55:24.511Z",
+      "publishedAt": "2026-10-10T09:13:12.444Z",
       "category": "culture",
       "tags": [
         "CNC3 Reels",
@@ -334,6 +338,35 @@
         "url": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80",
         "aspectRatio": "portrait",
         "videoDuration": "0:52"
+      }
+    },
+    {
+      "id": "sports-express-soca-warriors-brief",
+      "targetId": "bridge-fb-express-sports",
+      "title": "Soca Warriors Squad Confirmed for Concacaf Nations League Knockout Stage",
+      "summary": "National football coaches release a sharp 24-man roster blending European-based strikers with standout TT Premier Football League midfielders.",
+      "content": "The Trinidad & Tobago Football Association (TTFA) announced the 24-player squad preparing for next week's fixture at Hasely Crawford Stadium. Fan ticket sales surpass 10,000.",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express Sports",
+      "sourceType": "newspaper",
+      "author": "Express Sports Editor",
+      "originalUrl": "https://trinidadexpress.com/sports/soca-warriors-knockout-roster",
+      "publishedAt": "2026-10-10T09:53:12.444Z",
+      "category": "sports",
+      "tags": [
+        "Soca Warriors",
+        "TTFA",
+        "Concacaf",
+        "Hasely Crawford Stadium"
+      ],
+      "trendingScore": 97,
+      "upvotes": 512,
+      "commentsCount": 94,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
       }
     }
   ],
