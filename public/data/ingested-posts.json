@@ -3,12 +3,12 @@
     "generator": "Trending TT Ingestion Engine (yt-dlp + RSS-Bridge)",
     "version": "1.2.0",
     "timezone": "AST (America/Port_of_Spain)",
-    "generatedAt": "2026-10-11T15:53:50.175Z",
+    "generatedAt": "2026-10-11T19:57:55.165Z",
     "stats": {
       "ytDlpProcessed": 5,
       "rssBridgeProcessed": 7,
       "totalNormalized": 12,
-      "timestamp": "2026-10-11T15:53:37.110Z"
+      "timestamp": "2026-10-11T19:57:43.558Z"
     }
   },
   "posts": [
@@ -23,7 +23,7 @@
       "sourceType": "social",
       "author": "@maracas_vibes868",
       "originalUrl": "https://www.tiktok.com/tag/trinitiktok",
-      "publishedAt": "2026-10-11T15:17:37.109Z",
+      "publishedAt": "2026-10-11T19:21:43.557Z",
       "category": "culture",
       "tags": [
         "#trinitiktok",
@@ -53,7 +53,7 @@
       "sourceType": "broadcast",
       "author": "CCN TV6 News Desk",
       "originalUrl": "https://www.youtube.com/watch?v=tv6-sample-news-7pm",
-      "publishedAt": "2026-10-11T14:18:37.109Z",
+      "publishedAt": "2026-10-11T18:22:43.557Z",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -83,7 +83,7 @@
       "sourceType": "broadcast",
       "author": "CNC3 News Anchor",
       "originalUrl": "https://www.youtube.com/watch?v=cnc3-sample-evening-7",
-      "publishedAt": "2026-10-11T14:03:37.109Z",
+      "publishedAt": "2026-10-11T18:07:43.557Z",
       "category": "business",
       "tags": [
         "CNC3 News",
@@ -113,7 +113,7 @@
       "sourceType": "broadcast",
       "author": "TTT Live Studio",
       "originalUrl": "https://www.youtube.com/watch?v=ttt-sample-news-7pm",
-      "publishedAt": "2026-10-11T13:33:37.109Z",
+      "publishedAt": "2026-10-11T17:37:43.557Z",
       "category": "broadcast",
       "tags": [
         "TTT Live",
@@ -143,7 +143,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/videos/morvant-community-standoff",
-      "publishedAt": "2026-10-11T15:13:37.109Z",
+      "publishedAt": "2026-10-11T19:17:43.557Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -172,16 +172,16 @@
       "sourceType": "broadcast",
       "author": "CCN TV6: Trinidad and Tobago",
       "originalUrl": "https://www.facebook.com/CCNTV6/posts/pfbid0FAtm63cUzw1eH2wLJkS6t7aGd74UgzUUqNH7XMk92GZfwuUPdjkPhzxeD5MBCdXcl",
-      "publishedAt": "2026-10-11T15:53:45.633Z",
+      "publishedAt": "2026-10-11T19:57:52.310Z",
       "category": "broadcast",
       "tags": [
         "TV6 Facebook",
         "News Alert",
         "Trinidad"
       ],
-      "trendingScore": 89,
-      "upvotes": 105,
-      "commentsCount": 24,
+      "trendingScore": 92,
+      "upvotes": 77,
+      "commentsCount": 16,
       "isBreaking": false,
       "media": {
         "type": "image",
@@ -199,16 +199,16 @@
       "sourceType": "broadcast",
       "author": "CNC3 Television, Trinidad and Tobago",
       "originalUrl": "https://www.facebook.com/CNC3Television/posts/pfbid0H3fdo8y7VeWUtSzRAPuVMt45e8McKKSsQn933DPj8WzZG9jG5A9Muep4L1NNgX52l",
-      "publishedAt": "2026-10-11T15:53:45.908Z",
+      "publishedAt": "2026-10-11T19:57:52.591Z",
       "category": "broadcast",
       "tags": [
         "CNC3 Facebook",
         "Digital Desk",
         "Trinidad"
       ],
-      "trendingScore": 94,
-      "upvotes": 79,
-      "commentsCount": 16,
+      "trendingScore": 90,
+      "upvotes": 121,
+      "commentsCount": 12,
       "isBreaking": false,
       "media": {
         "type": "image",
@@ -227,7 +227,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/posts/central-division-highway",
-      "publishedAt": "2026-10-11T15:03:37.109Z",
+      "publishedAt": "2026-10-11T19:07:43.557Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -257,7 +257,7 @@
       "sourceType": "newspaper",
       "author": "Newsday Digital Desk",
       "originalUrl": "https://www.facebook.com/NewsdayTT/posts/sea-results-celebrations",
-      "publishedAt": "2026-10-11T12:53:37.109Z",
+      "publishedAt": "2026-10-11T16:57:43.557Z",
       "category": "culture",
       "tags": [
         "Newsday",
@@ -286,7 +286,7 @@
       "sourceType": "social",
       "author": "@tv6tnt",
       "originalUrl": "https://www.instagram.com/reel/tv6-pooran-sixes",
-      "publishedAt": "2026-10-11T13:43:37.109Z",
+      "publishedAt": "2026-10-11T17:47:43.557Z",
       "category": "sports",
       "tags": [
         "Cricket TT",
@@ -316,7 +316,7 @@
       "sourceType": "social",
       "author": "@cnc3news",
       "originalUrl": "https://www.instagram.com/reel/cnc3-all-stars-duke-street",
-      "publishedAt": "2026-10-11T14:48:37.109Z",
+      "publishedAt": "2026-10-11T18:52:43.557Z",
       "category": "culture",
       "tags": [
         "CNC3 Reels",
@@ -347,7 +347,7 @@
       "sourceType": "newspaper",
       "author": "Express Sports Editor",
       "originalUrl": "https://trinidadexpress.com/sports/soca-warriors-knockout-roster",
-      "publishedAt": "2026-10-11T15:28:37.109Z",
+      "publishedAt": "2026-10-11T19:32:43.557Z",
       "category": "sports",
       "tags": [
         "Soca Warriors",
