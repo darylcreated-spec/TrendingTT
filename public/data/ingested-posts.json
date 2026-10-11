@@ -3,12 +3,12 @@
     "generator": "Trending TT Ingestion Engine (yt-dlp + RSS-Bridge)",
     "version": "1.2.0",
     "timezone": "AST (America/Port_of_Spain)",
-    "generatedAt": "2026-10-11T19:57:55.165Z",
+    "generatedAt": "2026-10-11T23:33:47.991Z",
     "stats": {
       "ytDlpProcessed": 5,
       "rssBridgeProcessed": 7,
       "totalNormalized": 12,
-      "timestamp": "2026-10-11T19:57:43.558Z"
+      "timestamp": "2026-10-11T23:33:35.382Z"
     }
   },
   "posts": [
@@ -23,7 +23,7 @@
       "sourceType": "social",
       "author": "@maracas_vibes868",
       "originalUrl": "https://www.tiktok.com/tag/trinitiktok",
-      "publishedAt": "2026-10-11T19:21:43.557Z",
+      "publishedAt": "2026-10-11T22:57:35.381Z",
       "category": "culture",
       "tags": [
         "#trinitiktok",
@@ -53,7 +53,7 @@
       "sourceType": "broadcast",
       "author": "CCN TV6 News Desk",
       "originalUrl": "https://www.youtube.com/watch?v=tv6-sample-news-7pm",
-      "publishedAt": "2026-10-11T18:22:43.557Z",
+      "publishedAt": "2026-10-11T21:58:35.381Z",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -83,7 +83,7 @@
       "sourceType": "broadcast",
       "author": "CNC3 News Anchor",
       "originalUrl": "https://www.youtube.com/watch?v=cnc3-sample-evening-7",
-      "publishedAt": "2026-10-11T18:07:43.557Z",
+      "publishedAt": "2026-10-11T21:43:35.381Z",
       "category": "business",
       "tags": [
         "CNC3 News",
@@ -113,7 +113,7 @@
       "sourceType": "broadcast",
       "author": "TTT Live Studio",
       "originalUrl": "https://www.youtube.com/watch?v=ttt-sample-news-7pm",
-      "publishedAt": "2026-10-11T17:37:43.557Z",
+      "publishedAt": "2026-10-11T21:13:35.381Z",
       "category": "broadcast",
       "tags": [
         "TTT Live",
@@ -143,7 +143,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/videos/morvant-community-standoff",
-      "publishedAt": "2026-10-11T19:17:43.557Z",
+      "publishedAt": "2026-10-11T22:53:35.381Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -163,56 +163,56 @@
       }
     },
     {
-      "id": "rss-bridge-facebook-4fe6c2c303a51ea6ef30605312c40b77b8eabfb4",
-      "title": "COUVA residents and workers have welcomed the Government’s proposal to grant the Central Trinidad co...",
-      "summary": "COUVA residents and workers have welcomed the Government’s proposal to grant the Central Trinidad community borough status, saying it could spur development, strengthen local re...",
-      "content": "COUVA residents and workers have welcomed the Government’s proposal to grant the Central Trinidad community borough status, saying it could spur development, strengthen local representation and bring public services closer to residents.\nREAD MORE: https://trinidadexpress.com/news/local/couva-in-favour/article_c0304a46-90b4-48a2-ac4a-6ff234c293e4.html",
+      "id": "rss-bridge-facebook-723f3c46295518c9ead826852113227f12560502",
+      "title": "She alleged that some people had turned temporary welfare programmes, government assistance and publ...",
+      "summary": "She alleged that some people had turned temporary welfare programmes, government assistance and public-sector employment into permanent schemes for generating personal income di...",
+      "content": "She alleged that some people had turned temporary welfare programmes, government assistance and public-sector employment into permanent schemes for generating personal income dishonestly.\nREAD MORE: https://trinidadexpress.com/newsextra/pm-vows-to-end-rewarding-laziness-dishonesty/article_c0787d65-e479-4759-b5d5-3948feccecc2.html",
       "sourceId": "tv6",
       "sourceName": "CCN TV6",
       "sourceType": "broadcast",
       "author": "CCN TV6: Trinidad and Tobago",
-      "originalUrl": "https://www.facebook.com/CCNTV6/posts/pfbid0FAtm63cUzw1eH2wLJkS6t7aGd74UgzUUqNH7XMk92GZfwuUPdjkPhzxeD5MBCdXcl",
-      "publishedAt": "2026-10-11T19:57:52.310Z",
+      "originalUrl": "https://www.facebook.com/CCNTV6/posts/pfbid02y1ygW9ajVYdpbJEXLXArAMo73EueDALzR8uL9eLXtMwuasPvMrMq75qhsaSbdn9dl",
+      "publishedAt": "2026-10-11T23:33:43.584Z",
       "category": "broadcast",
       "tags": [
         "TV6 Facebook",
         "News Alert",
         "Trinidad"
       ],
-      "trendingScore": 92,
-      "upvotes": 77,
-      "commentsCount": 16,
+      "trendingScore": 83,
+      "upvotes": 207,
+      "commentsCount": 32,
       "isBreaking": false,
       "media": {
         "type": "image",
-        "url": "https://scontent.xx.fbcdn.net/v/t39.99422-6/845821418_1038219535934668_7159739434110417683_n.png?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s640x640&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=dd5PZjmrHXoQ7kNvwHHX0BL&_nc_oc=Adpd4LBwWFnzKEELddCNsr8JAxEPYpiM_ytFiBg91MiGit3fgbgPqURzLH0G-HHQuyg&_nc_zt=14&_nc_ht=scontent.xx&_nc_gid=T3Gz-VzpXFGyM2ywZj9dTw&_nc_ss=72289&oh=00_AQMVLYxH2OhcFJnl8ePUF37NmhTbnQC59oGX9tEZpuRz0g&oe=6AD13AC1",
+        "url": "https://scontent.xx.fbcdn.net/v/t39.99422-6/843606715_1078890348095526_8874872124350998770_n.png?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s640x640&_nc_cat=110&ccb=1-7&_nc_sid=127cfc&_nc_ohc=T0cmimcuE6UQ7kNvwEouCCR&_nc_oc=AdogNGo6SKCA4wsd1NR2Y9GSF_2z_RbjWaDK8o6zXd3aXZNz8t2mYpDc0XPCfBzd5No&_nc_zt=14&_nc_ht=scontent.xx&_nc_gid=qelDDEsaOV9nwvO1cc6ivA&_nc_ss=72289&oh=00_AQMW4cC1HF9scuSkOm26JI6LDLQnL3NAumo_HYsWxFWFgw&oe=6AD1F908",
         "aspectRatio": "landscape"
       }
     },
     {
-      "id": "rss-bridge-facebook-528bc405d2e50d2892ad4fa19aa0db92054517bf",
-      "title": "Pleasantville Secondary School marked its 50th anniversary with a tea party and fashion show, “Blush...",
-      "summary": "Pleasantville Secondary School marked its 50th anniversary with a tea party and fashion show, “Blushes of Elegance”, at the Petrotrin Staff Club in Pointe-à-Pierre on Saturday, ...",
-      "content": "Pleasantville Secondary School marked its 50th anniversary with a tea party and fashion show, “Blushes of Elegance”, at the Petrotrin Staff Club in Pointe-à-Pierre on Saturday, September 26.\nStudents traded their school uniforms for fashionable attire as they took to the runway under the creative direction of Jaqui Koonhow and stylist Larry Rampersad.\n\nFor more…  \nhttps://www.guardian.co.tt/article/blushes-of-elegance-marks-pleasantville-secondarys-golden-jubilee-6.2.2685705.add699328d",
+      "id": "rss-bridge-facebook-95789f15a4b55a39903459b360291afffee9cf45",
+      "title": "The CNC3 Evening News - Sunday 11 October 2026",
+      "summary": "The CNC3 Evening News - Sunday 11 October 2026",
+      "content": "The CNC3 Evening News - Sunday 11 October 2026",
       "sourceId": "cnc3",
       "sourceName": "CNC3 Television",
       "sourceType": "broadcast",
       "author": "CNC3 Television, Trinidad and Tobago",
-      "originalUrl": "https://www.facebook.com/CNC3Television/posts/pfbid0H3fdo8y7VeWUtSzRAPuVMt45e8McKKSsQn933DPj8WzZG9jG5A9Muep4L1NNgX52l",
-      "publishedAt": "2026-10-11T19:57:52.591Z",
+      "originalUrl": "https://www.facebook.com/CNC3Television/videos/2163459957897851/",
+      "publishedAt": "2026-10-11T23:33:45.589Z",
       "category": "broadcast",
       "tags": [
         "CNC3 Facebook",
         "Digital Desk",
         "Trinidad"
       ],
-      "trendingScore": 90,
-      "upvotes": 121,
-      "commentsCount": 12,
+      "trendingScore": 93,
+      "upvotes": 199,
+      "commentsCount": 39,
       "isBreaking": false,
       "media": {
         "type": "image",
-        "url": "https://scontent.xx.fbcdn.net/v/t39.99422-6/846568485_948760344517529_874375815179004718_n.png?stp=dst-jpg_tt6&cstp=mx1080x1080&ctp=p526x296&_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=YKkwquVMSO8Q7kNvwF1_N12&_nc_oc=AdogXMxWC5VglDZc2nNwf_Yo4X9axqMCoHJtZatXXryxJwxbUzdlsH4G51Ck-XvhFkE&_nc_zt=14&_nc_ht=scontent.xx&_nc_gid=2-VBGXJX_kpEb4U44FWQPg&_nc_ss=72289&oh=00_AQNZoC_2IZ8L9NiMriRbCGZnoY6fgQ9aiV0nb9IaZGzTpw&oe=6AD1293B",
+        "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
         "aspectRatio": "landscape"
       }
     },
@@ -227,7 +227,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/posts/central-division-highway",
-      "publishedAt": "2026-10-11T19:07:43.557Z",
+      "publishedAt": "2026-10-11T22:43:35.381Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -257,7 +257,7 @@
       "sourceType": "newspaper",
       "author": "Newsday Digital Desk",
       "originalUrl": "https://www.facebook.com/NewsdayTT/posts/sea-results-celebrations",
-      "publishedAt": "2026-10-11T16:57:43.557Z",
+      "publishedAt": "2026-10-11T20:33:35.381Z",
       "category": "culture",
       "tags": [
         "Newsday",
@@ -286,7 +286,7 @@
       "sourceType": "social",
       "author": "@tv6tnt",
       "originalUrl": "https://www.instagram.com/reel/tv6-pooran-sixes",
-      "publishedAt": "2026-10-11T17:47:43.557Z",
+      "publishedAt": "2026-10-11T21:23:35.381Z",
       "category": "sports",
       "tags": [
         "Cricket TT",
@@ -316,7 +316,7 @@
       "sourceType": "social",
       "author": "@cnc3news",
       "originalUrl": "https://www.instagram.com/reel/cnc3-all-stars-duke-street",
-      "publishedAt": "2026-10-11T18:52:43.557Z",
+      "publishedAt": "2026-10-11T22:28:35.381Z",
       "category": "culture",
       "tags": [
         "CNC3 Reels",
@@ -347,7 +347,7 @@
       "sourceType": "newspaper",
       "author": "Express Sports Editor",
       "originalUrl": "https://trinidadexpress.com/sports/soca-warriors-knockout-roster",
-      "publishedAt": "2026-10-11T19:32:43.557Z",
+      "publishedAt": "2026-10-11T23:08:35.381Z",
       "category": "sports",
       "tags": [
         "Soca Warriors",
