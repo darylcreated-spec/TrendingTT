@@ -3,12 +3,12 @@
     "generator": "Trending TT Ingestion Engine (yt-dlp + RSS-Bridge)",
     "version": "1.2.0",
     "timezone": "AST (America/Port_of_Spain)",
-    "generatedAt": "2026-10-11T02:04:44.975Z",
+    "generatedAt": "2026-10-11T09:11:21.650Z",
     "stats": {
       "ytDlpProcessed": 5,
       "rssBridgeProcessed": 11,
       "totalNormalized": 15,
-      "timestamp": "2026-10-11T02:04:29.733Z"
+      "timestamp": "2026-10-11T09:11:06.378Z"
     }
   },
   "posts": [
@@ -23,7 +23,7 @@
       "sourceType": "social",
       "author": "@maracas_vibes868",
       "originalUrl": "https://www.tiktok.com/tag/trinitiktok",
-      "publishedAt": "2026-10-11T01:28:29.733Z",
+      "publishedAt": "2026-10-11T08:35:06.378Z",
       "category": "culture",
       "tags": [
         "#trinitiktok",
@@ -53,7 +53,7 @@
       "sourceType": "broadcast",
       "author": "CCN TV6 News Desk",
       "originalUrl": "https://www.youtube.com/watch?v=tv6-sample-news-7pm",
-      "publishedAt": "2026-10-11T00:29:29.733Z",
+      "publishedAt": "2026-10-11T07:36:06.378Z",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -83,7 +83,7 @@
       "sourceType": "broadcast",
       "author": "CNC3 News Anchor",
       "originalUrl": "https://www.youtube.com/watch?v=cnc3-sample-evening-7",
-      "publishedAt": "2026-10-11T00:14:29.733Z",
+      "publishedAt": "2026-10-11T07:21:06.378Z",
       "category": "business",
       "tags": [
         "CNC3 News",
@@ -113,7 +113,7 @@
       "sourceType": "broadcast",
       "author": "TTT Live Studio",
       "originalUrl": "https://www.youtube.com/watch?v=ttt-sample-news-7pm",
-      "publishedAt": "2026-10-10T23:44:29.733Z",
+      "publishedAt": "2026-10-11T06:51:06.378Z",
       "category": "broadcast",
       "tags": [
         "TTT Live",
@@ -143,7 +143,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/videos/morvant-community-standoff",
-      "publishedAt": "2026-10-11T01:24:29.733Z",
+      "publishedAt": "2026-10-11T08:31:06.378Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -163,60 +163,56 @@
       }
     },
     {
-      "id": "bridge-fb-tv6-morning-edition",
-      "targetId": "bridge-fb-tv6",
-      "title": "CCN TV6 Facebook: Morning Edition panel debates food security and local agricultural incentives",
-      "summary": "TV6 official Facebook desk shares key takeaways from parliamentary discussion on local farming subsidies, root crop production, and lowering supermarket import bills.",
-      "content": "Viewers engaged in heated commentary under TV6 Morning Edition discussion regarding Trinidadian farmers, flood mitigation subsidies in Plum Mitan, and vegetable market price stabilization.",
+      "id": "rss-bridge-facebook-4fe6c2c303a51ea6ef30605312c40b77b8eabfb4",
+      "title": "COUVA residents and workers have welcomed the Government’s proposal to grant the Central Trinidad co...",
+      "summary": "COUVA residents and workers have welcomed the Government’s proposal to grant the Central Trinidad community borough status, saying it could spur development, strengthen local re...",
+      "content": "COUVA residents and workers have welcomed the Government’s proposal to grant the Central Trinidad community borough status, saying it could spur development, strengthen local representation and bring public services closer to residents.\nREAD MORE: https://trinidadexpress.com/news/local/couva-in-favour/article_c0304a46-90b4-48a2-ac4a-6ff234c293e4.html",
       "sourceId": "tv6",
       "sourceName": "CCN TV6",
       "sourceType": "broadcast",
-      "author": "CCN TV6 Digital Desk",
-      "originalUrl": "https://www.facebook.com/CCNTV6/posts/morning-edition-agriculture",
-      "publishedAt": "2026-10-11T00:49:29.733Z",
+      "author": "CCN TV6: Trinidad and Tobago",
+      "originalUrl": "https://www.facebook.com/CCNTV6/posts/pfbid0FAtm63cUzw1eH2wLJkS6t7aGd74UgzUUqNH7XMk92GZfwuUPdjkPhzxeD5MBCdXcl",
+      "publishedAt": "2026-10-11T09:11:17.043Z",
       "category": "broadcast",
       "tags": [
         "TV6 Facebook",
-        "Morning Edition",
-        "Food Security",
-        "Trinidad Agriculture"
+        "News Alert",
+        "Trinidad"
       ],
-      "trendingScore": 88,
-      "upvotes": 395,
-      "commentsCount": 94,
+      "trendingScore": 90,
+      "upvotes": 202,
+      "commentsCount": 56,
       "isBreaking": false,
       "media": {
         "type": "image",
-        "url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80",
+        "url": "https://scontent.xx.fbcdn.net/v/t39.99422-6/845821418_1038219535934668_7159739434110417683_n.png?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s640x640&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=dd5PZjmrHXoQ7kNvwHHX0BL&_nc_oc=Adpd4LBwWFnzKEELddCNsr8JAxEPYpiM_ytFiBg91MiGit3fgbgPqURzLH0G-HHQuyg&_nc_zt=14&_nc_ht=scontent.xx&_nc_gid=T3Gz-VzpXFGyM2ywZj9dTw&_nc_ss=72289&oh=00_AQMVLYxH2OhcFJnl8ePUF37NmhTbnQC59oGX9tEZpuRz0g&oe=6AD13AC1",
         "aspectRatio": "landscape"
       }
     },
     {
-      "id": "bridge-fb-cnc3-port-upgrade",
-      "targetId": "bridge-fb-cnc3",
-      "title": "CNC3 Facebook: Port of Spain container terminal deploys automated gate logistics",
-      "summary": "CNC3 Television Facebook feed highlights new digital processing systems at the Port Authority aimed at slashing trucker dwell times and freight delays.",
-      "content": "The Port Authority of Trinidad and Tobago announced completion of its Phase 2 automated gate logistics system. CNC3 Digital desk covers container terminal trucker reactions and port efficiency metrics.",
+      "id": "rss-bridge-facebook-528bc405d2e50d2892ad4fa19aa0db92054517bf",
+      "title": "Pleasantville Secondary School marked its 50th anniversary with a tea party and fashion show, “Blush...",
+      "summary": "Pleasantville Secondary School marked its 50th anniversary with a tea party and fashion show, “Blushes of Elegance”, at the Petrotrin Staff Club in Pointe-à-Pierre on Saturday, ...",
+      "content": "Pleasantville Secondary School marked its 50th anniversary with a tea party and fashion show, “Blushes of Elegance”, at the Petrotrin Staff Club in Pointe-à-Pierre on Saturday, September 26.\nStudents traded their school uniforms for fashionable attire as they took to the runway under the creative direction of Jaqui Koonhow and stylist Larry Rampersad.\n\nFor more…  \nhttps://www.guardian.co.tt/article/blushes-of-elegance-marks-pleasantville-secondarys-golden-jubilee-6.2.2685705.add699328d",
       "sourceId": "cnc3",
       "sourceName": "CNC3 Television",
       "sourceType": "broadcast",
-      "author": "CNC3 Television Digital Desk",
-      "originalUrl": "https://www.facebook.com/CNC3Television/posts/port-logistics-update",
-      "publishedAt": "2026-10-11T00:39:29.733Z",
-      "category": "business",
+      "author": "CNC3 Television, Trinidad and Tobago",
+      "originalUrl": "https://www.facebook.com/CNC3Television/posts/pfbid0H3fdo8y7VeWUtSzRAPuVMt45e8McKKSsQn933DPj8WzZG9jG5A9Muep4L1NNgX52l",
+      "publishedAt": "2026-10-11T09:11:18.841Z",
+      "category": "broadcast",
       "tags": [
         "CNC3 Facebook",
-        "Port of Spain",
-        "Trade TT",
-        "Infrastructure"
+        "Digital Desk",
+        "Trinidad"
       ],
-      "trendingScore": 87,
-      "upvotes": 340,
-      "commentsCount": 61,
+      "trendingScore": 81,
+      "upvotes": 64,
+      "commentsCount": 27,
       "isBreaking": false,
       "media": {
         "type": "image",
-        "url": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=80",
+        "url": "https://scontent.xx.fbcdn.net/v/t39.99422-6/846568485_948760344517529_874375815179004718_n.png?stp=dst-jpg_tt6&cstp=mx1080x1080&ctp=p526x296&_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=YKkwquVMSO8Q7kNvwF1_N12&_nc_oc=AdogXMxWC5VglDZc2nNwf_Yo4X9axqMCoHJtZatXXryxJwxbUzdlsH4G51Ck-XvhFkE&_nc_zt=14&_nc_ht=scontent.xx&_nc_gid=2-VBGXJX_kpEb4U44FWQPg&_nc_ss=72289&oh=00_AQNZoC_2IZ8L9NiMriRbCGZnoY6fgQ9aiV0nb9IaZGzTpw&oe=6AD1293B",
         "aspectRatio": "landscape"
       }
     },
@@ -231,7 +227,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/posts/central-division-highway",
-      "publishedAt": "2026-10-11T01:14:29.733Z",
+      "publishedAt": "2026-10-11T08:21:06.378Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -261,7 +257,7 @@
       "sourceType": "newspaper",
       "author": "Newsday Digital Desk",
       "originalUrl": "https://www.facebook.com/NewsdayTT/posts/sea-results-celebrations",
-      "publishedAt": "2026-10-10T23:04:29.733Z",
+      "publishedAt": "2026-10-11T06:11:06.378Z",
       "category": "culture",
       "tags": [
         "Newsday",
@@ -289,16 +285,16 @@
       "sourceType": "social",
       "author": "tv6tnt",
       "originalUrl": "https://www.instagram.com/p/DdWsL7TmXWk/",
-      "publishedAt": "2026-10-11T02:04:44.255Z",
+      "publishedAt": "2026-10-11T09:11:20.752Z",
       "category": "social",
       "tags": [
         "Instagram TT",
         "TV6 Reels",
         "Viral Video"
       ],
-      "trendingScore": 84,
-      "upvotes": 98,
-      "commentsCount": 48,
+      "trendingScore": 83,
+      "upvotes": 104,
+      "commentsCount": 47,
       "isBreaking": false,
       "media": {
         "type": "video",
@@ -316,16 +312,16 @@
       "sourceType": "social",
       "author": "tv6tnt",
       "originalUrl": "https://www.instagram.com/p/DdUIJEPjAoQ/",
-      "publishedAt": "2026-10-11T02:04:44.255Z",
+      "publishedAt": "2026-10-11T09:11:20.752Z",
       "category": "social",
       "tags": [
         "Instagram TT",
         "TV6 Reels",
         "Viral Video"
       ],
-      "trendingScore": 89,
-      "upvotes": 162,
-      "commentsCount": 19,
+      "trendingScore": 93,
+      "upvotes": 166,
+      "commentsCount": 41,
       "isBreaking": false,
       "media": {
         "type": "video",
@@ -343,16 +339,16 @@
       "sourceType": "social",
       "author": "cnc3news",
       "originalUrl": "https://www.instagram.com/p/DeU6R6eiU0_/",
-      "publishedAt": "2026-10-11T02:04:44.377Z",
+      "publishedAt": "2026-10-11T09:11:20.875Z",
       "category": "social",
       "tags": [
         "CNC3 Reels",
         "Breaking Instagram",
         "Caribbean"
       ],
-      "trendingScore": 88,
-      "upvotes": 172,
-      "commentsCount": 24,
+      "trendingScore": 94,
+      "upvotes": 208,
+      "commentsCount": 14,
       "isBreaking": false,
       "media": {
         "type": "video",
@@ -370,16 +366,16 @@
       "sourceType": "social",
       "author": "cnc3news",
       "originalUrl": "https://www.instagram.com/p/DeU6DGuCT_2/",
-      "publishedAt": "2026-10-11T02:04:44.377Z",
+      "publishedAt": "2026-10-11T09:11:20.875Z",
       "category": "social",
       "tags": [
         "CNC3 Reels",
         "Breaking Instagram",
         "Caribbean"
       ],
-      "trendingScore": 88,
-      "upvotes": 108,
-      "commentsCount": 41,
+      "trendingScore": 94,
+      "upvotes": 210,
+      "commentsCount": 27,
       "isBreaking": false,
       "media": {
         "type": "video",
@@ -397,16 +393,16 @@
       "sourceType": "social",
       "author": "cnc3news",
       "originalUrl": "https://www.instagram.com/p/DeU568ECa3j/",
-      "publishedAt": "2026-10-11T02:04:44.377Z",
+      "publishedAt": "2026-10-11T09:11:20.875Z",
       "category": "social",
       "tags": [
         "CNC3 Reels",
         "Breaking Instagram",
         "Caribbean"
       ],
-      "trendingScore": 80,
-      "upvotes": 163,
-      "commentsCount": 12,
+      "trendingScore": 89,
+      "upvotes": 63,
+      "commentsCount": 24,
       "isBreaking": false,
       "media": {
         "type": "video",
@@ -425,7 +421,7 @@
       "sourceType": "newspaper",
       "author": "Express Sports Editor",
       "originalUrl": "https://trinidadexpress.com/sports/soca-warriors-knockout-roster",
-      "publishedAt": "2026-10-11T01:39:29.733Z",
+      "publishedAt": "2026-10-11T08:46:06.378Z",
       "category": "sports",
       "tags": [
         "Soca Warriors",
