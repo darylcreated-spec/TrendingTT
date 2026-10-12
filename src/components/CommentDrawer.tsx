@@ -223,6 +223,26 @@ const CommentDrawerContent: React.FC<CommentDrawerContentProps> = ({
             </select>
           </div>
 
+          {/* Quick Trini Slang Reaction Buttons */}
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            {[
+              '🔥 Real talk!',
+              '👀 Hear dat nah!',
+              '🤣 Dead wid laugh!',
+              '🤦‍♂️ Ent boy?!',
+              '🚨 Watch yuh back!'
+            ].map((slang) => (
+              <button
+                key={slang}
+                type="button"
+                onClick={() => setCommentText((prev) => (prev ? `${prev} ${slang}` : slang))}
+                className="px-2 py-1 rounded-full bg-slate-900 hover:bg-slate-800 text-[11px] font-semibold text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0 transition-all active:scale-95"
+              >
+                {slang}
+              </button>
+            ))}
+          </div>
+
           <div className="flex items-center gap-2">
             <textarea
               rows={2}
@@ -240,6 +260,7 @@ const CommentDrawerContent: React.FC<CommentDrawerContentProps> = ({
               <Send className="w-4 h-4" />
             </button>
           </div>
+
         </form>
       </div>
     </div>

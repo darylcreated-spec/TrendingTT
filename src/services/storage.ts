@@ -16,8 +16,11 @@ const STORAGE_KEYS = {
   CONFIRMED_REPORTS: 'trending_tt_confirmed_reports',
   UTILITY_REPORTS: 'trending_tt_utility_reports',
   CONFIRMED_UTILITY_REPORTS: 'trending_tt_confirmed_utility_reports',
-  USER_PROFILE: 'trending_tt_user_profile'
+  USER_PROFILE: 'trending_tt_user_profile',
+  MACKO_VOTES: 'trending_tt_macko_votes',
+  TRINI_REACTIONS: 'trending_tt_reactions'
 };
+
 
 const DEFAULT_NOTIFICATIONS: NotificationSettings = {
   enabled: false,
@@ -135,8 +138,55 @@ export const Storage = {
     return newComment;
   },
 
+  // D Macko Meter Votes Storage
+  getMackoVotedPosts(): string[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.MACKO_VOTES);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  },
+
+  toggleMackoVote(postId: string): { voted: boolean; allVoted: string[] } {
+    const votedList = this.getMackoVotedPosts();
+    const index = votedList.indexOf(postId);
+    let voted = false;
+    if (index > -1) {
+      votedList.splice(index, 1);
+      voted = false;
+    } else {
+      votedList.push(postId);
+      voted = true;
+    }
+    localStorage.setItem(STORAGE_KEYS.MACKO_VOTES, JSON.stringify(votedList));
+    return { voted, allVoted: votedList };
+  },
+
+  // Trini Custom Reactions Storage per post
+  getUserReactions(): Record<string, string> {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.TRINI_REACTIONS);
+      return data ? JSON.parse(data) : {};
+    } catch {
+      return {};
+    }
+  },
+
+  setUserReaction(postId: string, reaction: string | null): Record<string, string> {
+    const all = this.getUserReactions();
+    if (reaction) {
+      all[postId] = reaction;
+    } else {
+      delete all[postId];
+    }
+    localStorage.setItem(STORAGE_KEYS.TRINI_REACTIONS, JSON.stringify(all));
+    return all;
+  },
+
   // User Profile Storage (Local Fallback & Sync)
   getUserProfile(): UserProfile {
+
     try {
       const data = localStorage.getItem(STORAGE_KEYS.USER_PROFILE);
       if (data) return JSON.parse(data);

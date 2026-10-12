@@ -57,9 +57,15 @@ export interface Post {
     aspectRatio?: 'landscape' | 'portrait' | 'square';
     videoDuration?: string;
   };
+  mackoScore?: number; // 0-100 calculated virality score
+  mackoVotes?: number; // Citizen community Macko votes
+  triniReactions?: Record<TriniReactionType, number>;
 }
 
+export type TriniReactionType = 'macko' | 'realtalk' | 'deadwidlaugh' | 'lordwhy' | 'watchyuhback';
+
 export interface UserProfile {
+
   uid: string;
   displayName: string;
   handle?: string;

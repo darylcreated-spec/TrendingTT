@@ -12,8 +12,12 @@ interface SectionedFeedProps {
   posts: Post[];
   upvotedIds: string[];
   bookmarkedIds: string[];
+  mackoVotedIds?: string[];
+  userReactions?: Record<string, string>;
   onToggleUpvote: (postId: string) => void;
   onToggleBookmark: (postId: string) => void;
+  onBoostMacko?: (postId: string) => void;
+  onSelectReaction?: (postId: string, reaction: any) => void;
   onOpenComments: (post: Post) => void;
   onShare: (post: Post) => void;
   onWhatsAppShare: (post: Post) => void;
@@ -22,18 +26,24 @@ interface SectionedFeedProps {
   onSelectCategory: (category: Post['category']) => void;
 }
 
+
 export const SectionedFeed: React.FC<SectionedFeedProps> = ({
   posts,
   upvotedIds,
   bookmarkedIds,
+  mackoVotedIds = [],
+  userReactions = {},
   onToggleUpvote,
   onToggleBookmark,
+  onBoostMacko,
+  onSelectReaction,
   onOpenComments,
   onShare,
   onWhatsAppShare,
   onMediaClick,
   onSelectCategory
 }) => {
+
   const [activeSectionTab] = useState<'all' | 'breaking' | 'sports' | 'social'>('all');
 
   // Segregate posts into distinct editorial buckets
@@ -87,8 +97,12 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
                 post={post}
                 isUpvoted={upvotedIds.includes(post.id)}
                 isBookmarked={bookmarkedIds.includes(post.id)}
+                hasMackoVoted={mackoVotedIds.includes(post.id)}
+                userReaction={userReactions[post.id] as any}
                 onToggleUpvote={onToggleUpvote}
                 onToggleBookmark={onToggleBookmark}
+                onBoostMacko={onBoostMacko}
+                onSelectReaction={onSelectReaction}
                 onOpenComments={onOpenComments}
                 onShare={onShare}
                 onWhatsAppShare={onWhatsAppShare}
@@ -136,8 +150,12 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
                   post={post}
                   isUpvoted={upvotedIds.includes(post.id)}
                   isBookmarked={bookmarkedIds.includes(post.id)}
+                  hasMackoVoted={mackoVotedIds.includes(post.id)}
+                  userReaction={userReactions[post.id] as any}
                   onToggleUpvote={onToggleUpvote}
                   onToggleBookmark={onToggleBookmark}
+                  onBoostMacko={onBoostMacko}
+                  onSelectReaction={onSelectReaction}
                   onOpenComments={onOpenComments}
                   onShare={onShare}
                   onWhatsAppShare={onWhatsAppShare}
@@ -186,8 +204,12 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
                   post={post}
                   isUpvoted={upvotedIds.includes(post.id)}
                   isBookmarked={bookmarkedIds.includes(post.id)}
+                  hasMackoVoted={mackoVotedIds.includes(post.id)}
+                  userReaction={userReactions[post.id] as any}
                   onToggleUpvote={onToggleUpvote}
                   onToggleBookmark={onToggleBookmark}
+                  onBoostMacko={onBoostMacko}
+                  onSelectReaction={onSelectReaction}
                   onOpenComments={onOpenComments}
                   onShare={onShare}
                   onWhatsAppShare={onWhatsAppShare}
@@ -218,8 +240,12 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
                 post={post}
                 isUpvoted={upvotedIds.includes(post.id)}
                 isBookmarked={bookmarkedIds.includes(post.id)}
+                hasMackoVoted={mackoVotedIds.includes(post.id)}
+                userReaction={userReactions[post.id] as any}
                 onToggleUpvote={onToggleUpvote}
                 onToggleBookmark={onToggleBookmark}
+                onBoostMacko={onBoostMacko}
+                onSelectReaction={onSelectReaction}
                 onOpenComments={onOpenComments}
                 onShare={onShare}
                 onWhatsAppShare={onWhatsAppShare}

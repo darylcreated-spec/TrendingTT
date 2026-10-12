@@ -7,7 +7,6 @@ import {
   Share2, 
   Bookmark, 
   ExternalLink, 
-  TrendingUp, 
   Clock,
   Radio,
   Tv,
@@ -16,19 +15,28 @@ import {
   User,
   Volume2
 } from 'lucide-react';
+
 import { AudioNarrator, type AudioPlayerState } from '../services/audioNarrator';
+import { MackoMeter } from './MackoMeter';
+import { TriniReactionBar } from './TriniReactionBar';
+import type { TriniReactionType } from '../types';
 
 interface PostCardProps {
   post: Post;
   isUpvoted: boolean;
   isBookmarked: boolean;
+  hasMackoVoted?: boolean;
+  userReaction?: TriniReactionType | null;
   onToggleUpvote: (postId: string) => void;
   onToggleBookmark: (postId: string) => void;
+  onBoostMacko?: (postId: string) => void;
+  onSelectReaction?: (postId: string, reaction: TriniReactionType) => void;
   onOpenComments: (post: Post) => void;
   onShare: (post: Post) => void;
   onWhatsAppShare: (post: Post) => void;
   onMediaClick?: (media: { url: string; title: string; sourceName: string }) => void;
 }
+
 
 import { formatPostDateTime, formatRelativeTime } from '../utils/dateUtils';
 
@@ -36,13 +44,20 @@ export const PostCard: React.FC<PostCardProps> = ({
   post,
   isUpvoted,
   isBookmarked,
+  hasMackoVoted = false,
+  userReaction = null,
   onToggleUpvote,
   onToggleBookmark,
+  onBoostMacko,
+  onSelectReaction,
   onOpenComments,
   onShare,
   onWhatsAppShare,
   onMediaClick,
 }) => {
+  const [showHeartBurst, setShowHeartBurst] = React.useState(false);
+  const lastTapRef = React.useRef<number>(0);
+
   const source = SOURCES[post.sourceId] || {
     name: post.sourceName,
     badgeBg: 'bg-slate-800 text-slate-300 border-slate-700',
@@ -78,20 +93,35 @@ export const PostCard: React.FC<PostCardProps> = ({
 
   return (
     <article className="bg-slate-900/90 rounded-xl border border-slate-800 hover:border-slate-700/80 transition-all duration-200 overflow-hidden flex flex-col justify-between shadow-md hover:shadow-xl group">
-      {/* Top Media / Thumbnail with Tap-to-Zoom */}
+      {/* Top Media / Thumbnail with Instagram-style Double-Tap Like & Tap-to-Zoom */}
       {post.media?.url && (
         <div 
           onClick={() => {
-            if (onMediaClick && post.media?.url) {
-              onMediaClick({
-                url: post.media.url,
-                title: post.title,
-                sourceName: post.sourceName,
-              });
+            const now = Date.now();
+            const DOUBLE_TAP_DELAY = 300;
+            if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
+              // Double tap registered (Instagram style)
+              if (!isUpvoted) {
+                onToggleUpvote(post.id);
+              }
+              setShowHeartBurst(true);
+              if ('vibrate' in navigator) {
+                try { navigator.vibrate(35); } catch { /* ignore */ }
+              }
+              setTimeout(() => setShowHeartBurst(false), 900);
+            } else {
+              if (onMediaClick && post.media?.url) {
+                onMediaClick({
+                  url: post.media.url,
+                  title: post.title,
+                  sourceName: post.sourceName,
+                });
+              }
             }
+            lastTapRef.current = now;
           }}
-          className="relative aspect-video w-full overflow-hidden bg-slate-950 cursor-zoom-in"
-          title="Tap to zoom image"
+          className="relative aspect-video w-full overflow-hidden bg-slate-950 cursor-pointer select-none"
+          title="Double tap to like / Tap to zoom"
         >
           <img
             src={post.media.url}
@@ -101,20 +131,32 @@ export const PostCard: React.FC<PostCardProps> = ({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
 
-          {/* Trending Score Badge in Corner */}
-          <div className="absolute top-3 right-3 bg-slate-950/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-slate-700/80 text-xs font-bold flex items-center gap-1 text-red-400 shadow-md">
-            <TrendingUp className="w-3 h-3" />
-            <span>{post.trendingScore}° Hot</span>
+          {/* Bursting Trini Heart Animation on Double-Tap */}
+          {showHeartBurst && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20 animate-in zoom-in-50 fade-in duration-200">
+              <span className="text-6xl sm:text-7xl filter drop-shadow-[0_0_20px_rgba(239,68,68,0.9)] animate-bounce">
+                🔥
+              </span>
+            </div>
+          )}
+
+          {/* D Macko Meter Badge in Top-Right Corner */}
+          <div className="absolute top-3 right-3 z-10">
+            <MackoMeter 
+              score={post.mackoScore ?? post.trendingScore} 
+              compact 
+            />
           </div>
 
           {/* Breaking Banner on Image */}
           {post.isBreaking && (
-            <div className="absolute top-3 left-3 bg-red-600 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded shadow-lg border border-red-400">
+            <div className="absolute top-3 left-3 bg-red-600 text-white text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded shadow-lg border border-red-400 z-10">
               Breaking Alert
             </div>
           )}
         </div>
       )}
+
 
       {/* Card Body */}
       <div className="p-4 sm:p-5 flex-1 flex flex-col">
@@ -211,7 +253,7 @@ export const PostCard: React.FC<PostCardProps> = ({
 
         {/* Tags */}
         {post.tags && post.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-4">
+          <div className="flex flex-wrap gap-1.5 mb-3">
             {post.tags.slice(0, 3).map((tag, idx) => (
               <span
                 key={idx}
@@ -223,13 +265,39 @@ export const PostCard: React.FC<PostCardProps> = ({
           </div>
         )}
 
+        {/* Feature: The Signature "D Macko Meter" Card */}
+        <div className="mb-3">
+          <MackoMeter
+            score={post.mackoScore ?? post.trendingScore}
+            votesCount={post.mackoVotes ?? 0}
+            hasVoted={hasMackoVoted}
+            onBoostMacko={onBoostMacko ? () => onBoostMacko(post.id) : undefined}
+          />
+        </div>
+
+        {/* Feature: Trini Reaction Bar Strip */}
+        {onSelectReaction && (
+          <div className="mb-3 pt-2 border-t border-slate-800/60">
+            <div className="flex items-center justify-between gap-1 mb-1">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                Trini Reactions
+              </span>
+            </div>
+            <TriniReactionBar
+              currentReaction={userReaction}
+              onSelectReaction={(type) => onSelectReaction(post.id, type)}
+              reactionsCounts={post.triniReactions}
+            />
+          </div>
+        )}
+
         {/* Action Toolbar */}
         <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
           {/* Left: Upvotes & Comments */}
           <div className="flex items-center gap-1 sm:gap-2">
             <button
               onClick={() => onToggleUpvote(post.id)}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-all active:scale-95 ${
                 isUpvoted
                   ? 'bg-red-600 text-white border-red-500 shadow-sm'
                   : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 border-slate-700/70 hover:text-white'
@@ -267,6 +335,7 @@ export const PostCard: React.FC<PostCardProps> = ({
               <span className="hidden sm:inline">{isCurrentPlaying ? 'Playing' : 'Listen'}</span>
             </button>
           </div>
+
 
           {/* Right: WhatsApp Share, Share Drawer, Bookmark, Source Link */}
           <div className="flex items-center gap-1">

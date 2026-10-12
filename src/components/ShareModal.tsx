@@ -63,7 +63,11 @@ export const ShareModal: React.FC<ShareModalProps> = ({ post, isOpen, onClose })
   const shareUrl = typeof window !== 'undefined' && window.location.origin 
     ? `${window.location.origin}/#post-${post.id}` 
     : post.originalUrl;
-  const shareText = `*${post.title}*\n\n📅 ${formatPostDateTime(post.publishedAt)}\n\nRead on Trending TT (Trinidad & Tobago Live Dashboard):\n${shareUrl}\n\nSource: ${post.sourceName}`;
+  const mackoScore = post.mackoScore ?? post.trendingScore;
+  const mackoLabel = mackoScore >= 85 ? '🔥🚨 FULL MACKO MODE!' : mackoScore >= 65 ? '👀 Windows Opening' : mackoScore >= 40 ? '🔍 People Peeping' : '🍃 Quiet';
+  const shareText = `*${post.title}*\n\n👁️ *D Macko Meter:* ${mackoLabel} (${mackoScore}% Hot)\n📅 ${formatPostDateTime(post.publishedAt)}\n\nRead & Discuss on Trending.TT (Trinidad & Tobago Live):\n${shareUrl}\n\n#TrendingTT #TrinidadAndTobago #TriniNews`;
+
+
 
   // Quick Share handlers with mobile deep-linking and haptics
   const handleCopy = () => {

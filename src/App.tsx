@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import type { Post, Category, SortOption, TimeFilterOption, SourceId, ActiveView, UserProfile } from './types';
+import type { Post, Category, SortOption, TimeFilterOption, SourceId, ActiveView, UserProfile, TriniReactionType } from './types';
 import { INITIAL_POSTS } from './data/mockPosts';
 import { SOURCES } from './data/sources';
 import { Storage } from './services/storage';
 import { fetchLiveTTFeeds, calculateTrendingVelocity } from './services/scraperEngine';
+
+
 
 
 import { socialIngestionEngine } from './services/socialIngestionEngine';
@@ -51,9 +53,12 @@ export const App: React.FC = () => {
   // Persistence States (lazy initialized)
   const [upvotedIds, setUpvotedIds] = useState<string[]>(() => Storage.getUpvotedPosts());
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(() => Storage.getBookmarks());
+  const [mackoVotedIds, setMackoVotedIds] = useState<string[]>(() => Storage.getMackoVotedPosts());
+  const [userReactions, setUserReactions] = useState<Record<string, string>>(() => Storage.getUserReactions());
 
   // User Social Profile State
   const [currentUser, setCurrentUser] = useState<UserProfile>(() => Storage.getUserProfile());
+
 
   // Modals & Drawers
   const [commentPost, setCommentPost] = useState<Post | null>(null);
@@ -240,12 +245,68 @@ export const App: React.FC = () => {
     showToast('Comment published to community feed');
   };
 
+  // D Macko Meter Boost Handler
+  const handleBoostMacko = (postId: string) => {
+    const { voted, allVoted } = Storage.toggleMackoVote(postId);
+    setMackoVotedIds(allVoted);
+    setPosts((prev) =>
+      prev.map((p) => {
+        if (p.id === postId) {
+          const currentVotes = p.mackoVotes ?? 0;
+          const newVotes = Math.max(0, currentVotes + (voted ? 1 : -1));
+          const currentScore = p.mackoScore ?? p.trendingScore;
+          const newScore = Math.min(100, Math.max(20, currentScore + (voted ? 6 : -6)));
+          return {
+            ...p,
+            mackoVotes: newVotes,
+            mackoScore: newScore,
+            trendingScore: Math.min(99, Math.max(25, p.trendingScore + (voted ? 3 : -3)))
+          };
+        }
+        return p;
+      })
+    );
+    showToast(voted ? '🔥 You boosted D Macko Meter!' : 'Macko vote removed');
+  };
+
+  // Trini Custom Reaction Handler
+  const handleSelectReaction = (postId: string, reactionType: TriniReactionType) => {
+    const prevReaction = userReactions[postId];
+    const newReaction = prevReaction === reactionType ? null : reactionType;
+    const updatedMap = Storage.setUserReaction(postId, newReaction);
+    setUserReactions(updatedMap);
+
+    setPosts((prev) =>
+      prev.map((p) => {
+        if (p.id === postId) {
+          const reactions = { ...(p.triniReactions || { macko: 0, realtalk: 0, deadwidlaugh: 0, lordwhy: 0, watchyuhback: 0 }) };
+          if (prevReaction) {
+            reactions[prevReaction as TriniReactionType] = Math.max(0, (reactions[prevReaction as TriniReactionType] || 0) - 1);
+          }
+          if (newReaction) {
+            reactions[newReaction] = (reactions[newReaction] || 0) + 1;
+          }
+          return {
+            ...p,
+            triniReactions: reactions,
+            trendingScore: calculateTrendingVelocity(p)
+          };
+        }
+        return p;
+      })
+    );
+    showToast(newReaction ? `Trini Reaction added: ${reactionType.toUpperCase()}` : 'Reaction removed');
+  };
+
   // WhatsApp Quick Share
   const handleWhatsAppShare = (post: Post) => {
     const url = window.location.origin ? `${window.location.origin}/#post-${post.id}` : post.originalUrl;
-    const text = `*${post.title}*\n\nRead on Trending TT (Trinidad & Tobago Live Dashboard):\n${url}\n\nSource: ${post.sourceName}`;
+    const mackoScore = post.mackoScore ?? post.trendingScore;
+    const mackoLabel = mackoScore >= 85 ? '🔥🚨 FULL MACKO MODE!' : mackoScore >= 65 ? '👀 Windows Opening' : mackoScore >= 40 ? '🔍 People Peeping' : '🍃 Quiet';
+    const text = `*${post.title}*\n\n👁️ *D Macko Meter:* ${mackoLabel} (${mackoScore}% Hot)\n\nRead & Discuss on Trending.TT (Trinidad & Tobago Live):\n${url}\n\nSource: ${post.sourceName} #TrendingTT`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
   };
+
 
   // PWA Install Prompt
   const handleInstallPWA = async () => {
@@ -357,11 +418,13 @@ export const App: React.FC = () => {
         currentUser={currentUser}
       />
 
-      {/* Breaking News Ticker Bar */}
+      {/* Breaking News & Automated Alerts Ticker Bar (Traffic, Weather & Breaking News) */}
       <BreakingTicker
         breakingPosts={breakingPosts}
         onSelectPost={(post) => setCommentPost(post)}
+        onOpenRadar={() => setActiveView('radar')}
       />
+
 
       {/* Category Navigation & Sorting Tabs (Only shown on news feed) */}
       {activeView === 'feed' && (
@@ -478,8 +541,12 @@ export const App: React.FC = () => {
                 posts={sortedPosts}
                 upvotedIds={upvotedIds}
                 bookmarkedIds={bookmarkedIds}
+                mackoVotedIds={mackoVotedIds}
+                userReactions={userReactions}
                 onToggleUpvote={handleToggleUpvote}
                 onToggleBookmark={handleToggleBookmark}
+                onBoostMacko={handleBoostMacko}
+                onSelectReaction={handleSelectReaction}
                 onOpenComments={setCommentPost}
                 onShare={setSharePost}
                 onWhatsAppShare={handleWhatsAppShare}
@@ -495,8 +562,12 @@ export const App: React.FC = () => {
                     post={post}
                     isUpvoted={upvotedIds.includes(post.id)}
                     isBookmarked={bookmarkedIds.includes(post.id)}
+                    hasMackoVoted={mackoVotedIds.includes(post.id)}
+                    userReaction={userReactions[post.id] as any}
                     onToggleUpvote={handleToggleUpvote}
                     onToggleBookmark={handleToggleBookmark}
+                    onBoostMacko={handleBoostMacko}
+                    onSelectReaction={handleSelectReaction}
                     onOpenComments={setCommentPost}
                     onShare={setSharePost}
                     onWhatsAppShare={handleWhatsAppShare}
@@ -505,6 +576,7 @@ export const App: React.FC = () => {
                 ))}
               </div>
             )}
+
           </>
         )}
       </main>
