@@ -173,6 +173,28 @@ export interface CommunityReport {
   isVerified?: boolean;
 }
 
+// Maritime Transit: Tobago Sea Bridge Ferries & POS-San Fernando Water Taxi
+export type MaritimeServiceType = 'tobago-ferry' | 'water-taxi';
+
+export interface MaritimeSailing {
+  id: string;
+  serviceType: MaritimeServiceType;
+  vesselName: string;
+  route: string; // e.g. "Port of Spain ➔ Scarborough"
+  origin: string;
+  destination: string;
+  departureTime: string;
+  estimatedArrival: string;
+  status: 'On Schedule' | 'Boarding' | 'Sailing' | 'Delayed' | 'Cancelled (Rough Seas)' | 'Arrived';
+  delayReason?: string;
+  passengerCapacityPercent: number;
+  vehicleCapacityPercent?: number;
+  terminalNotice?: string;
+  ticketBookingUrl: string;
+  hotline: string;
+  lastUpdated: string;
+}
+
 // Option C: Trinbago Sentiment Poll Types
 export interface PollOption {
   id: string;

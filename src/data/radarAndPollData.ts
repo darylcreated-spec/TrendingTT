@@ -5,7 +5,8 @@ import type {
   TideData, 
   WASANotice, 
   CommunityReport, 
-  Poll 
+  Poll,
+  MaritimeSailing 
 } from '../types';
 
 export const INITIAL_TRAFFIC_SEGMENTS: TrafficSegment[] = [
@@ -419,3 +420,106 @@ export const INITIAL_POLLS: Poll[] = [
     ]
   }
 ];
+
+export const INITIAL_MARITIME_SAILINGS: MaritimeSailing[] = [
+  {
+    id: 'ferry-apt-james-morning',
+    serviceType: 'tobago-ferry',
+    vesselName: 'A.P.T. James (Fast Ferry)',
+    route: 'Port of Spain ➔ Scarborough',
+    origin: 'Port of Spain Ferry Terminal',
+    destination: 'Scarborough Port, Tobago',
+    departureTime: '6:30 AM AST',
+    estimatedArrival: '9:30 AM AST (3h sailing)',
+    status: 'On Schedule',
+    passengerCapacityPercent: 88,
+    vehicleCapacityPercent: 95,
+    terminalNotice: 'Vehicle check-in closes 2 hours before departure (4:30 AM). Valid national ID required.',
+    ticketBookingUrl: 'https://ttitferry.com/',
+    hotline: '625-3055 / 639-2417',
+    lastUpdated: '10 mins ago'
+  },
+  {
+    id: 'ferry-buccoo-reef-afternoon',
+    serviceType: 'tobago-ferry',
+    vesselName: 'Buccoo Reef (Fast Ferry)',
+    route: 'Scarborough ➔ Port of Spain',
+    origin: 'Scarborough Port, Tobago',
+    destination: 'Port of Spain Ferry Terminal',
+    departureTime: '4:00 PM AST',
+    estimatedArrival: '7:00 PM AST (3h sailing)',
+    status: 'On Schedule',
+    passengerCapacityPercent: 72,
+    vehicleCapacityPercent: 80,
+    terminalNotice: 'Boarding commences 1 hour prior. Rough swell advisories monitored by TTMS.',
+    ticketBookingUrl: 'https://ttitferry.com/',
+    hotline: '625-3055 / 639-2417',
+    lastUpdated: '15 mins ago'
+  },
+  {
+    id: 'ferry-cabo-star-cargo',
+    serviceType: 'tobago-ferry',
+    vesselName: 'M.V. Cabo Star (Dedicated Cargo)',
+    route: 'Port of Spain ➔ Scarborough',
+    origin: 'Port of Spain Cargo Terminal',
+    destination: 'Scarborough Port, Tobago',
+    departureTime: '2:00 PM AST',
+    estimatedArrival: '8:00 PM AST (6h commercial sailing)',
+    status: 'On Schedule',
+    passengerCapacityPercent: 40,
+    vehicleCapacityPercent: 100,
+    terminalNotice: 'Commercial cargo & container flatbeds priority. Manifest validation at Gate 2.',
+    ticketBookingUrl: 'https://ttitferry.com/',
+    hotline: '625-3055',
+    lastUpdated: '25 mins ago'
+  },
+  {
+    id: 'wt-carnival-runner-morning',
+    serviceType: 'water-taxi',
+    vesselName: 'Paria Bullet (Water Taxi)',
+    route: 'San Fernando ➔ Port of Spain',
+    origin: 'Flat Rock Terminal, San Fernando',
+    destination: 'Cruise Ship Complex, Port of Spain',
+    departureTime: '6:00 AM AST',
+    estimatedArrival: '6:50 AM AST (50 mins sailing)',
+    status: 'On Schedule',
+    passengerCapacityPercent: 92,
+    terminalNotice: 'Bypasses Uriah Butler Highway gridlock. Free parking available at Lady Hailes Avenue.',
+    ticketBookingUrl: 'https://nidco.co.tt/watertaxiservice/',
+    hotline: '624-3281 / 652-3281',
+    lastUpdated: '5 mins ago'
+  },
+  {
+    id: 'wt-trini-flash-morning',
+    serviceType: 'water-taxi',
+    vesselName: 'Calypso Sprinter (Water Taxi)',
+    route: 'San Fernando ➔ Port of Spain',
+    origin: 'Flat Rock Terminal, San Fernando',
+    destination: 'Cruise Ship Complex, Port of Spain',
+    departureTime: '7:15 AM AST',
+    estimatedArrival: '8:05 AM AST (50 mins sailing)',
+    status: 'Boarding',
+    passengerCapacityPercent: 98,
+    terminalNotice: 'Peak commute run. Electronic transit cards & prepaid tickets given priority lane.',
+    ticketBookingUrl: 'https://nidco.co.tt/watertaxiservice/',
+    hotline: '624-3281 / 652-3281',
+    lastUpdated: 'Just now'
+  },
+  {
+    id: 'wt-pos-evening-return',
+    serviceType: 'water-taxi',
+    vesselName: 'Paria Bullet (Water Taxi)',
+    route: 'Port of Spain ➔ San Fernando',
+    origin: 'Cruise Ship Complex, Port of Spain',
+    destination: 'Flat Rock Terminal, San Fernando',
+    departureTime: '4:30 PM AST',
+    estimatedArrival: '5:20 PM AST (50 mins sailing)',
+    status: 'On Schedule',
+    passengerCapacityPercent: 85,
+    terminalNotice: 'Evening rush hour shuttle back to South Trinidad.',
+    ticketBookingUrl: 'https://nidco.co.tt/watertaxiservice/',
+    hotline: '624-3281 / 652-3281',
+    lastUpdated: '20 mins ago'
+  }
+];
+

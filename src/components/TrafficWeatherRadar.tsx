@@ -15,7 +15,11 @@ import {
   TrendingUp,
   TrendingDown,
   Minus,
-  RefreshCw
+  RefreshCw,
+  Ship,
+  Anchor,
+  PhoneCall,
+  ExternalLink
 } from 'lucide-react';
 import type { 
   HighwayId, 
@@ -27,7 +31,8 @@ import {
   INITIAL_TTMS_ADVISORY, 
   INITIAL_RIVER_LEVELS, 
   INITIAL_TIDES, 
-  INITIAL_WASA_NOTICES 
+  INITIAL_WASA_NOTICES,
+  INITIAL_MARITIME_SAILINGS 
 } from '../data/radarAndPollData';
 import { Storage } from '../services/storage';
 import { RadarService } from '../services/radarService';
@@ -39,11 +44,12 @@ interface TrafficWeatherRadarProps {
   onOpenNotifications: () => void;
 }
 
-type RadarTab = 'all' | 'traffic' | 'weather' | 'wasa' | 'community';
+type RadarTab = 'all' | 'traffic' | 'maritime' | 'weather' | 'wasa' | 'community';
 
 const RADAR_TAB_ITEMS: CarouselTabItem<RadarTab>[] = [
   { id: 'all', label: 'All Radar Feeds' },
   { id: 'traffic', label: `Highways & Traffic (${INITIAL_TRAFFIC_SEGMENTS.length})`, icon: <Car className="w-3.5 h-3.5" /> },
+  { id: 'maritime', label: `Sea Bridge & Water Taxi (${INITIAL_MARITIME_SAILINGS.length})`, icon: <Ship className="w-3.5 h-3.5 text-cyan-400" /> },
   { id: 'weather', label: 'TTMS & River Flooding', icon: <CloudRain className="w-3.5 h-3.5" /> },
   { id: 'wasa', label: `WASA Water Notices (${INITIAL_WASA_NOTICES.length})`, icon: <Droplet className="w-3.5 h-3.5" /> },
   { id: 'community', label: 'Driver Reports', icon: <ThumbsUp className="w-3.5 h-3.5" /> },
@@ -564,6 +570,124 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
                 <div className="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400">
                   <div className="font-semibold text-cyan-300">{notice.schedule}</div>
                   <div className="text-[10px] text-slate-500 mt-0.5">Updated {notice.updatedAt}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* SECTION 3B: MARITIME TRANSIT (TOBAGO SEA BRIDGE & WATER TAXI) */}
+      {(activeTab === 'all' || activeTab === 'maritime') && (
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <Ship className="w-5 h-5 text-cyan-400" />
+              <div>
+                <h3 className="text-base font-bold text-white">
+                  Tobago Sea Bridge & San Fernando Water Taxi
+                </h3>
+                <p className="text-xs text-slate-400">
+                  Live departure schedules, vessel passenger load, and terminal sailing advisories
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 text-xs">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-300 bg-cyan-950/80 px-2.5 py-1 rounded-full border border-cyan-800">
+                Port Authority & NIDCO
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            {INITIAL_MARITIME_SAILINGS.map((sailing) => (
+              <div 
+                key={sailing.id} 
+                className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-colors shadow-sm"
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <Anchor className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                        <span className="text-[11px] font-bold uppercase text-slate-400 tracking-wider">
+                          {sailing.serviceType === 'tobago-ferry' ? 'Tobago Sea Bridge' : 'Water Taxi Service'}
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-bold text-slate-100 mt-1">
+                        {sailing.vesselName}
+                      </h4>
+                    </div>
+
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${
+                      sailing.status === 'On Schedule'
+                        ? 'bg-emerald-950 text-emerald-400 border border-emerald-800'
+                        : sailing.status === 'Boarding'
+                        ? 'bg-amber-950 text-amber-400 border border-amber-800 animate-pulse'
+                        : sailing.status.includes('Cancelled')
+                        ? 'bg-red-950 text-red-400 border border-red-800'
+                        : 'bg-slate-800 text-slate-300'
+                    }`}>
+                      {sailing.status}
+                    </span>
+                  </div>
+
+                  {/* Route & Times */}
+                  <div className="mt-3 p-2.5 rounded-lg bg-slate-900 border border-slate-850 space-y-1.5 text-xs">
+                    <div className="flex items-center justify-between font-semibold text-slate-200">
+                      <span>Route:</span>
+                      <span className="text-cyan-300 font-bold">{sailing.route}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-slate-400 text-[11px]">
+                      <span>Departure:</span>
+                      <span className="text-white font-mono font-bold">{sailing.departureTime}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-slate-400 text-[11px]">
+                      <span>ETA:</span>
+                      <span className="text-slate-300">{sailing.estimatedArrival}</span>
+                    </div>
+                  </div>
+
+                  {/* Passenger / Vehicle Capacity Load Bar */}
+                  <div className="mt-3 space-y-1">
+                    <div className="flex items-center justify-between text-[11px] text-slate-400">
+                      <span>Passenger Load:</span>
+                      <span className="font-mono font-bold text-slate-200">{sailing.passengerCapacityPercent}%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                      <div 
+                        className={`h-full ${
+                          sailing.passengerCapacityPercent > 90 ? 'bg-red-500' : 'bg-cyan-500'
+                        }`}
+                        style={{ width: `${sailing.passengerCapacityPercent}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Terminal Notice */}
+                  {sailing.terminalNotice && (
+                    <p className="text-[11px] text-slate-400 mt-2.5 leading-relaxed bg-slate-900/50 p-2 rounded border border-slate-850/60">
+                      📌 {sailing.terminalNotice}
+                    </p>
+                  )}
+                </div>
+
+                {/* Footer Hotlines & Official Online Booking Link */}
+                <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+                  <div className="flex items-center gap-1 font-mono text-slate-400">
+                    <PhoneCall className="w-3 h-3 text-emerald-400" />
+                    <span>{sailing.hotline}</span>
+                  </div>
+
+                  <a 
+                    href={sailing.ticketBookingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold hover:underline"
+                  >
+                    <span>Bookings / Info</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
                 </div>
               </div>
             ))}
