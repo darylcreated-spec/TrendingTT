@@ -65,10 +65,13 @@ export const App: React.FC = () => {
   // Navigation & View mode: Feed, Radar, Utilities, or Polls
   const [activeView, setActiveView] = useState<ActiveView>('feed');
 
-  // Core Feed States
-  const [posts, setPosts] = useState<Post[]>(() => [...Storage.getCustomPosts(), ...INITIAL_POSTS]);
+  // Core Feed States: Default to newest posts first (latest)
+  const [posts, setPosts] = useState<Post[]>(() => {
+    const combined = [...Storage.getCustomPosts(), ...INITIAL_POSTS];
+    return combined.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  });
   const [category, setCategory] = useState<Category>('all');
-  const [sortOption, setSortOption] = useState<SortOption>('trending');
+  const [sortOption, setSortOption] = useState<SortOption>('latest');
   const [timeFilter, setTimeFilter] = useState<TimeFilterOption>('24h');
   const [selectedSources, setSelectedSources] = useState<SourceId[]>(() =>
 
@@ -178,7 +181,8 @@ export const App: React.FC = () => {
           const existingIds = new Set(prev.map((p) => p.id));
           const existingTitles = new Set(prev.map((p) => p.title.toLowerCase().trim()));
           const uniqueNew = freshPosts.filter((p) => !existingIds.has(p.id) && !existingTitles.has(p.title.toLowerCase().trim()));
-          return [...uniqueNew, ...prev];
+          const combined = [...uniqueNew, ...prev];
+          return combined.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
         });
 
         if (!silent) {

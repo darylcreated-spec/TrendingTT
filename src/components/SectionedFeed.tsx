@@ -46,22 +46,24 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
 
   const [activeSectionTab] = useState<'all' | 'breaking' | 'sports' | 'social'>('all');
 
-  // Segregate posts into distinct editorial buckets
-  const breakingPosts = posts.filter(
-    (p) => p.isBreaking || p.category === 'breaking' || p.trendingScore >= 95
-  );
+  // Segregate posts into distinct editorial buckets, ensuring newest posts appear first
+  const sortByNewest = (a: Post, b: Post) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
 
-  const sportsPosts = posts.filter(
-    (p) => p.category === 'sports' || p.tags.some((t) => /cricket|football|cpl|red force|soca warriors|track/i.test(t))
-  );
+  const breakingPosts = posts
+    .filter((p) => p.isBreaking || p.category === 'breaking' || p.trendingScore >= 95)
+    .sort(sortByNewest);
 
-  const socialPosts = posts.filter(
-    (p) => p.category === 'social' || p.sourceType === 'social'
-  );
+  const sportsPosts = posts
+    .filter((p) => p.category === 'sports' || p.tags.some((t) => /cricket|football|cpl|red force|soca warriors|track/i.test(t)))
+    .sort(sortByNewest);
 
-  const generalPosts = posts.filter(
-    (p) => !breakingPosts.includes(p) && !sportsPosts.includes(p) && !socialPosts.includes(p)
-  );
+  const socialPosts = posts
+    .filter((p) => p.category === 'social' || p.sourceType === 'social')
+    .sort(sortByNewest);
+
+  const generalPosts = posts
+    .filter((p) => !breakingPosts.includes(p) && !sportsPosts.includes(p) && !socialPosts.includes(p))
+    .sort(sortByNewest);
 
   return (
     <div className="space-y-10">
