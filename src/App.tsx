@@ -13,22 +13,49 @@ import { Header } from './components/Header';
 import { BreakingTicker } from './components/BreakingTicker';
 import { CategoryNav } from './components/CategoryNav';
 import { PostCard } from './components/PostCard';
-import { CommentDrawer } from './components/CommentDrawer';
-import { ShareModal } from './components/ShareModal';
 import { SourcesModal } from './components/SourcesModal';
 import { PWAInstallBanner } from './components/PWAInstallBanner';
-import { TrafficWeatherRadar } from './components/TrafficWeatherRadar';
 import { TrinbagoPoll } from './components/TrinbagoPoll';
-import { UtilitiesDashboard } from './components/UtilitiesDashboard';
 import { NotificationModal } from './components/NotificationModal';
 import { RadarAlertBanner } from './components/RadarAlertBanner';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { ImageZoomLightbox, type ZoomMedia } from './components/ImageZoomLightbox';
 import { SectionedFeed } from './components/SectionedFeed';
-import { BriefingModal } from './components/BriefingModal';
-import { CreatePostModal } from './components/CreatePostModal';
 import { AuthModal } from './components/AuthModal';
 import { StickyAudioPlayer } from './components/StickyAudioPlayer';
+import { MackoLeaderboard } from './components/MackoLeaderboard';
+import { AudioNarrator } from './services/audioNarrator';
+import { NotificationService } from './services/notificationService';
+import { INITIAL_TRAFFIC_SEGMENTS } from './data/radarAndPollData';
+
+// Code-split heavy modal/dashboard components with React.lazy to reduce initial bundle
+const TrafficWeatherRadar = React.lazy(() =>
+  import('./components/TrafficWeatherRadar').then((m) => ({ default: m.TrafficWeatherRadar }))
+);
+const UtilitiesDashboard = React.lazy(() =>
+  import('./components/UtilitiesDashboard').then((m) => ({ default: m.UtilitiesDashboard }))
+);
+const ShareModal = React.lazy(() =>
+  import('./components/ShareModal').then((m) => ({ default: m.ShareModal }))
+);
+const CommentDrawer = React.lazy(() =>
+  import('./components/CommentDrawer').then((m) => ({ default: m.CommentDrawer }))
+);
+const BriefingModal = React.lazy(() =>
+  import('./components/BriefingModal').then((m) => ({ default: m.BriefingModal }))
+);
+const CreatePostModal = React.lazy(() =>
+  import('./components/CreatePostModal').then((m) => ({ default: m.CreatePostModal }))
+);
+
+const ViewLoadingFallback = () => (
+  <div className="flex items-center justify-center py-20 min-h-[300px]">
+    <div className="flex flex-col items-center gap-3 text-slate-400">
+      <div className="w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+      <span className="text-xs font-semibold text-slate-300">Loading module...</span>
+    </div>
+  </div>
+);
 import { 
   Inbox, 
   CheckCircle,
@@ -249,6 +276,24 @@ export const App: React.FC = () => {
   const handleBoostMacko = (postId: string) => {
     const { voted, allVoted } = Storage.toggleMackoVote(postId);
     setMackoVotedIds(allVoted);
+    const targetPost = posts.find((p) => p.id === postId);
+    let level4PostToNotify: Post | null = null;
+    if (targetPost) {
+      const currentVotes = targetPost.mackoVotes ?? 0;
+      const newVotes = Math.max(0, currentVotes + (voted ? 1 : -1));
+      const currentScore = targetPost.mackoScore ?? targetPost.trendingScore;
+      const newScore = Math.min(100, Math.max(20, currentScore + (voted ? 6 : -6)));
+      const updated = {
+        ...targetPost,
+        mackoVotes: newVotes,
+        mackoScore: newScore,
+        trendingScore: Math.min(99, Math.max(25, targetPost.trendingScore + (voted ? 3 : -3)))
+      };
+      if (voted && newScore >= 85) {
+        level4PostToNotify = updated;
+      }
+    }
+
     setPosts((prev) =>
       prev.map((p) => {
         if (p.id === postId) {
@@ -266,8 +311,25 @@ export const App: React.FC = () => {
         return p;
       })
     );
+
+    if (level4PostToNotify) {
+      NotificationService.triggerLevel4MackoPush(level4PostToNotify);
+    }
     showToast(voted ? '🔥 You boosted D Macko Meter!' : 'Macko vote removed');
   };
+
+  // Commuter 60-Second Audio Byte Narration Trigger
+  const handlePlayCommuterAudioByte = useCallback(() => {
+    AudioNarrator.speakCommuterSummary(posts, INITIAL_TRAFFIC_SEGMENTS);
+    showToast('📻 Playing 60-Second Commuter Audio Byte (Headlines + Highway Radar)');
+  }, [posts, showToast]);
+
+  // Commuter Audio Summary Direct WhatsApp Share Trigger
+  const handleShareCommuterWhatsApp = useCallback(() => {
+    const { whatsAppText } = AudioNarrator.buildCommuterSummary(posts, INITIAL_TRAFFIC_SEGMENTS);
+    AudioNarrator.shareSummaryToWhatsApp(whatsAppText);
+    showToast('Opening WhatsApp with Commuter Audio Summary');
+  }, [posts, showToast]);
 
   // Trini Custom Reaction Handler
   const handleSelectReaction = (postId: string, reactionType: TriniReactionType) => {
@@ -449,18 +511,22 @@ export const App: React.FC = () => {
       >
         {/* OPTION B VIEW: TRAFFIC & WEATHER RADAR */}
         {activeView === 'radar' && (
-          <TrafficWeatherRadar
-            onShowToast={showToast}
-            onOpenNotifications={() => setIsNotificationModalOpen(true)}
-          />
+          <React.Suspense fallback={<ViewLoadingFallback />}>
+            <TrafficWeatherRadar
+              onShowToast={showToast}
+              onOpenNotifications={() => setIsNotificationModalOpen(true)}
+            />
+          </React.Suspense>
         )}
 
         {/* UTILITIES RADAR VIEW: T&TEC, WASA, AMPLIA, FLOW, DIGICEL, BMOBILE */}
         {activeView === 'utilities' && (
-          <UtilitiesDashboard
-            onShowToast={showToast}
-            onOpenNotifications={() => setIsNotificationModalOpen(true)}
-          />
+          <React.Suspense fallback={<ViewLoadingFallback />}>
+            <UtilitiesDashboard
+              onShowToast={showToast}
+              onOpenNotifications={() => setIsNotificationModalOpen(true)}
+            />
+          </React.Suspense>
         )}
 
         {/* OPTION C VIEW: TRINBAGO SENTIMENT POLLS */}
@@ -476,8 +542,24 @@ export const App: React.FC = () => {
         {/* DEFAULT VIEW: NATIONAL NEWS FEED */}
         {activeView === 'feed' && (
           <>
-            {/* Live Traffic & Weather Radar Teaser Banner */}
-            <RadarAlertBanner onOpenRadar={() => setActiveView('radar')} />
+            {/* Live Traffic & Weather Radar Teaser Banner with 60-Second Commuter Audio Byte & Direct WhatsApp Share */}
+            <RadarAlertBanner 
+              onOpenRadar={() => setActiveView('radar')} 
+              onPlayCommuterAudio={handlePlayCommuterAudioByte}
+              onShareCommuterWhatsApp={handleShareCommuterWhatsApp}
+            />
+
+            {/* D Macko Leaderboard: Top 5 Buzzing Topics Carousel or Spotlight Card */}
+            {!showBookmarksOnly && !searchQuery && category === 'all' && (
+              <MackoLeaderboard
+                posts={posts}
+                mackoVotedIds={mackoVotedIds}
+                onBoostMacko={handleBoostMacko}
+                onOpenComments={setCommentPost}
+                onWhatsAppShare={handleWhatsAppShare}
+                onSelectPost={setCommentPost}
+              />
+            )}
 
             {/* Featured Trinbago Poll of the Day Card */}
             <div className="mb-6">
@@ -599,20 +681,28 @@ export const App: React.FC = () => {
         </div>
       </footer>
 
-      {/* Slide-over Comments Drawer */}
-      <CommentDrawer
-        post={commentPost}
-        isOpen={Boolean(commentPost)}
-        onClose={() => setCommentPost(null)}
-        onCommentAdded={handleCommentAdded}
-      />
+      {/* Slide-over Comments Drawer (Lazy Loaded) */}
+      <React.Suspense fallback={null}>
+        {commentPost && (
+          <CommentDrawer
+            post={commentPost}
+            isOpen={Boolean(commentPost)}
+            onClose={() => setCommentPost(null)}
+            onCommentAdded={handleCommentAdded}
+          />
+        )}
+      </React.Suspense>
 
-      {/* Share / Repost Modal */}
-      <ShareModal
-        post={sharePost}
-        isOpen={Boolean(sharePost)}
-        onClose={() => setSharePost(null)}
-      />
+      {/* Share / Repost Modal (Lazy Loaded) */}
+      <React.Suspense fallback={null}>
+        {sharePost && (
+          <ShareModal
+            post={sharePost}
+            isOpen={Boolean(sharePost)}
+            onClose={() => setSharePost(null)}
+          />
+        )}
+      </React.Suspense>
 
       {/* Sources Customization Modal */}
       <SourcesModal
@@ -644,27 +734,35 @@ export const App: React.FC = () => {
         onClose={() => setZoomMedia(null)}
       />
 
-      {/* Intelligence Briefing & NotebookLM Synthesizer Modal */}
-      <BriefingModal
-        isOpen={isBriefingModalOpen}
-        onClose={() => setIsBriefingModalOpen(false)}
-        posts={posts}
-        onPublishPost={(newPost) => {
-          setPosts((prev) => [newPost, ...prev]);
-        }}
-        onCrossPost={(post) => setSharePost(post)}
-        onShowToast={showToast}
-      />
+      {/* Intelligence Briefing & NotebookLM Synthesizer Modal (Lazy Loaded) */}
+      <React.Suspense fallback={null}>
+        {isBriefingModalOpen && (
+          <BriefingModal
+            isOpen={isBriefingModalOpen}
+            onClose={() => setIsBriefingModalOpen(false)}
+            posts={posts}
+            onPublishPost={(newPost) => {
+              setPosts((prev) => [newPost, ...prev]);
+            }}
+            onCrossPost={(post) => setSharePost(post)}
+            onShowToast={showToast}
+          />
+        )}
+      </React.Suspense>
 
-      {/* User Post Creation Modal */}
-      <CreatePostModal
-        isOpen={isCreatePostModalOpen}
-        onClose={() => setIsCreatePostModalOpen(false)}
-        onPostCreated={(newPost) => {
-          setPosts((prev) => [newPost, ...prev]);
-        }}
-        onShowToast={showToast}
-      />
+      {/* User Post Creation Modal (Lazy Loaded) */}
+      <React.Suspense fallback={null}>
+        {isCreatePostModalOpen && (
+          <CreatePostModal
+            isOpen={isCreatePostModalOpen}
+            onClose={() => setIsCreatePostModalOpen(false)}
+            onPostCreated={(newPost) => {
+              setPosts((prev) => [newPost, ...prev]);
+            }}
+            onShowToast={showToast}
+          />
+        )}
+      </React.Suspense>
 
       {/* Trinbago User Identity & Auth Modal */}
       <AuthModal

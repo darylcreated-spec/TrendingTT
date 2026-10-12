@@ -235,6 +235,27 @@ const NotificationModalContent: React.FC<NotificationModalContentProps> = ({
                   className="w-4 h-4 rounded text-red-600 focus:ring-red-500 bg-slate-900 border-slate-700 accent-red-600"
                 />
               </label>
+
+              <label className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-red-950/40 to-slate-950/70 border border-red-900/60 hover:border-red-700 cursor-pointer transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="p-1.5 rounded-lg bg-red-950 text-red-400 border border-red-700/60 shadow-sm shadow-red-900/40">
+                    <Flame className="w-4 h-4 animate-pulse fill-current" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-red-300 flex items-center gap-1.5">
+                      <span>Level 4 &quot;Full Macko Mode&quot; Incidents</span>
+                      <span className="px-1.5 py-0.2 text-[9px] font-black uppercase tracking-wider bg-red-600 text-white rounded">Hot</span>
+                    </div>
+                    <div className="text-[11px] text-slate-400">Browser push for high-severity incidents reaching 85%+ viral Macko score</div>
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={settings.fullMackoMode}
+                  onChange={() => handleTogglePreference('fullMackoMode')}
+                  className="w-4 h-4 rounded text-red-600 focus:ring-red-500 bg-slate-900 border-slate-700 accent-red-600"
+                />
+              </label>
             </div>
           </div>
 
@@ -252,7 +273,7 @@ const NotificationModalContent: React.FC<NotificationModalContentProps> = ({
               Dispatch a real notification to your device now to verify sound, vibration, and background tray delivery.
             </p>
 
-            <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
               <button
                 type="button"
                 onClick={() => setTestAlertType('breaking')}
@@ -300,6 +321,21 @@ const NotificationModalContent: React.FC<NotificationModalContentProps> = ({
               >
                 <div className="font-bold">Trinbago Poll</div>
                 <div className="text-[10px] opacity-80">Doubles Rivalry</div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setTestAlertType('full_macko')}
+                className={`p-2 rounded-lg border text-left transition-colors col-span-2 sm:col-span-1 ${
+                  testAlertType === 'full_macko' 
+                    ? 'border-red-500 bg-red-950/60 text-red-200 shadow-sm' 
+                    : 'border-red-900/60 bg-red-950/20 text-red-300 hover:bg-red-950/40'
+                }`}
+              >
+                <div className="font-bold flex items-center gap-1">
+                  <span>Full Macko</span>
+                  <span className="text-[10px]">🔥🚨</span>
+                </div>
+                <div className="text-[10px] opacity-85">Level 4 Peak Alert</div>
               </button>
             </div>
 

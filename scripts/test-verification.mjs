@@ -526,7 +526,77 @@ const hasLocalAgencies = ingestedData.posts.some(p => ['newsday', 'express', 'gu
 assert(hasLocalAgencies, 'ingested-posts.json must contain items from local news agencies');
 console.log(`PASS: Python News Scraper validated (${ingestedData.posts.length} posts present in public/data/ingested-posts.json).\n`);
 
+console.log('13. Verifying all 5 Architectural Improvements (1 to 5)...');
+
+// 1. Decouple Scraper Storage
+assert(workflowContent.includes('branch: data-feed'), 'Workflow must target decoupled branch data-feed');
+assert(workflowContent.includes('create_branch: true'), 'Workflow must set create_branch: true');
+assert(workflowContent.includes('fetch-depth: 0'), 'Workflow must specify fetch-depth: 0 for multi-branch commit/push');
+assert(scraperPyContent.includes('--decoupled'), 'news_scraper.py must support --decoupled flag');
+assert(scraperPyContent.includes('storageBranch'), 'news_scraper.py must record storageBranch metadata');
+const socialEngineContent = fs.readFileSync('src/services/socialIngestionEngine.ts', 'utf8');
+assert(socialEngineContent.includes('decoupledDataUrl'), 'socialIngestionEngine.ts must support decoupledDataUrl');
+assert(socialEngineContent.includes('data-feed'), 'socialIngestionEngine.ts must reference data-feed branch endpoint');
+console.log('PASS: 1. Decouple Scraper Storage verified.');
+
+// 2. D Macko Leaderboard
+assert(fs.existsSync('src/components/MackoLeaderboard.tsx'), 'MackoLeaderboard.tsx must exist');
+const mackoLeaderboardContent = fs.readFileSync('src/components/MackoLeaderboard.tsx', 'utf8');
+assert(mackoLeaderboardContent.includes('computeMackoLeaderboard'), 'MackoLeaderboard must export computeMackoLeaderboard');
+assert(mackoLeaderboardContent.includes('voteVelocity'), 'MackoLeaderboard must rank based on vote velocity');
+assert(mackoLeaderboardContent.includes('Spotlight Card') && mackoLeaderboardContent.includes('Carousel'), 'MackoLeaderboard must support Carousel & Spotlight views');
+assert(mackoLeaderboardContent.includes('isSpotlightVoted'), 'MackoLeaderboard spotlight card must reflect voted state');
+const freshAppContent = fs.readFileSync('src/App.tsx', 'utf8');
+assert(freshAppContent.includes('<MackoLeaderboard'), 'App.tsx must render MackoLeaderboard in feed');
+console.log('PASS: 2. D Macko Leaderboard verified.');
+
+// 3. Route & Component Code-Splitting
+assert(freshAppContent.includes('React.lazy(() =>') && freshAppContent.includes('import(\'./components/TrafficWeatherRadar\')'), 'TrafficWeatherRadar must be code-split with React.lazy');
+assert(freshAppContent.includes('import(\'./components/UtilitiesDashboard\')'), 'UtilitiesDashboard must be code-split with React.lazy');
+assert(freshAppContent.includes('import(\'./components/ShareModal\')'), 'ShareModal must be code-split with React.lazy');
+assert(freshAppContent.includes('import(\'./components/CommentDrawer\')'), 'CommentDrawer must be code-split with React.lazy');
+assert(freshAppContent.includes('import(\'./components/BriefingModal\')'), 'BriefingModal must be code-split with React.lazy');
+assert(freshAppContent.includes('import(\'./components/CreatePostModal\')'), 'CreatePostModal must be code-split with React.lazy');
+assert(freshAppContent.includes('<React.Suspense fallback='), 'App.tsx must use Suspense for lazy components');
+console.log('PASS: 3. Route & Component Code-Splitting verified.');
+
+// 4. Commuter 60-Second Audio Byte
+const audioNarratorContent = fs.readFileSync('src/services/audioNarrator.ts', 'utf8');
+assert(audioNarratorContent.includes('buildCommuterSummary'), 'audioNarrator must support buildCommuterSummary');
+assert(audioNarratorContent.includes('speakCommuterSummary'), 'audioNarrator must support speakCommuterSummary');
+assert(audioNarratorContent.includes('shareSummaryToWhatsApp'), 'audioNarrator must support WhatsApp sharing');
+assert(audioNarratorContent.includes('Churchill Roosevelt') && audioNarratorContent.includes('Uriah Butler') && audioNarratorContent.includes('Priority Bus Route'), 'audioNarrator must include CRH, UBH, and PBR alerts');
+
+// Runtime test of buildCommuterSummary edge cases (empty and undefined arrays)
+const { AudioNarrator } = await import('../src/services/audioNarrator.ts');
+const emptyCommuterTest = AudioNarrator.buildCommuterSummary([], []);
+assert(emptyCommuterTest.narrationScript.includes('Churchill Roosevelt Highway'), 'Summary must contain CRH fallback');
+assert(emptyCommuterTest.narrationScript.includes('Uriah Butler Highway'), 'Summary must contain UBH fallback');
+assert(emptyCommuterTest.narrationScript.includes('Priority Bus Route'), 'Summary must contain PBR fallback');
+assert(emptyCommuterTest.whatsAppText.includes('CRH'), 'WhatsApp text must contain CRH abbreviation');
+const undefCommuterTest = AudioNarrator.buildCommuterSummary();
+assert(undefCommuterTest.narrationScript.length > 0, 'Undefined parameters must not throw error');
+
+const stickyAudioContent = fs.readFileSync('src/components/StickyAudioPlayer.tsx', 'utf8');
+assert(stickyAudioContent.includes('Share to WhatsApp'), 'StickyAudioPlayer must provide direct Share to WhatsApp action');
+const radarBannerContent = fs.readFileSync('src/components/RadarAlertBanner.tsx', 'utf8');
+assert(radarBannerContent.includes('60s Audio Byte'), 'RadarAlertBanner must feature 60s Audio Byte trigger');
+assert(radarBannerContent.includes('onShareCommuterWhatsApp'), 'RadarAlertBanner must support onShareCommuterWhatsApp');
+console.log('PASS: 4. Commuter 60-Second Audio Byte verified.');
+
+// 5. Level 4 "Full Macko Mode" Web Push Notifications
+const typesContent = fs.readFileSync('src/types/index.ts', 'utf8');
+assert(typesContent.includes('fullMackoMode: boolean'), 'types/index.ts must include fullMackoMode setting');
+const notifServiceContent = fs.readFileSync('src/services/notificationService.ts', 'utf8');
+assert(notifServiceContent.includes('triggerLevel4MackoPush'), 'NotificationService must implement triggerLevel4MackoPush');
+assert(notifServiceContent.includes('full_macko'), 'NotificationService must contain full_macko alert template');
+const notifModalContent = fs.readFileSync('src/components/NotificationModal.tsx', 'utf8');
+assert(notifModalContent.includes('fullMackoMode'), 'NotificationModal must include fullMackoMode toggle');
+assert(notifModalContent.includes('Full Macko Mode') || notifModalContent.includes('full_macko'), 'NotificationModal must support Level 4 test alert');
+console.log('PASS: 5. Level 4 Full Macko Mode Web Push Notifications verified.\n');
+
 console.log('=== ALL VERIFICATION CHECKS PASSED SUCCESSFULLY ===');
+
 
 
 

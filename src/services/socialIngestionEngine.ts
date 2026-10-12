@@ -4,6 +4,7 @@ export interface IngestionConfig {
   rssBridgeBaseUrl: string;
   enableMockFallback: boolean;
   cacheEndpoint: string;
+  decoupledDataUrl?: string;
   autoIngestIntervalMs: number;
 }
 
@@ -14,6 +15,7 @@ export interface IngestionResult {
   errors: string[];
   timestamp: string;
   isOfflineFallback: boolean;
+  storageSource?: 'decoupled-remote' | 'local-bundle' | 'offline-mock';
 }
 
 export interface ConnectorTestResult {
@@ -64,6 +66,7 @@ const DEFAULT_CONFIG: IngestionConfig = {
   rssBridgeBaseUrl: 'https://rss-bridge.org/bridge01',
   enableMockFallback: true,
   cacheEndpoint: '/data/ingested-posts.json',
+  decoupledDataUrl: (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_DATA_FEED_URL) || 'https://raw.githubusercontent.com/darylcreated-spec/TrendingTT/data-feed/public/data/ingested-posts.json',
   autoIngestIntervalMs: 5 * 60 * 1000
 };
 
@@ -452,7 +455,38 @@ export class SocialIngestionEngine {
     const errors: string[] = [];
     const sourceCounts: Partial<Record<SourceId, number>> = {};
 
-    // 1. Try reading the local backend worker cache file
+    // 1. First attempt reading decoupled remote data storage branch (prevents git conflicts on main)
+    if (this.config.decoupledDataUrl) {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 2500);
+        const res = await fetch(this.config.decoupledDataUrl, { signal: controller.signal });
+        clearTimeout(timeout);
+
+        if (res.ok) {
+          const payload = await res.json();
+          if (Array.isArray(payload.posts) && payload.posts.length > 0) {
+            for (const post of payload.posts) {
+              sourceCounts[post.sourceId as SourceId] = (sourceCounts[post.sourceId as SourceId] || 0) + 1;
+            }
+
+            return {
+              posts: payload.posts,
+              totalIngested: payload.posts.length,
+              sourceCounts,
+              errors: payload.errors || [],
+              timestamp: payload.meta?.generatedAt || new Date().toISOString(),
+              isOfflineFallback: false,
+              storageSource: 'decoupled-remote'
+            };
+          }
+        }
+      } catch {
+        // Fallback to local cache if decoupled remote branch not reachable
+      }
+    }
+
+    // 2. Try reading the local backend worker cache file
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 3000);
@@ -472,7 +506,8 @@ export class SocialIngestionEngine {
             sourceCounts,
             errors: payload.errors || [],
             timestamp: payload.meta?.generatedAt || new Date().toISOString(),
-            isOfflineFallback: false
+            isOfflineFallback: false,
+            storageSource: 'local-bundle'
           };
         }
       }

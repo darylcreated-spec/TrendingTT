@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -40,12 +42,14 @@ jobs:
         env:
           RSS_BRIDGE_URL: ${{ secrets.RSS_BRIDGE_URL || 'https://rss-bridge.org/bridge01' }}
 
-      - name: Run Python Local News Scraper
-        run: python3 scripts/news_scraper.py --output public/data/ingested-posts.json
+      - name: Run Python Local News Scraper (Decoupled Mode)
+        run: python3 scripts/news_scraper.py --output public/data/ingested-posts.json --decoupled
 
-      - name: Commit & Push Updated Data
+      - name: Commit & Push Updated Data to Decoupled Data Branch
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
+          branch: data-feed
+          create_branch: true
           commit_message: "chore(data): auto-update ingested social feeds [skip ci]"
           file_pattern: "public/data/ingested-posts.json"
           commit_user_name: "Trending TT Bot"

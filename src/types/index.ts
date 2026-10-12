@@ -233,6 +233,7 @@ export interface NotificationSettings {
   weatherAlerts: boolean;
   trafficAlerts: boolean;
   dailyPolls: boolean;
+  fullMackoMode: boolean; // Level 4 "Full Macko Mode" Web Push Notifications
 }
 
 // Utility Provider Types (T&TEC, WASA, Amplia, Flow, Digicel, bmobile)

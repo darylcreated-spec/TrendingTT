@@ -1,6 +1,6 @@
 import { Storage } from './storage';
 
-export type AlertType = 'breaking' | 'traffic' | 'weather' | 'poll';
+export type AlertType = 'breaking' | 'traffic' | 'weather' | 'poll' | 'full_macko';
 
 export interface AlertPayload {
   title: string;
@@ -33,6 +33,12 @@ export const ALERT_TEMPLATES: Record<AlertType, AlertPayload> = {
     body: 'Over 3,800 votes cast in the national doubles rivalry. Have your say today!',
     tag: 'poll-alert',
     url: '/#polls'
+  },
+  full_macko: {
+    title: '🔥🚨 FULL MACKO MODE: Level 4 High-Severity Alert',
+    body: 'Developing national situation reaches Level 4 peak virality (85%+ Macko). Whole village talking!',
+    tag: 'full-macko-level4-alert',
+    url: '/'
   }
 };
 
@@ -133,5 +139,34 @@ export const NotificationService = {
         message: 'Notification dispatch failed.'
       };
     }
+  },
+
+  /**
+   * Trigger Level 4 "Full Macko Mode" Web Push notification
+   * Checks user opt-in control (settings.fullMackoMode) and virality threshold (score >= 85)
+   */
+  async triggerLevel4MackoPush(post: {
+    id: string;
+    title: string;
+    summary: string;
+    mackoScore?: number;
+    trendingScore?: number;
+  }): Promise<boolean> {
+    const settings = Storage.getNotificationSettings();
+    const perm = this.getPermission();
+    if (!settings.fullMackoMode || (settings.enabled === false && perm !== 'granted')) {
+      return false;
+    }
+
+    const score = post.mackoScore ?? post.trendingScore ?? 85;
+    if (score < 85) {
+      return false;
+    }
+
+    return await this.showNotification(`🔥🚨 FULL MACKO MODE: ${post.title}`, {
+      body: `Level 4 Peak Virality (${score}% Hot): ${post.summary.slice(0, 140)}...`,
+      tag: `macko-level4-${post.id}`,
+      data: { url: `/?post=${post.id}` },
+    });
   }
 };

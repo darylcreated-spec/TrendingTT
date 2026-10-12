@@ -29,6 +29,7 @@ const DEFAULT_NOTIFICATIONS: NotificationSettings = {
   weatherAlerts: true,
   trafficAlerts: true,
   dailyPolls: false,
+  fullMackoMode: true,
 };
 
 export const Storage = {
@@ -267,6 +268,7 @@ export const Storage = {
 
   // Option D: Push Notification Storage
   getNotificationSettings(): NotificationSettings {
+    const currentPerm = typeof window !== 'undefined' && 'Notification' in window ? Notification.permission : 'default';
     try {
       const data = localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS);
       if (data) {
@@ -274,13 +276,18 @@ export const Storage = {
         return {
           ...DEFAULT_NOTIFICATIONS,
           ...parsed,
-          permission: typeof window !== 'undefined' && 'Notification' in window ? Notification.permission : 'default'
+          enabled: parsed?.enabled ?? (currentPerm === 'granted'),
+          permission: currentPerm
         };
       }
     } catch {
       // Fallback
     }
-    return DEFAULT_NOTIFICATIONS;
+    return {
+      ...DEFAULT_NOTIFICATIONS,
+      enabled: currentPerm === 'granted',
+      permission: currentPerm
+    };
   },
 
   saveNotificationSettings(settings: Partial<NotificationSettings>): NotificationSettings {

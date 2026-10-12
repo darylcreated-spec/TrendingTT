@@ -726,7 +726,8 @@ def run_scraper(
     sources: Optional[List[str]] = None,
     mock: bool = False,
     dry_run: bool = False,
-    output_path: Optional[str] = None
+    output_path: Optional[str] = None,
+    decoupled: bool = False
 ) -> Dict[str, Any]:
     print("=" * 60)
     print(" Trending.TT - Local News Agency Scraper (Python 3.12)")
@@ -819,7 +820,25 @@ def run_scraper(
     existing_posts: List[Dict[str, Any]] = []
     existing_meta: Dict[str, Any] = {}
 
-    if os.path.exists(target_file):
+    # If running in decoupled mode, attempt loading previous historical posts from decoupled data branch
+    if decoupled:
+        remote_feed_url = os.environ.get(
+            "VITE_DATA_FEED_URL",
+            "https://raw.githubusercontent.com/darylcreated-spec/TrendingTT/data-feed/public/data/ingested-posts.json"
+        )
+        try:
+            resp = requests.get(remote_feed_url, timeout=5)
+            if resp.status_code == 200:
+                remote_data = resp.json()
+                remote_posts = remote_data.get("posts", [])
+                if isinstance(remote_posts, list) and remote_posts:
+                    existing_posts = remote_posts
+                    existing_meta = remote_data.get("meta", {})
+                    print(f"[Decoupled] Loaded {len(existing_posts)} existing historical posts from {remote_feed_url}")
+        except Exception as e:
+            print(f"[Decoupled] Remote feed not reachable ({e}), using local file if present.")
+
+    if not existing_posts and os.path.exists(target_file):
         try:
             with open(target_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -868,9 +887,11 @@ def run_scraper(
     result_payload = {
         "meta": {
             "generator": "Trending TT Multi-Source News Scraper (Python 3.12)",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "timezone": "AST (America/Port_of_Spain)",
             "generatedAt": format_iso_ast(),
+            "storageMode": "decoupled" if decoupled else "bundled",
+            "storageBranch": "data-feed" if decoupled else "main",
             "stats": {
                 "scrapedCount": len(new_posts),
                 "totalNormalized": len(final_posts),
@@ -887,7 +908,7 @@ def run_scraper(
     with open(target_file, "w", encoding="utf-8") as f:
         json.dump(result_payload, f, indent=2, ensure_ascii=False)
 
-    print(f"[Success] Saved {len(final_posts)} posts to {target_file}")
+    print(f"[Success] Saved {len(final_posts)} posts to {target_file} (Mode: {'Decoupled/data-feed' if decoupled else 'Standard'})")
     return result_payload
 
 def main():
@@ -896,10 +917,11 @@ def main():
     parser.add_argument("--mock", action="store_true", help="Use offline high-fidelity local agency articles")
     parser.add_argument("--output", type=str, default="public/data/ingested-posts.json", help="Path to write output JSON")
     parser.add_argument("--source", type=str, default=None, help="Comma-separated sources (newsday,express,guardian,tv6,cnc3,ttt,ian)")
+    parser.add_argument("--decoupled", action="store_true", help="Enable decoupled storage mode targeting isolated data-feed branch")
 
     args = parser.parse_args()
     sources = [s.strip().lower() for s in args.source.split(",")] if args.source else None
-    run_scraper(sources=sources, mock=args.mock, dry_run=args.dry_run, output_path=args.output)
+    run_scraper(sources=sources, mock=args.mock, dry_run=args.dry_run, output_path=args.output, decoupled=args.decoupled)
 
 if __name__ == "__main__":
     main()
