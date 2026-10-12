@@ -3,12 +3,12 @@
     "generator": "Trending TT Ingestion Engine (yt-dlp + RSS-Bridge)",
     "version": "1.2.0",
     "timezone": "AST (America/Port_of_Spain)",
-    "generatedAt": "2026-10-12T04:44:24.986Z",
+    "generatedAt": "2026-10-12T12:50:25.875Z",
     "stats": {
       "ytDlpProcessed": 5,
       "rssBridgeProcessed": 11,
       "totalNormalized": 15,
-      "timestamp": "2026-10-12T04:44:07.708Z"
+      "timestamp": "2026-10-12T12:50:11.891Z"
     }
   },
   "posts": [
@@ -23,7 +23,7 @@
       "sourceType": "social",
       "author": "@maracas_vibes868",
       "originalUrl": "https://www.tiktok.com/tag/trinitiktok",
-      "publishedAt": "2026-10-12T04:08:07.707Z",
+      "publishedAt": "2026-10-12T12:14:11.891Z",
       "category": "culture",
       "tags": [
         "#trinitiktok",
@@ -53,7 +53,7 @@
       "sourceType": "broadcast",
       "author": "CCN TV6 News Desk",
       "originalUrl": "https://www.youtube.com/watch?v=tv6-sample-news-7pm",
-      "publishedAt": "2026-10-12T03:09:07.707Z",
+      "publishedAt": "2026-10-12T11:15:11.891Z",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -83,7 +83,7 @@
       "sourceType": "broadcast",
       "author": "CNC3 News Anchor",
       "originalUrl": "https://www.youtube.com/watch?v=cnc3-sample-evening-7",
-      "publishedAt": "2026-10-12T02:54:07.707Z",
+      "publishedAt": "2026-10-12T11:00:11.891Z",
       "category": "business",
       "tags": [
         "CNC3 News",
@@ -113,7 +113,7 @@
       "sourceType": "broadcast",
       "author": "TTT Live Studio",
       "originalUrl": "https://www.youtube.com/watch?v=ttt-sample-news-7pm",
-      "publishedAt": "2026-10-12T02:24:07.707Z",
+      "publishedAt": "2026-10-12T10:30:11.891Z",
       "category": "broadcast",
       "tags": [
         "TTT Live",
@@ -143,7 +143,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/videos/morvant-community-standoff",
-      "publishedAt": "2026-10-12T04:04:07.707Z",
+      "publishedAt": "2026-10-12T12:10:11.891Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -163,56 +163,60 @@
       }
     },
     {
-      "id": "rss-bridge-facebook-723f3c46295518c9ead826852113227f12560502",
-      "title": "She alleged that some people had turned temporary welfare programmes, government assistance and publ...",
-      "summary": "She alleged that some people had turned temporary welfare programmes, government assistance and public-sector employment into permanent schemes for generating personal income di...",
-      "content": "She alleged that some people had turned temporary welfare programmes, government assistance and public-sector employment into permanent schemes for generating personal income dishonestly.\nREAD MORE: https://trinidadexpress.com/newsextra/pm-vows-to-end-rewarding-laziness-dishonesty/article_c0787d65-e479-4759-b5d5-3948feccecc2.html",
+      "id": "bridge-fb-tv6-morning-edition",
+      "targetId": "bridge-fb-tv6",
+      "title": "CCN TV6 Facebook: Morning Edition panel debates food security and local agricultural incentives",
+      "summary": "TV6 official Facebook desk shares key takeaways from parliamentary discussion on local farming subsidies, root crop production, and lowering supermarket import bills.",
+      "content": "Viewers engaged in heated commentary under TV6 Morning Edition discussion regarding Trinidadian farmers, flood mitigation subsidies in Plum Mitan, and vegetable market price stabilization.",
       "sourceId": "tv6",
       "sourceName": "CCN TV6",
       "sourceType": "broadcast",
-      "author": "CCN TV6: Trinidad and Tobago",
-      "originalUrl": "https://www.facebook.com/CCNTV6/posts/pfbid02y1ygW9ajVYdpbJEXLXArAMo73EueDALzR8uL9eLXtMwuasPvMrMq75qhsaSbdn9dl",
-      "publishedAt": "2026-10-12T04:44:18.880Z",
+      "author": "CCN TV6 Digital Desk",
+      "originalUrl": "https://www.facebook.com/CCNTV6/posts/morning-edition-agriculture",
+      "publishedAt": "2026-10-12T11:35:11.891Z",
       "category": "broadcast",
       "tags": [
         "TV6 Facebook",
-        "News Alert",
-        "Trinidad"
+        "Morning Edition",
+        "Food Security",
+        "Trinidad Agriculture"
       ],
-      "trendingScore": 82,
-      "upvotes": 130,
-      "commentsCount": 26,
+      "trendingScore": 88,
+      "upvotes": 395,
+      "commentsCount": 94,
       "isBreaking": false,
       "media": {
         "type": "image",
-        "url": "https://scontent.xx.fbcdn.net/v/t39.99422-6/843606715_1078890348095526_8874872124350998770_n.png?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s640x640&_nc_cat=110&ccb=1-7&_nc_sid=127cfc&_nc_ohc=T0cmimcuE6UQ7kNvwEouCCR&_nc_oc=AdogNGo6SKCA4wsd1NR2Y9GSF_2z_RbjWaDK8o6zXd3aXZNz8t2mYpDc0XPCfBzd5No&_nc_zt=14&_nc_ht=scontent.xx&_nc_gid=qelDDEsaOV9nwvO1cc6ivA&_nc_ss=72289&oh=00_AQMW4cC1HF9scuSkOm26JI6LDLQnL3NAumo_HYsWxFWFgw&oe=6AD1F908",
+        "url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80",
         "aspectRatio": "landscape"
       }
     },
     {
-      "id": "rss-bridge-facebook-95789f15a4b55a39903459b360291afffee9cf45",
-      "title": "The CNC3 Evening News - Sunday 11 October 2026",
-      "summary": "The CNC3 Evening News - Sunday 11 October 2026",
-      "content": "The CNC3 Evening News - Sunday 11 October 2026",
+      "id": "bridge-fb-cnc3-port-upgrade",
+      "targetId": "bridge-fb-cnc3",
+      "title": "CNC3 Facebook: Port of Spain container terminal deploys automated gate logistics",
+      "summary": "CNC3 Television Facebook feed highlights new digital processing systems at the Port Authority aimed at slashing trucker dwell times and freight delays.",
+      "content": "The Port Authority of Trinidad and Tobago announced completion of its Phase 2 automated gate logistics system. CNC3 Digital desk covers container terminal trucker reactions and port efficiency metrics.",
       "sourceId": "cnc3",
       "sourceName": "CNC3 Television",
       "sourceType": "broadcast",
-      "author": "CNC3 Television, Trinidad and Tobago",
-      "originalUrl": "https://www.facebook.com/CNC3Television/videos/2163459957897851/",
-      "publishedAt": "2026-10-12T04:44:19.582Z",
-      "category": "broadcast",
+      "author": "CNC3 Television Digital Desk",
+      "originalUrl": "https://www.facebook.com/CNC3Television/posts/port-logistics-update",
+      "publishedAt": "2026-10-12T11:25:11.891Z",
+      "category": "business",
       "tags": [
         "CNC3 Facebook",
-        "Digital Desk",
-        "Trinidad"
+        "Port of Spain",
+        "Trade TT",
+        "Infrastructure"
       ],
-      "trendingScore": 85,
-      "upvotes": 185,
-      "commentsCount": 38,
+      "trendingScore": 87,
+      "upvotes": 340,
+      "commentsCount": 61,
       "isBreaking": false,
       "media": {
         "type": "image",
-        "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+        "url": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=80",
         "aspectRatio": "landscape"
       }
     },
@@ -227,7 +231,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/posts/central-division-highway",
-      "publishedAt": "2026-10-12T03:54:07.707Z",
+      "publishedAt": "2026-10-12T12:00:11.891Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -257,7 +261,7 @@
       "sourceType": "newspaper",
       "author": "Newsday Digital Desk",
       "originalUrl": "https://www.facebook.com/NewsdayTT/posts/sea-results-celebrations",
-      "publishedAt": "2026-10-12T01:44:07.707Z",
+      "publishedAt": "2026-10-12T09:50:11.891Z",
       "category": "culture",
       "tags": [
         "Newsday",
@@ -285,16 +289,16 @@
       "sourceType": "social",
       "author": "tv6tnt",
       "originalUrl": "https://www.instagram.com/p/DdWsL7TmXWk/",
-      "publishedAt": "2026-10-12T04:44:22.339Z",
+      "publishedAt": "2026-10-12T12:50:25.057Z",
       "category": "social",
       "tags": [
         "Instagram TT",
         "TV6 Reels",
         "Viral Video"
       ],
-      "trendingScore": 87,
-      "upvotes": 132,
-      "commentsCount": 49,
+      "trendingScore": 82,
+      "upvotes": 247,
+      "commentsCount": 46,
       "isBreaking": false,
       "media": {
         "type": "video",
@@ -312,16 +316,16 @@
       "sourceType": "social",
       "author": "tv6tnt",
       "originalUrl": "https://www.instagram.com/p/DdUIJEPjAoQ/",
-      "publishedAt": "2026-10-12T04:44:22.339Z",
+      "publishedAt": "2026-10-12T12:50:25.057Z",
       "category": "social",
       "tags": [
         "Instagram TT",
         "TV6 Reels",
         "Viral Video"
       ],
-      "trendingScore": 89,
-      "upvotes": 124,
-      "commentsCount": 24,
+      "trendingScore": 94,
+      "upvotes": 54,
+      "commentsCount": 15,
       "isBreaking": false,
       "media": {
         "type": "video",
@@ -339,15 +343,15 @@
       "sourceType": "social",
       "author": "cnc3news",
       "originalUrl": "https://www.instagram.com/p/DeXmeQIjEk3/",
-      "publishedAt": "2026-10-12T04:44:24.262Z",
+      "publishedAt": "2026-10-12T12:50:25.200Z",
       "category": "social",
       "tags": [
         "CNC3 Reels",
         "Breaking Instagram",
         "Caribbean"
       ],
-      "trendingScore": 88,
-      "upvotes": 227,
+      "trendingScore": 82,
+      "upvotes": 96,
       "commentsCount": 15,
       "isBreaking": false,
       "media": {
@@ -366,16 +370,16 @@
       "sourceType": "social",
       "author": "cnc3news",
       "originalUrl": "https://www.instagram.com/p/DeXmN_1jHmb/",
-      "publishedAt": "2026-10-12T04:44:24.262Z",
+      "publishedAt": "2026-10-12T12:50:25.201Z",
       "category": "social",
       "tags": [
         "CNC3 Reels",
         "Breaking Instagram",
         "Caribbean"
       ],
-      "trendingScore": 87,
-      "upvotes": 101,
-      "commentsCount": 50,
+      "trendingScore": 89,
+      "upvotes": 125,
+      "commentsCount": 56,
       "isBreaking": true,
       "media": {
         "type": "video",
@@ -393,16 +397,16 @@
       "sourceType": "social",
       "author": "cnc3news",
       "originalUrl": "https://www.instagram.com/p/DeXkkwSkX0o/",
-      "publishedAt": "2026-10-12T04:44:24.262Z",
+      "publishedAt": "2026-10-12T12:50:25.201Z",
       "category": "social",
       "tags": [
         "CNC3 Reels",
         "Breaking Instagram",
         "Caribbean"
       ],
-      "trendingScore": 80,
-      "upvotes": 233,
-      "commentsCount": 28,
+      "trendingScore": 91,
+      "upvotes": 86,
+      "commentsCount": 52,
       "isBreaking": false,
       "media": {
         "type": "video",
@@ -421,7 +425,7 @@
       "sourceType": "newspaper",
       "author": "Express Sports Editor",
       "originalUrl": "https://trinidadexpress.com/sports/soca-warriors-knockout-roster",
-      "publishedAt": "2026-10-12T04:19:07.707Z",
+      "publishedAt": "2026-10-12T12:25:11.891Z",
       "category": "sports",
       "tags": [
         "Soca Warriors",
