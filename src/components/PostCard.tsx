@@ -19,6 +19,7 @@ import {
 import { AudioNarrator, type AudioPlayerState } from '../services/audioNarrator';
 import { MackoMeter } from './MackoMeter';
 import { TriniReactionBar } from './TriniReactionBar';
+import { resolvePostImage, generateFlagVectorPlaceholder } from '../services/imageFallbackService';
 import type { TriniReactionType } from '../types';
 
 interface PostCardProps {
@@ -124,10 +125,18 @@ export const PostCard: React.FC<PostCardProps> = ({
           title="Double tap to like / Tap to zoom"
         >
           <img
-            src={post.media.url}
+            src={resolvePostImage(post)}
             alt={post.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
+            onError={(e) => {
+              // 3-Tier fallback on broken image link
+              const target = e.currentTarget;
+              const vectorSvg = generateFlagVectorPlaceholder(post.category, post.title);
+              if (target.src !== vectorSvg) {
+                target.src = vectorSvg;
+              }
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
 
