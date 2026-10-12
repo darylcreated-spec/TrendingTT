@@ -24,6 +24,7 @@ import { SectionedFeed } from './components/SectionedFeed';
 import { BriefingModal } from './components/BriefingModal';
 import { CreatePostModal } from './components/CreatePostModal';
 import { AuthModal } from './components/AuthModal';
+import { StickyAudioPlayer } from './components/StickyAudioPlayer';
 import { 
   Inbox, 
   CheckCircle,
@@ -578,6 +579,9 @@ export const App: React.FC = () => {
         onUserUpdated={setCurrentUser}
         onShowToast={showToast}
       />
+
+      {/* Sticky Audio Narrator Player for Commuters */}
+      <StickyAudioPlayer />
 
       {/* Mobile Bottom Navigation Bar (1-Thumb Ergonomics) */}
       <MobileBottomNav

@@ -13,8 +13,10 @@ import {
   Tv,
   Smartphone,
   CheckCircle2,
-  User
+  User,
+  Volume2
 } from 'lucide-react';
+import { AudioNarrator, type AudioPlayerState } from '../services/audioNarrator';
 
 interface PostCardProps {
   post: Post;
@@ -46,6 +48,26 @@ export const PostCard: React.FC<PostCardProps> = ({
     badgeBg: 'bg-slate-800 text-slate-300 border-slate-700',
     badgeText: post.sourceName,
     verified: false,
+  };
+
+  const [audioState, setAudioState] = React.useState<AudioPlayerState>(() => AudioNarrator.getState());
+
+  React.useEffect(() => {
+    return AudioNarrator.subscribe((state) => {
+      setAudioState(state);
+    });
+  }, []);
+
+  const isCurrentPlaying = audioState.currentPostId === post.id && audioState.isPlaying;
+
+  const handleListen = () => {
+    AudioNarrator.speakStory({
+      id: post.id,
+      title: post.title,
+      summary: post.summary,
+      sourceName: post.sourceName,
+      author: post.author
+    });
   };
 
   const getSourceIcon = () => {
@@ -199,6 +221,24 @@ export const PostCard: React.FC<PostCardProps> = ({
             >
               <MessageSquare className="w-3.5 h-3.5 text-blue-400" />
               <span>{post.commentsCount}</span>
+            </button>
+
+            {/* Commuter Listen Mode TTS */}
+            <button
+              onClick={handleListen}
+              className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                isCurrentPlaying
+                  ? 'bg-red-600 text-white border-red-500 animate-pulse'
+                  : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 border-slate-700/70 hover:text-white'
+              }`}
+              title={isCurrentPlaying ? 'Pause narration' : 'Listen to story summary (Commuter Mode)'}
+            >
+              {isCurrentPlaying ? (
+                <Volume2 className="w-3.5 h-3.5 text-white" />
+              ) : (
+                <Volume2 className="w-3.5 h-3.5 text-amber-400" />
+              )}
+              <span className="hidden sm:inline">{isCurrentPlaying ? 'Playing' : 'Listen'}</span>
             </button>
           </div>
 
