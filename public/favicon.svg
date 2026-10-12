@@ -2,44 +2,56 @@
   <defs>
     <!-- Soft outer drop shadow for the frosted circular lens -->
     <filter id="lensShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000000" flood-opacity="0.85"/>
     </filter>
-    <!-- Inner shadow / glow for glass depth -->
+    <!-- Drop shadow for the floating national flag squircle -->
+    <filter id="flagShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.9"/>
+    </filter>
     <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.92" />
-      <stop offset="100%" stop-color="#090D16" stop-opacity="0.95" />
+      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#090D16" stop-opacity="0.98" />
     </linearGradient>
+    <clipPath id="flagSquircle">
+      <rect x="106" y="46" width="300" height="300" rx="54" />
+    </clipPath>
   </defs>
 
-  <!-- Base: Trinidad & Tobago National Flag (Scarlet Red field) -->
-  <rect width="512" height="512" rx="112" fill="#CE1126" />
+  <!-- 1. Deep Black/Slate Base Canvas (#020617 matches PWA splash screen) -->
+  <rect width="512" height="512" fill="#020617" />
 
-  <!-- Diagonal Band: White borders with central Black stripe -->
-  <polygon points="0,0 120,0 512,392 512,512 392,512 0,120" fill="#FFFFFF" />
-  <polygon points="0,0 88,0 512,424 512,512 424,512 0,88" fill="#000000" />
-  <rect width="504" height="504" x="4" y="4" rx="108" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-opacity="0.3" />
+  <!-- 2. National Flag Squircle (Upper Center) with Shadow -->
+  <g filter="url(#flagShadow)">
+    <g clip-path="url(#flagSquircle)">
+      <!-- Scarlet Red field -->
+      <rect x="106" y="46" width="300" height="300" fill="#CE1126" />
+      <!-- Diagonal White Stripe -->
+      <polygon points="106,46 190,46 406,262 406,346 322,346 106,130" fill="#FFFFFF" />
+      <!-- Central Black Stripe -->
+      <polygon points="106,46 166,46 406,286 406,346 346,346 106,106" fill="#0A0A0C" />
+    </g>
+    <!-- Squircle Subtle Rim Outline -->
+    <rect x="106" y="46" width="300" height="300" rx="54" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-opacity="0.4" />
+  </g>
 
-  <!-- Center Floating Circular Smoked Glass Lens -->
+  <!-- 3. Floating Circular Frosted Glass Lens with Ascending Arrow -->
   <g filter="url(#lensShadow)">
-    <circle cx="256" cy="256" r="160" fill="url(#glassGrad)" />
+    <circle cx="256" cy="196" r="92" fill="url(#glassGrad)" />
     <!-- Polished Chrome / White outer rim -->
-    <circle cx="256" cy="256" r="160" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-opacity="0.9" />
+    <circle cx="256" cy="196" r="92" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-opacity="0.95" />
     <!-- Crimson inner accent ring -->
-    <circle cx="256" cy="256" r="150" fill="none" stroke="#EF4444" stroke-width="3" stroke-opacity="0.6" />
+    <circle cx="256" cy="196" r="86" fill="none" stroke="#EF4444" stroke-width="2.2" stroke-opacity="0.6" />
     
     <!-- Bold Clean Ascending White Trending Arrow -->
-    <path d="M 150 320 L 220 250 L 280 290 L 360 180" fill="none" stroke="#FFFFFF" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" />
-    <polyline points="290,180 360,180 360,250" fill="none" stroke="#FFFFFF" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 196 234 L 236 192 L 270 214 L 316 150" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+    <polyline points="276,150 316,150 316,190" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
 
-    <!-- Ruby Beacon Apex Dot with Radiant Ring -->
-    <circle cx="360" cy="180" r="14" fill="#EF4444" />
-    <circle cx="360" cy="180" r="6" fill="#FFFFFF" />
-    <circle cx="360" cy="180" r="24" fill="none" stroke="#EF4444" stroke-width="3" opacity="0.6" />
+    <!-- Ruby Beacon Apex Dot with Radiant Glow -->
+    <circle cx="316" cy="150" r="8" fill="#EF4444" />
+    <circle cx="316" cy="150" r="3" fill="#FFFFFF" />
+    <circle cx="316" cy="150" r="14" fill="none" stroke="#EF4444" stroke-width="2" opacity="0.6" />
   </g>
 
-  <!-- Clean Bottom Arc Tag: TRENDING.TT -->
-  <g filter="url(#lensShadow)">
-    <rect x="136" y="430" width="240" height="42" rx="21" fill="#090D16" fill-opacity="0.9" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.8" />
-    <text x="256" y="458" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="20" fill="#FFFFFF" text-anchor="middle" letter-spacing="3">TRENDING<tspan fill="#EF4444">.TT</tspan></text>
-  </g>
+  <!-- 4. Words In The Black Part Under The National Flag -->
+  <text x="256" y="420" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="28" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">TRENDING<tspan fill="#EF4444">.TT</tspan></text>
 </svg>
