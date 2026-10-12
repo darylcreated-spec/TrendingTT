@@ -1,6 +1,6 @@
 Add-Type -AssemblyName System.Drawing
 
-function Generate-PwaIcon {
+function Generate-Concept2Icon {
     param(
         [int]$size,
         [string]$outputPath
@@ -14,12 +14,12 @@ function Generate-PwaIcon {
 
     $scale = [float]($size / 512.0)
 
-    # 1. Base Red Field of Trinidad and Tobago National Flag (#CE1126)
+    # 1. Official Trinidad & Tobago Flag Base (Red field)
     $redBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 206, 17, 38))
     $rect = New-Object System.Drawing.Rectangle(0, 0, $size, $size)
     $g.FillRectangle($redBrush, $rect)
 
-    # 2. National Flag Diagonal Band: White border stripe (Top-Left to Bottom-Right)
+    # 2. White Borders for Diagonal Stripe
     $whiteBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::White)
     $polyWhite = [System.Drawing.PointF[]]@(
         (New-Object System.Drawing.PointF(0.0, 0.0)),
@@ -31,7 +31,7 @@ function Generate-PwaIcon {
     )
     $g.FillPolygon($whiteBrush, $polyWhite)
 
-    # 3. National Flag Central Black stripe
+    # 3. Central Black Stripe
     $blackBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 10, 10, 12))
     $polyBlack = [System.Drawing.PointF[]]@(
         (New-Object System.Drawing.PointF(0.0, 0.0)),
@@ -43,78 +43,66 @@ function Generate-PwaIcon {
     )
     $g.FillPolygon($blackBrush, $polyBlack)
 
-    # 4. Shadow under the Trending Arrow
-    $shadowPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(180, 0, 0, 0), [float](46.0 * $scale))
-    $shadowPen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
-    $shadowPen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
-    $shadowPen.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
-    $shadowOffset = [float](6.0 * $scale)
-    $shadowPath = [System.Drawing.PointF[]]@(
-        (New-Object System.Drawing.PointF([float](88.0 * $scale), [float]((380.0 * $scale) + $shadowOffset))),
-        (New-Object System.Drawing.PointF([float](190.0 * $scale), [float]((278.0 * $scale) + $shadowOffset))),
-        (New-Object System.Drawing.PointF([float](280.0 * $scale), [float]((340.0 * $scale) + $shadowOffset))),
-        (New-Object System.Drawing.PointF([float](416.0 * $scale), [float]((160.0 * $scale) + $shadowOffset)))
+    # 4. Floating Circular Frosted Glass Lens
+    $center = [float](256.0 * $scale)
+    $radius = [float](160.0 * $scale)
+
+    # Lens Drop Shadow
+    $shadowBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(180, 0, 0, 0))
+    $g.FillEllipse($shadowBrush, [float]($center - $radius - (6.0 * $scale)), [float]($center - $radius + (8.0 * $scale)), [float](($radius + (6.0 * $scale)) * 2.0), [float](($radius + (6.0 * $scale)) * 2.0))
+
+    # Smoked Dark Glass Lens Surface
+    $glassBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(225, 15, 23, 42))
+    $g.FillEllipse($glassBrush, [float]($center - $radius), [float]($center - $radius), [float]($radius * 2.0), [float]($radius * 2.0))
+
+    # Polished Chrome / White Outer Rim
+    $rimPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(240, 255, 255, 255), [float](5.0 * $scale))
+    $g.DrawEllipse($rimPen, [float]($center - $radius), [float]($center - $radius), [float]($radius * 2.0), [float]($radius * 2.0))
+
+    # Crimson Inner Accent Ring
+    $redRim = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(180, 239, 68, 68), [float](3.0 * $scale))
+    $g.DrawEllipse($redRim, [float]($center - $radius + (8.0 * $scale)), [float]($center - $radius + (8.0 * $scale)), [float](($radius - (8.0 * $scale)) * 2.0), [float](($radius - (8.0 * $scale)) * 2.0))
+
+    # 5. Clean Bold Ascending White Arrow inside the lens
+    $arrowPen = New-Object System.Drawing.Pen([System.Drawing.Color]::White, [float](32.0 * $scale))
+    $arrowPen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
+    $arrowPen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
+    $arrowPen.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
+
+    $path = [System.Drawing.PointF[]]@(
+        (New-Object System.Drawing.PointF([float](150.0 * $scale), [float](320.0 * $scale))),
+        (New-Object System.Drawing.PointF([float](220.0 * $scale), [float](250.0 * $scale))),
+        (New-Object System.Drawing.PointF([float](280.0 * $scale), [float](290.0 * $scale))),
+        (New-Object System.Drawing.PointF([float](360.0 * $scale), [float](180.0 * $scale)))
     )
-    $g.DrawLines($shadowPen, $shadowPath)
+    $g.DrawLines($arrowPen, $path)
 
-    $shadowHead = [System.Drawing.PointF[]]@(
-        (New-Object System.Drawing.PointF([float](316.0 * $scale), [float]((160.0 * $scale) + $shadowOffset))),
-        (New-Object System.Drawing.PointF([float](416.0 * $scale), [float]((160.0 * $scale) + $shadowOffset))),
-        (New-Object System.Drawing.PointF([float](416.0 * $scale), [float]((260.0 * $scale) + $shadowOffset)))
+    $head = [System.Drawing.PointF[]]@(
+        (New-Object System.Drawing.PointF([float](290.0 * $scale), [float](180.0 * $scale))),
+        (New-Object System.Drawing.PointF([float](360.0 * $scale), [float](180.0 * $scale))),
+        (New-Object System.Drawing.PointF([float](360.0 * $scale), [float](250.0 * $scale)))
     )
-    $g.DrawLines($shadowPen, $shadowHead)
+    $g.DrawLines($arrowPen, $head)
 
-    # 5. Crisp White Trending Arrow Body
-    $whiteArrowPen = New-Object System.Drawing.Pen([System.Drawing.Color]::White, [float](38.0 * $scale))
-    $whiteArrowPen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
-    $whiteArrowPen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
-    $whiteArrowPen.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
-    $arrowPath = [System.Drawing.PointF[]]@(
-        (New-Object System.Drawing.PointF([float](88.0 * $scale), [float](380.0 * $scale))),
-        (New-Object System.Drawing.PointF([float](190.0 * $scale), [float](278.0 * $scale))),
-        (New-Object System.Drawing.PointF([float](280.0 * $scale), [float](340.0 * $scale))),
-        (New-Object System.Drawing.PointF([float](416.0 * $scale), [float](160.0 * $scale)))
-    )
-    $g.DrawLines($whiteArrowPen, $arrowPath)
+    # Ruby Red Beacon at Arrowhead Peak
+    $beaconBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 239, 68, 68))
+    $beaconRadius = [float](12.0 * $scale)
+    $g.FillEllipse($beaconBrush, [float]((360.0 * $scale) - $beaconRadius), [float]((180.0 * $scale) - $beaconRadius), [float]($beaconRadius * 2.0), [float]($beaconRadius * 2.0))
 
-    $arrowHead = [System.Drawing.PointF[]]@(
-        (New-Object System.Drawing.PointF([float](316.0 * $scale), [float](160.0 * $scale))),
-        (New-Object System.Drawing.PointF([float](416.0 * $scale), [float](160.0 * $scale))),
-        (New-Object System.Drawing.PointF([float](416.0 * $scale), [float](260.0 * $scale)))
-    )
-    $g.DrawLines($whiteArrowPen, $arrowHead)
+    $beaconDot = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::White)
+    $dotRadius = [float](5.0 * $scale)
+    $g.FillEllipse($beaconDot, [float]((360.0 * $scale) - $dotRadius), [float]((180.0 * $scale) - $dotRadius), [float]($dotRadius * 2.0), [float]($dotRadius * 2.0))
 
-    # 6. Vibrant Golden-Amber core stripe inside the arrow
-    $amberPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 253, 224, 71), [float](16.0 * $scale))
-    $amberPen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
-    $amberPen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
-    $amberPen.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
-    $g.DrawLines($amberPen, $arrowPath)
-
-    $amberHead = [System.Drawing.PointF[]]@(
-        (New-Object System.Drawing.PointF([float](340.0 * $scale), [float](160.0 * $scale))),
-        (New-Object System.Drawing.PointF([float](416.0 * $scale), [float](160.0 * $scale))),
-        (New-Object System.Drawing.PointF([float](416.0 * $scale), [float](236.0 * $scale)))
-    )
-    $g.DrawLines($amberPen, $amberHead)
-
-    # 7. Beacon Dot at the apex
-    $outerBeacon = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::White)
-    $g.FillEllipse($outerBeacon, [float]((416.0 * $scale) - (20.0 * $scale)), [float]((160.0 * $scale) - (20.0 * $scale)), [float](40.0 * $scale), [float](40.0 * $scale))
-
-    $innerBeacon = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 206, 17, 38))
-    $g.FillEllipse($innerBeacon, [float]((416.0 * $scale) - (12.0 * $scale)), [float]((160.0 * $scale) - (12.0 * $scale)), [float](24.0 * $scale), [float](24.0 * $scale))
-
-    # 8. High-Contrast Bottom Badge: "TRENDING.TT"
-    $badgeRect = New-Object System.Drawing.RectangleF([float](76.0 * $scale), [float](420.0 * $scale), [float](360.0 * $scale), [float](56.0 * $scale))
-    $badgeBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(235, 10, 15, 26))
+    # 6. High-Contrast Bottom Badge: "TRENDING.TT"
+    $badgeRect = New-Object System.Drawing.RectangleF([float](126.0 * $scale), [float](426.0 * $scale), [float](260.0 * $scale), [float](46.0 * $scale))
+    $badgeBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(235, 9, 13, 22))
     $g.FillRectangle($badgeBrush, $badgeRect)
 
-    $badgeBorderPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(200, 255, 255, 255), [float](2.0 * $scale))
-    $g.DrawRectangle($badgeBorderPen, [float](76.0 * $scale), [float](420.0 * $scale), [float](360.0 * $scale), [float](56.0 * $scale))
+    $badgeBorderPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(180, 255, 255, 255), [float](1.5 * $scale))
+    $g.DrawRectangle($badgeBorderPen, [float](126.0 * $scale), [float](426.0 * $scale), [float](260.0 * $scale), [float](46.0 * $scale))
 
     $fontFamily = [System.Drawing.FontFamily]::GenericSansSerif
-    $fontSize = [Math]::Max(10, [int](26.0 * $scale))
+    $fontSize = [Math]::Max(9, [int](20.0 * $scale))
     $font = New-Object System.Drawing.Font($fontFamily, $fontSize, [System.Drawing.FontStyle]::Bold)
     $format = New-Object System.Drawing.StringFormat
     $format.Alignment = [System.Drawing.StringAlignment]::Center
@@ -129,6 +117,6 @@ function Generate-PwaIcon {
     Write-Host "Generated $outputPath ($size x $size)"
 }
 
-Generate-PwaIcon -size 512 -outputPath "public\icon-512.png"
-Generate-PwaIcon -size 192 -outputPath "public\icon-192.png"
-Generate-PwaIcon -size 180 -outputPath "public\apple-touch-icon.png"
+Generate-Concept2Icon -size 512 -outputPath "public\icon-512.png"
+Generate-Concept2Icon -size 192 -outputPath "public\icon-192.png"
+Generate-Concept2Icon -size 180 -outputPath "public\apple-touch-icon.png"

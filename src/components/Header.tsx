@@ -126,26 +126,26 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-3">
             <button 
               onClick={() => onSelectView('feed')}
-              className="relative w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center text-white shadow-md shadow-red-950/60 border border-red-500/80 transition-all active:scale-95 group focus:outline-none focus:ring-2 focus:ring-red-400 bg-[#CE1126]"
+              className="relative w-11 h-11 rounded-xl overflow-hidden flex items-center justify-center text-white shadow-md shadow-red-950/60 border border-red-500/80 transition-all active:scale-95 group focus:outline-none focus:ring-2 focus:ring-red-400 bg-[#CE1126]"
               title="Return to Home Feed"
               aria-label="Trending.TT Home Feed"
             >
-              {/* National Flag Diagonal Band */}
+              {/* National Flag Diagonal Band in Background */}
               <div 
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background: 'linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.95) 40%, rgba(255,255,255,0.95) 46%, #000000 46%, #000000 56%, rgba(255,255,255,0.95) 56%, rgba(255,255,255,0.95) 62%, transparent 62%)'
                 }}
               />
-              {/* Rising Trending Arrow with shadow */}
-              <svg className="w-5 h-5 relative z-10 transition-transform group-hover:scale-110 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" viewBox="0 0 24 24" fill="none">
-                <path d="M3 17l6-6 4 4 8-9" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M14 6h7v7" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M3 17l6-6 4 4 8-9" stroke="#FDE047" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M14 6h7v7" stroke="#FDE047" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="21" cy="6" r="2" fill="#FFFFFF" />
-                <circle cx="21" cy="6" r="1" fill="#CE1126" />
-              </svg>
+              {/* Concept 2: Floating Frosted Smoked Lens */}
+              <div className="relative z-10 w-8 h-8 rounded-full bg-slate-900/90 border border-white/80 shadow-[0_4px_12px_rgba(0,0,0,0.8)] flex items-center justify-center transition-transform group-hover:scale-105">
+                {/* Clean Ascending Arrow */}
+                <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 17l6-6 4 4 7-9" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M14 6h7v7" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="21" cy="6" r="1.5" fill="#EF4444" />
+                </svg>
+              </div>
             </button>
             <div>
               <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
