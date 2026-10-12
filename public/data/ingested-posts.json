@@ -1,135 +1,84 @@
 {
   "meta": {
-    "generator": "Trending TT Ingestion Engine (yt-dlp + RSS-Bridge)",
-    "version": "1.2.0",
+    "generator": "Trending TT Multi-Source News Scraper (Python 3.12)",
+    "version": "2.1.0",
     "timezone": "AST (America/Port_of_Spain)",
-    "generatedAt": "2026-10-12T12:50:25.875Z",
+    "generatedAt": "2026-10-12T13:39:58.178914-04:00",
     "stats": {
-      "ytDlpProcessed": 5,
-      "rssBridgeProcessed": 11,
-      "totalNormalized": 15,
-      "timestamp": "2026-10-12T12:50:11.891Z"
+      "scrapedCount": 26,
+      "totalNormalized": 38,
+      "retentionDays": 7,
+      "sourcesRepresented": [
+        "tv6",
+        "express",
+        "guardian",
+        "instagram",
+        "tiktok",
+        "cnc3",
+        "ian",
+        "ttt",
+        "newsday"
+      ]
     }
   },
   "posts": [
     {
-      "id": "yt-dlp-tiktok-maracas-crowd",
-      "targetId": "tiktok-trini",
-      "title": "TikTok #trinitiktok: Massive weekend bake & shark frenzy hits Maracas Bay beachfront",
-      "summary": "Viral TikTok videos capture energetic crowds, fresh shark bakes with garlic and chadon beni sauce, and North Coast traffic updates trending across Trinidad.",
-      "content": "Creators along the North Coast road shared live clips showing lines at Richards and Patsys bake and shark stalls. Over 180k views under #trinitiktok within 12 hours.",
-      "sourceId": "tiktok",
-      "sourceName": "Trinidad TikTok",
-      "sourceType": "social",
-      "author": "@maracas_vibes868",
-      "originalUrl": "https://www.tiktok.com/tag/trinitiktok",
-      "publishedAt": "2026-10-12T12:14:11.891Z",
-      "category": "culture",
-      "tags": [
-        "#trinitiktok",
-        "Maracas Bay",
-        "Bake and Shark",
-        "TikTok TT"
-      ],
-      "trendingScore": 98,
-      "upvotes": 642,
-      "commentsCount": 147,
-      "isBreaking": false,
-      "media": {
-        "type": "video",
-        "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
-        "aspectRatio": "landscape",
-        "videoDuration": "0:58"
-      }
-    },
-    {
-      "id": "yt-dlp-tv6-evening-news-anchor",
-      "targetId": "youtube-tv6-news",
-      "title": "TV6 News 7PM: National Security ministers debate border patrol radar upgrade",
-      "summary": "CCN TV6 lead evening newscast covers parliament debate over offshore patrol vessel surveillance and coastal radar updates in the Gulf of Paria.",
-      "content": "CCN TV6 full broadcast segment. Anchor reports on parliamentary debate concerning maritime radar technology, police service updates, and South Trunk road drainage.",
-      "sourceId": "tv6",
-      "sourceName": "CCN TV6",
+      "id": "py-ian-breaking-chaguanas-patrol",
+      "title": "I.A.N Network: Police and Central Division task force conduct cordon operations in Chaguanas",
+      "summary": "Crime Watch live mobile unit reports officers intercepting stolen vehicle along Southern Main Road with rapid arrest made on scene.",
+      "content": "Crime Watch team on the ground provides live footage and public warning for commuters travelling between Chaguanas and Montrose.",
+      "sourceId": "ian",
+      "sourceName": "I.A.N Network",
       "sourceType": "broadcast",
-      "author": "CCN TV6 News Desk",
-      "originalUrl": "https://www.youtube.com/watch?v=tv6-sample-news-7pm",
-      "publishedAt": "2026-10-12T11:15:11.891Z",
-      "category": "broadcast",
+      "author": "Ian Alleyne",
+      "originalUrl": "https://www.facebook.com/ianalleyne/videos",
+      "publishedAt": "2026-10-12T13:39:58.178914-04:00",
+      "category": "crime",
       "tags": [
-        "TV6 News",
-        "Evening Broadcast",
-        "Parliament TT",
-        "Port of Spain"
+        "I.A.N Network",
+        "Crime Watch",
+        "Chaguanas",
+        "Central Division"
       ],
-      "trendingScore": 95,
-      "upvotes": 430,
-      "commentsCount": 88,
-      "isBreaking": false,
-      "media": {
-        "type": "video",
-        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
-        "aspectRatio": "landscape",
-        "videoDuration": "48:12"
-      }
-    },
-    {
-      "id": "yt-dlp-cnc3-evening-bulletin",
-      "targetId": "youtube-cnc3-news",
-      "title": "CNC3 News at 7: Point Lisas petrochemical sector records positive Q1 trade output",
-      "summary": "CNC3 in-depth evening report examines ammonia and methanol export earnings, Point Lisas Industrial Estate maintenance schedules, and foreign exchange impact.",
-      "content": "CNC3 Business & Evening Desk report detailing energy sector revenue, downstream petrochemical performance, and discussions with the Energy Chamber of Trinidad & Tobago.",
-      "sourceId": "cnc3",
-      "sourceName": "CNC3 Television",
-      "sourceType": "broadcast",
-      "author": "CNC3 News Anchor",
-      "originalUrl": "https://www.youtube.com/watch?v=cnc3-sample-evening-7",
-      "publishedAt": "2026-10-12T11:00:11.891Z",
-      "category": "business",
-      "tags": [
-        "CNC3 News",
-        "Point Lisas",
-        "Energy TT",
-        "Economy"
-      ],
-      "trendingScore": 91,
-      "upvotes": 385,
-      "commentsCount": 42,
-      "isBreaking": false,
-      "media": {
-        "type": "video",
-        "url": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1200&q=80",
-        "aspectRatio": "landscape",
-        "videoDuration": "42:30"
-      }
-    },
-    {
-      "id": "yt-dlp-ttt-national-roundup",
-      "targetId": "youtube-ttt-news",
-      "title": "TTT News at 7: Ministry of Works confirms Churchill Roosevelt Highway lane expansion",
-      "summary": "TTT Live Online coverage of highway infrastructure improvements between Curepe and Piarco junction, reducing peak-hour commute times for east-west commuters.",
-      "content": "Official government broadcast report featuring Minister of Works on Churchill Roosevelt Highway overpass progress and flyover infrastructure in East Trinidad.",
-      "sourceId": "ttt",
-      "sourceName": "TTT Live Online",
-      "sourceType": "broadcast",
-      "author": "TTT Live Studio",
-      "originalUrl": "https://www.youtube.com/watch?v=ttt-sample-news-7pm",
-      "publishedAt": "2026-10-12T10:30:11.891Z",
-      "category": "broadcast",
-      "tags": [
-        "TTT Live",
-        "Churchill Roosevelt Highway",
-        "Infrastructure",
-        "Curepe"
-      ],
-      "trendingScore": 89,
+      "trendingScore": 97,
       "upvotes": 312,
-      "commentsCount": 35,
-      "isBreaking": false,
+      "commentsCount": 88,
+      "isBreaking": true,
       "media": {
         "type": "video",
-        "url": "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80",
+        "url": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1200&q=80",
         "aspectRatio": "landscape",
-        "videoDuration": "45:00"
+        "videoDuration": "5:15"
+      }
+    },
+    {
+      "id": "bridge-fb-ian-breaking",
+      "targetId": "bridge-fb-ian",
+      "title": "I.A.N Network: Police intercept robbery suspect along Uriah Butler Highway in Chaguanas",
+      "summary": "Live Facebook video report by Ian Alleyne showing rapid TTPS Highway Patrol response, vehicle pursuit, and traffic standoff near Chaguanas flyover.",
+      "content": "Ian Alleyne Crime Watch Network Facebook stream. Central Division TTPS officers apprehended two suspects following an attempted armed robbery. Highway traffic diverted onto Caroni Savannah Road.",
+      "sourceId": "ian",
+      "sourceName": "I.A.N Network",
+      "sourceType": "broadcast",
+      "author": "Ian Alleyne",
+      "originalUrl": "https://www.facebook.com/ianalleyne/posts/central-division-highway",
+      "publishedAt": "2026-10-12T16:49:26.514Z",
+      "category": "crime",
+      "tags": [
+        "Crime Watch",
+        "Ian Alleyne",
+        "Uriah Butler Highway",
+        "Chaguanas"
+      ],
+      "trendingScore": 97,
+      "upvotes": 820,
+      "commentsCount": 310,
+      "isBreaking": true,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "portrait",
+        "videoDuration": "14:22"
       }
     },
     {
@@ -143,7 +92,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/videos/morvant-community-standoff",
-      "publishedAt": "2026-10-12T12:10:11.891Z",
+      "publishedAt": "2026-10-12T16:59:26.514Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -163,6 +112,902 @@
       }
     },
     {
+      "id": "yt-dlp-tiktok-maracas-crowd",
+      "targetId": "tiktok-trini",
+      "title": "TikTok #trinitiktok: Massive weekend bake & shark frenzy hits Maracas Bay beachfront",
+      "summary": "Viral TikTok videos capture energetic crowds, fresh shark bakes with garlic and chadon beni sauce, and North Coast traffic updates trending across Trinidad.",
+      "content": "Creators along the North Coast road shared live clips showing lines at Richards and Patsys bake and shark stalls. Over 180k views under #trinitiktok within 12 hours.",
+      "sourceId": "tiktok",
+      "sourceName": "Trinidad TikTok",
+      "sourceType": "social",
+      "author": "@maracas_vibes868",
+      "originalUrl": "https://www.tiktok.com/tag/trinitiktok",
+      "publishedAt": "2026-10-12T17:03:26.514Z",
+      "category": "culture",
+      "tags": [
+        "#trinitiktok",
+        "Maracas Bay",
+        "Bake and Shark",
+        "TikTok TT"
+      ],
+      "trendingScore": 98,
+      "upvotes": 642,
+      "commentsCount": 147,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "0:58"
+      }
+    },
+    {
+      "id": "sports-express-soca-warriors-brief",
+      "targetId": "bridge-fb-express-sports",
+      "title": "Soca Warriors Squad Confirmed for Concacaf Nations League Knockout Stage",
+      "summary": "National football coaches release a sharp 24-man roster blending European-based strikers with standout TT Premier Football League midfielders.",
+      "content": "The Trinidad & Tobago Football Association (TTFA) announced the 24-player squad preparing for next week's fixture at Hasely Crawford Stadium. Fan ticket sales surpass 10,000.",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express Sports",
+      "sourceType": "newspaper",
+      "author": "Express Sports Editor",
+      "originalUrl": "https://trinidadexpress.com/sports/soca-warriors-knockout-roster",
+      "publishedAt": "2026-10-12T17:14:26.514Z",
+      "category": "sports",
+      "tags": [
+        "Soca Warriors",
+        "TTFA",
+        "Concacaf",
+        "Hasely Crawford Stadium"
+      ],
+      "trendingScore": 97,
+      "upvotes": 512,
+      "commentsCount": 94,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-ttt-state-update-maracas-drainage",
+      "title": "TTT Live Online: Ministry of Works mobilizes emergency desilting crews for South Trunk & Caroni",
+      "summary": "State broadcasters report mobilization of heavy excavators and infrastructure engineers along major watercourses ahead of coastal high tides.",
+      "content": "Official government briefing carried live across TTT transmitters detailing national flood mitigation and infrastructure readiness.",
+      "sourceId": "ttt",
+      "sourceName": "TTT Live Online",
+      "sourceType": "broadcast",
+      "author": "TTT News Bureau",
+      "originalUrl": "https://www.youtube.com/@tttliveonline/videos",
+      "publishedAt": "2026-10-12T13:39:58.178914-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TTT Live",
+        "Works Ministry",
+        "National Notice",
+        "Trinidad & Tobago"
+      ],
+      "trendingScore": 95,
+      "upvotes": 120,
+      "commentsCount": 35,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "4:20"
+      }
+    },
+    {
+      "id": "yt-dlp-tv6-evening-news-anchor",
+      "targetId": "youtube-tv6-news",
+      "title": "TV6 News 7PM: National Security ministers debate border patrol radar upgrade",
+      "summary": "CCN TV6 lead evening newscast covers parliament debate over offshore patrol vessel surveillance and coastal radar updates in the Gulf of Paria.",
+      "content": "CCN TV6 full broadcast segment. Anchor reports on parliamentary debate concerning maritime radar technology, police service updates, and South Trunk road drainage.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "CCN TV6 News Desk",
+      "originalUrl": "https://www.youtube.com/watch?v=tv6-sample-news-7pm",
+      "publishedAt": "2026-10-12T16:04:26.514Z",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Evening Broadcast",
+        "Parliament TT",
+        "Port of Spain"
+      ],
+      "trendingScore": 95,
+      "upvotes": 430,
+      "commentsCount": 88,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "48:12"
+      }
+    },
+    {
+      "id": "py-mock-newsday-tobago-ferry",
+      "title": "T&T Newsday: Port Authority adds extra sailings on APT James for Tobago Easter rush",
+      "summary": "Port Authority confirms high-speed passenger vessels operating at maximum capacity to facilitate inter-island travelers, with zero cargo disruptions.",
+      "content": "Full Newsday coverage regarding Tobago ferry logistics, sea conditions, and port terminal protocols.",
+      "sourceId": "newsday",
+      "sourceName": "T&T Newsday",
+      "sourceType": "newspaper",
+      "author": "Newsday Tobago Desk",
+      "originalUrl": "https://newsday.co.tt/news/local/ferry-rush-tobago",
+      "publishedAt": "2026-10-12T13:39:58.178914-04:00",
+      "category": "news",
+      "tags": [
+        "T&T Newsday",
+        "Tobago Ferry",
+        "Port Authority",
+        "Inter-Island"
+      ],
+      "trendingScore": 94,
+      "upvotes": 142,
+      "commentsCount": 38,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "bridge-ig-tv6-sports-cricket",
+      "targetId": "bridge-ig-tv6",
+      "title": "Instagram Reels: Nicholas Pooran smashes 84 off 32 balls at Queen's Park Oval",
+      "summary": "High-energy highlights shared by TV6 Sports on Instagram show Pooran lighting up the St Clair venue with towering sixes into the Trini Posse stand.",
+      "content": "Queens Park Oval cricket highlights reel reposted by TV6 TNT. West Indies batsman entertains enthusiastic local crowd during domestic T20 cricket clash.",
+      "sourceId": "instagram",
+      "sourceName": "Instagram TT Reels",
+      "sourceType": "social",
+      "author": "@tv6tnt",
+      "originalUrl": "https://www.instagram.com/reel/tv6-pooran-sixes",
+      "publishedAt": "2026-10-12T15:29:26.514Z",
+      "category": "sports",
+      "tags": [
+        "Cricket TT",
+        "Queens Park Oval",
+        "Nicholas Pooran",
+        "Instagram Reels"
+      ],
+      "trendingScore": 94,
+      "upvotes": 755,
+      "commentsCount": 168,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1531415074868-836332ff4296?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "portrait",
+        "videoDuration": "0:45"
+      }
+    },
+    {
+      "id": "bridge-ig-cnc3-pan-carnival-reel",
+      "targetId": "bridge-ig-cnc3",
+      "title": "Instagram Reels: Massy Trinidad All Stars electrify Duke Street rehearsal yard",
+      "summary": "CNC3 News cultural reel showcases vibrant steelpan arrangement rehearsals on Duke Street as crowds gather to experience sweet iron rhythm sections.",
+      "content": "Duke Street panyard comes alive. CNC3 News Instagram captures youth pan players mastering the musical arrangement alongside veteran pan tuners in East Port of Spain.",
+      "sourceId": "instagram",
+      "sourceName": "Instagram TT Reels",
+      "sourceType": "social",
+      "author": "@cnc3news",
+      "originalUrl": "https://www.instagram.com/reel/cnc3-all-stars-duke-street",
+      "publishedAt": "2026-10-12T16:34:26.514Z",
+      "category": "culture",
+      "tags": [
+        "CNC3 Reels",
+        "Steelpan TT",
+        "All Stars",
+        "Duke Street",
+        "Pan Yard"
+      ],
+      "trendingScore": 93,
+      "upvotes": 680,
+      "commentsCount": 112,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "portrait",
+        "videoDuration": "0:52"
+      }
+    },
+    {
+      "id": "py-guardian-is-tt-looking-for-petroleum-re-7a7bd358",
+      "title": "Is T&T looking for petroleum revenue in all the wrong places? Proposed safeguards for major transactions. by Anthony E Paul",
+      "summary": "Guardian Media lead report: Is T&T looking for petroleum revenue in all the wrong places? Proposed safeguards for major transactions. by Anthony E Paul.",
+      "content": "Guardian Media lead report: Is T&T looking for petroleum revenue in all the wrong places? Proposed safeguards for major transactions. by Anthony E Paul.",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/business/is-tt-looking-for-petroleum-revenue-in-all-the-wrong-places-6.2.2685771.5de9ca7815",
+      "publishedAt": "2026-10-12T13:39:56.334483-04:00",
+      "category": "business",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-will-ngcs-2027-gas-terms-be-ri-d28baaed",
+      "title": "NGC 2027 Natural Gas Contract table Will NGC's 2027 gas terms be right for a deal or no deal?",
+      "summary": "Guardian Media lead report: NGC 2027 Natural Gas Contract table Will NGC's 2027 gas terms be right for a deal or no deal?.",
+      "content": "Guardian Media lead report: NGC 2027 Natural Gas Contract table Will NGC's 2027 gas terms be right for a deal or no deal?.",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/business/will-ngcs-2027-gas-terms-be-right-for-a-deal-or-no-deal-6.2.2686631.32a4d3e042",
+      "publishedAt": "2026-10-12T13:39:56.334483-04:00",
+      "category": "business",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-calls-to-raise-senior-citizens-6c6ac729",
+      "title": "Trinidad and Tobago Association of Retired Persons Ltd executive director Reynold Cooper Calls to raise Senior Citizens Grant",
+      "summary": "Guardian Media lead report: Trinidad and Tobago Association of Retired Persons Ltd executive director Reynold Cooper Calls to raise Senior Citizens Grant.",
+      "content": "Guardian Media lead report: Trinidad and Tobago Association of Retired Persons Ltd executive director Reynold Cooper Calls to raise Senior Citizens Grant.",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/business/calls-to-raise-senior-citizens-grant-6.2.2686629.fa5f5267fb",
+      "publishedAt": "2026-10-12T13:39:56.334483-04:00",
+      "category": "business",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-analyst-wants-hike-in-minimum--9d90e336",
+      "title": "Trade union consultant and lecturer, Trevor Johnson Analyst wants hike in minimum wage...but Nunez-Tesheira warns that could dr...",
+      "summary": "Guardian Media lead report: Trade union consultant and lecturer, Trevor Johnson Analyst wants hike in minimum wage...but Nunez-Tesheira warns that could dr....",
+      "content": "Guardian Media lead report: Trade union consultant and lecturer, Trevor Johnson Analyst wants hike in minimum wage...but Nunez-Tesheira warns that could dr....",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/article/analyst-wants-hike-in-minimum-wagebut-nuneztesheira-warns-that-could-drive-higher-prices-6.2.2686630.eaf816b4e5",
+      "publishedAt": "2026-10-12T13:39:56.334483-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-breast-cancer-awareness-month--8078f01a",
+      "title": "Breast Cancer Awareness Month: Claudette Stewart Cancer tested her, but faith kept her moving Breast cancer survivor Claudette ...",
+      "summary": "Guardian Media lead report: Breast Cancer Awareness Month: Claudette Stewart Cancer tested her, but faith kept her moving Breast cancer survivor Claudette ....",
+      "content": "Guardian Media lead report: Breast Cancer Awareness Month: Claudette Stewart Cancer tested her, but faith kept her moving Breast cancer survivor Claudette ....",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/article/breast-cancer-awareness-month-claudette-stewart-6.2.2687054.7be620a4d2",
+      "publishedAt": "2026-10-12T13:39:56.334483-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-calypso-history-month-king-dav-0d48a9c1",
+      "title": "David Rudder Jason Audain we Calypso History Month: King David Rudder From Carnival stage to Caribbean anthem",
+      "summary": "Guardian Media lead report: David Rudder Jason Audain we Calypso History Month: King David Rudder From Carnival stage to Caribbean anthem.",
+      "content": "Guardian Media lead report: David Rudder Jason Audain we Calypso History Month: King David Rudder From Carnival stage to Caribbean anthem.",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/article/calypso-history-month-king-david-rudder-6.2.2687053.938ac2a857",
+      "publishedAt": "2026-10-12T13:39:56.334483-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-caribbean-folklore-month-the-v-20e6b2d2",
+      "title": "An artist's depiction of the events related to the stolen voice. we Caribbean Folklore Month: The voice that called from the woods",
+      "summary": "Guardian Media lead report: An artist's depiction of the events related to the stolen voice. we Caribbean Folklore Month: The voice that called from the woods.",
+      "content": "Guardian Media lead report: An artist's depiction of the events related to the stolen voice. we Caribbean Folklore Month: The voice that called from the woods.",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/article/caribbean-folklore-month-the-voice-that-called-from-the-woods-6.2.2687051.a0e28803e2",
+      "publishedAt": "2026-10-12T13:39:56.334483-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-neaves-strikes-gold-in-u23-car-add4d3a8",
+      "title": "Neaves strikes gold in U-23 Caribbean Road Race T&T's Jadian Neaves, centre, displays his gold medal and national flag on the p...",
+      "summary": "Guardian Media lead report: Neaves strikes gold in U-23 Caribbean Road Race T&T's Jadian Neaves, centre, displays his gold medal and national flag on the p....",
+      "content": "Guardian Media lead report: Neaves strikes gold in U-23 Caribbean Road Race T&T's Jadian Neaves, centre, displays his gold medal and national flag on the p....",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/sports/neaves-strikes-gold-in-u23-caribbean-road-race-6.2.2686953.f95b586a13",
+      "publishedAt": "2026-10-12T13:39:56.334483-04:00",
+      "category": "sports",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-tv6-wi-lose-3rd-t20-to-india",
+      "title": "TV6: WI LOSE 3RD T20 TO INDIA",
+      "summary": "CCN TV6 television report covering wi lose 3rd t20 to india.",
+      "content": "CCN TV6 broadcast segment on WI LOSE 3RD T20 TO INDIA.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/wi-lose-3rd-t20-to-india/article_ca061eb2-8a73-49f0-86fa-e4cfd3bb3765.html",
+      "publishedAt": "2026-10-12T13:39:57.625873-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "py-tv6-pca-investigating-tobago-police-shooting",
+      "title": "TV6: PCA INVESTIGATING TOBAGO POLICE SHOOTING",
+      "summary": "CCN TV6 television report covering pca investigating tobago police shooting.",
+      "content": "CCN TV6 broadcast segment on PCA INVESTIGATING TOBAGO POLICE SHOOTING.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/pca-investigating-tobago-police-shooting/article_69d53c6d-40ee-4afb-8151-b787ad8fef46.html",
+      "publishedAt": "2026-10-12T13:39:57.625873-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "py-tv6-hosein-eyes-trade-labour-market",
+      "title": "TV6: HOSEIN EYES TRADE, LABOUR MARKET",
+      "summary": "CCN TV6 television report covering hosein eyes trade, labour market.",
+      "content": "CCN TV6 broadcast segment on HOSEIN EYES TRADE, LABOUR MARKET.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/hosein-eyes-trade-labour-market/article_7a382024-c884-401e-a1e7-9c21ca95f797.html",
+      "publishedAt": "2026-10-12T13:39:57.625873-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "py-tv6-budget-for-hardworking-law-abiding",
+      "title": "TV6: BUDGET FOR HARDWORKING & LAW ABIDING",
+      "summary": "CCN TV6 television report covering budget for hardworking & law abiding.",
+      "content": "CCN TV6 broadcast segment on BUDGET FOR HARDWORKING & LAW ABIDING.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/budget-for-hardworking-law-abiding/article_12069c2d-34ea-468e-9c7a-b5c9b99c4768.html",
+      "publishedAt": "2026-10-12T13:39:57.625873-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "py-tv6-shai-hope-on-loss",
+      "title": "TV6: SHAI HOPE ON LOSS",
+      "summary": "CCN TV6 television report covering shai hope on loss.",
+      "content": "CCN TV6 broadcast segment on SHAI HOPE ON LOSS.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/shai-hope-on-loss/article_fb49c7af-154a-4634-8b4e-70eb63f99d18.html",
+      "publishedAt": "2026-10-12T13:39:57.625873-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "py-tv6-pantrinbago-change-of-heart",
+      "title": "TV6: PANTRINBAGO CHANGE OF HEART",
+      "summary": "CCN TV6 television report covering pantrinbago change of heart.",
+      "content": "CCN TV6 broadcast segment on PANTRINBAGO CHANGE OF HEART.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/pantrinbago-change-of-heart/article_45e3611d-390f-430c-85fb-f4b5be6adda2.html",
+      "publishedAt": "2026-10-12T13:39:57.625873-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "yt-dlp-cnc3-evening-bulletin",
+      "targetId": "youtube-cnc3-news",
+      "title": "CNC3 News at 7: Point Lisas petrochemical sector records positive Q1 trade output",
+      "summary": "CNC3 in-depth evening report examines ammonia and methanol export earnings, Point Lisas Industrial Estate maintenance schedules, and foreign exchange impact.",
+      "content": "CNC3 Business & Evening Desk report detailing energy sector revenue, downstream petrochemical performance, and discussions with the Energy Chamber of Trinidad & Tobago.",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 News Anchor",
+      "originalUrl": "https://www.youtube.com/watch?v=cnc3-sample-evening-7",
+      "publishedAt": "2026-10-12T15:49:26.514Z",
+      "category": "business",
+      "tags": [
+        "CNC3 News",
+        "Point Lisas",
+        "Energy TT",
+        "Economy"
+      ],
+      "trendingScore": 91,
+      "upvotes": 385,
+      "commentsCount": 42,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "42:30"
+      }
+    },
+    {
+      "id": "py-express-article_20d41627-f9aa-4076-83f-476e0d83",
+      "title": "'ALL OUT' FOR SPARROW",
+      "summary": "RECIPIENT of the 2026 National Award for the Development of Women (Gold) soca star Destra Garcia will sing iconic gospel hymn \"His Eye is on the Sparrow\" at the openi…",
+      "content": "RECIPIENT of the 2026 National Award for the Development of Women (Gold) soca star Destra Garcia will sing iconic gospel hymn \"His Eye is on the Sparrow\" at the openi…",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/all-out-for-sparrow/article_20d41627-f9aa-4076-83fc-079917f4de23.html",
+      "publishedAt": "2026-10-12T13:39:55.237158-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAQAAAAe/WZNAAAAEElEQVR42mM8U88ABowYDABAxQPltt5zqAAAAABJRU5ErkJggg==",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_10d05df7-0df4-4414-bd9-57bd1d30",
+      "title": "Dignitaries turn out for airport opening",
+      "summary": "PRIME Minister Kamla Persad-Bissessar, Tobago House of Assembly (THA) Chief Secretary Farley Augustine and a host of other dignitaries are set to open the long-awaite…",
+      "content": "PRIME Minister Kamla Persad-Bissessar, Tobago House of Assembly (THA) Chief Secretary Farley Augustine and a host of other dignitaries are set to open the long-awaite…",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/dignitaries-turn-out-for-airport-opening/article_10d05df7-0df4-4414-bd95-1ca4bce37295.html",
+      "publishedAt": "2026-10-12T13:39:55.237158-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_211a9c7f-2260-42e4-a6e-e22d48dc",
+      "title": "Sobers: No sitting minister's US visa revoked",
+      "summary": "MINISTER of Foreign and Caricom Affairs Sean Sobers yesterday denied that any sitting minister in the Kamla Persad-Bissessar-led Government had their United States vi…",
+      "content": "MINISTER of Foreign and Caricom Affairs Sean Sobers yesterday denied that any sitting minister in the Kamla Persad-Bissessar-led Government had their United States vi…",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/sobers-no-sitting-minister-s-us-visa-revoked/article_211a9c7f-2260-42e4-a6e0-28384fa85bca.html",
+      "publishedAt": "2026-10-12T13:39:55.237158-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_186f4fdf-3032-47ac-868-c23c645a",
+      "title": "Govt targets creating 50,000 jobs",
+      "summary": "JOB creation was one of the central promises of the United National Congress (UNC) ahead of the April 28, 2025 general election.Prime Minister Kamla Persad-Bissessar had pledged to generate more than 50,000 employment...",
+      "content": "JOB creation was one of the central promises of the United National Congress (UNC) ahead of the April 28, 2025 general election.Prime Minister Kamla Persad-Bissessar had pledged to generate more than 50,000 employment...",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/govt-targets-creating-50-000-jobs/article_186f4fdf-3032-47ac-868d-886888237e1a.html",
+      "publishedAt": "2026-10-12T13:39:55.237158-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_cdcb85ff-1761-4340-9c2-1c3bf7c4",
+      "title": "Sando Chamber: Enough talk",
+      "summary": "President of the Greater San Fernando Area Chamber of Commerce (GSFCC) Kiran Singh is calling for the national budget to move beyond promises of economic diversification, and to fund local businesses to produce, innov...",
+      "content": "President of the Greater San Fernando Area Chamber of Commerce (GSFCC) Kiran Singh is calling for the national budget to move beyond promises of economic diversification, and to fund local businesses to produce, innov...",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/sando-chamber-enough-talk/article_cdcb85ff-1761-4340-9c2d-d47a850b31b5.html",
+      "publishedAt": "2026-10-12T13:39:55.237158-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_ff3c7207-fa29-4cbc-af7-3fb8392d",
+      "title": "PM: Govt will rebalance society",
+      "summary": "Prime Minister Kamla Persad-Bissessar has signalled a shift in how some State resources are delivered, saying the Government intends to move away from laziness, wastage and the misuse of public assistance, and towards...",
+      "content": "Prime Minister Kamla Persad-Bissessar has signalled a shift in how some State resources are delivered, saying the Government intends to move away from laziness, wastage and the misuse of public assistance, and towards...",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/pm-govt-will-rebalance-society/article_ff3c7207-fa29-4cbc-af7f-19cb20552198.html",
+      "publishedAt": "2026-10-12T13:39:55.237158-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_cfd412e3-1a92-44b1-989-66854fd0",
+      "title": "LIVESTREAM SPARKS OUTRAGE",
+      "summary": "A 13-year-old girl who was removed from her mother's care following a police investigation has been found after she went missing for 25 days.The good news, however, soon turned ugly when a livestream showing her face ...",
+      "content": "A 13-year-old girl who was removed from her mother's care following a police investigation has been found after she went missing for 25 days.The good news, however, soon turned ugly when a livestream showing her face ...",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/livestream-sparks-outrage/article_cfd412e3-1a92-44b1-989a-0caff78a3daa.html",
+      "publishedAt": "2026-10-12T13:39:55.242490-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_82bf2b36-3049-4b33-82f-1e41fce9",
+      "title": "PM: No pressure, only progress ahead of budget",
+      "summary": "Express Investigative & Breaking report from Port of Spain.",
+      "content": "Express Investigative & Breaking report from Port of Spain.",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/pm-no-pressure-only-progress-ahead-of-budget/article_82bf2b36-3049-4b33-82fb-9da7517ee0b7.html",
+      "publishedAt": "2026-10-12T13:39:55.242490-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "yt-dlp-ttt-national-roundup",
+      "targetId": "youtube-ttt-news",
+      "title": "TTT News at 7: Ministry of Works confirms Churchill Roosevelt Highway lane expansion",
+      "summary": "TTT Live Online coverage of highway infrastructure improvements between Curepe and Piarco junction, reducing peak-hour commute times for east-west commuters.",
+      "content": "Official government broadcast report featuring Minister of Works on Churchill Roosevelt Highway overpass progress and flyover infrastructure in East Trinidad.",
+      "sourceId": "ttt",
+      "sourceName": "TTT Live Online",
+      "sourceType": "broadcast",
+      "author": "TTT Live Studio",
+      "originalUrl": "https://www.youtube.com/watch?v=ttt-sample-news-7pm",
+      "publishedAt": "2026-10-12T15:19:26.514Z",
+      "category": "broadcast",
+      "tags": [
+        "TTT Live",
+        "Churchill Roosevelt Highway",
+        "Infrastructure",
+        "Curepe"
+      ],
+      "trendingScore": 89,
+      "upvotes": 312,
+      "commentsCount": 35,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "45:00"
+      }
+    },
+    {
+      "id": "py-mock-cnc3-sports-cpl",
+      "title": "CNC3 Television: Trinbago Knight Riders unveil squad revamp ahead of Caribbean Premier League",
+      "summary": "Franchise management confirms international pace signings and key spinner renewals as Queen's Park Oval prepares for ticket sales.",
+      "content": "Sports desk interview with TKR captain and coach reviewing training camp schedule in Couva.",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 Sports Desk",
+      "originalUrl": "https://cnc3.co.tt/sports/tkr-squad-announcement",
+      "publishedAt": "2026-10-12T13:39:58.178914-04:00",
+      "category": "sports",
+      "tags": [
+        "CNC3 Sports",
+        "CPL Cricket",
+        "TKR",
+        "Trinidad Sports"
+      ],
+      "trendingScore": 88,
+      "upvotes": 178,
+      "commentsCount": 42,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:15"
+      }
+    },
+    {
       "id": "bridge-fb-tv6-morning-edition",
       "targetId": "bridge-fb-tv6",
       "title": "CCN TV6 Facebook: Morning Edition panel debates food security and local agricultural incentives",
@@ -173,7 +1018,7 @@
       "sourceType": "broadcast",
       "author": "CCN TV6 Digital Desk",
       "originalUrl": "https://www.facebook.com/CCNTV6/posts/morning-edition-agriculture",
-      "publishedAt": "2026-10-12T11:35:11.891Z",
+      "publishedAt": "2026-10-12T16:24:26.514Z",
       "category": "broadcast",
       "tags": [
         "TV6 Facebook",
@@ -202,7 +1047,7 @@
       "sourceType": "broadcast",
       "author": "CNC3 Television Digital Desk",
       "originalUrl": "https://www.facebook.com/CNC3Television/posts/port-logistics-update",
-      "publishedAt": "2026-10-12T11:25:11.891Z",
+      "publishedAt": "2026-10-12T16:14:26.514Z",
       "category": "business",
       "tags": [
         "CNC3 Facebook",
@@ -221,36 +1066,6 @@
       }
     },
     {
-      "id": "bridge-fb-ian-breaking",
-      "targetId": "bridge-fb-ian",
-      "title": "I.A.N Network: Police intercept robbery suspect along Uriah Butler Highway in Chaguanas",
-      "summary": "Live Facebook video report by Ian Alleyne showing rapid TTPS Highway Patrol response, vehicle pursuit, and traffic standoff near Chaguanas flyover.",
-      "content": "Ian Alleyne Crime Watch Network Facebook stream. Central Division TTPS officers apprehended two suspects following an attempted armed robbery. Highway traffic diverted onto Caroni Savannah Road.",
-      "sourceId": "ian",
-      "sourceName": "I.A.N Network",
-      "sourceType": "broadcast",
-      "author": "Ian Alleyne",
-      "originalUrl": "https://www.facebook.com/ianalleyne/posts/central-division-highway",
-      "publishedAt": "2026-10-12T12:00:11.891Z",
-      "category": "crime",
-      "tags": [
-        "Crime Watch",
-        "Ian Alleyne",
-        "Uriah Butler Highway",
-        "Chaguanas"
-      ],
-      "trendingScore": 97,
-      "upvotes": 820,
-      "commentsCount": 310,
-      "isBreaking": true,
-      "media": {
-        "type": "video",
-        "url": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
-        "aspectRatio": "portrait",
-        "videoDuration": "14:22"
-      }
-    },
-    {
       "id": "bridge-fb-newsday-education",
       "targetId": "bridge-fb-newsday",
       "title": "Newsday Facebook: SEA Exam candidates celebrate results across Port of Spain schools",
@@ -261,7 +1076,7 @@
       "sourceType": "newspaper",
       "author": "Newsday Digital Desk",
       "originalUrl": "https://www.facebook.com/NewsdayTT/posts/sea-results-celebrations",
-      "publishedAt": "2026-10-12T09:50:11.891Z",
+      "publishedAt": "2026-10-12T14:39:26.514Z",
       "category": "culture",
       "tags": [
         "Newsday",
@@ -278,171 +1093,6 @@
         "url": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80",
         "aspectRatio": "landscape"
       }
-    },
-    {
-      "id": "rss-bridge-instagram-https://www.instagram.com/p/DdWsL7TmXWk/",
-      "title": "▶ (no text)",
-      "summary": "(no text)",
-      "content": "(no text)",
-      "sourceId": "instagram",
-      "sourceName": "Instagram TT Reels",
-      "sourceType": "social",
-      "author": "tv6tnt",
-      "originalUrl": "https://www.instagram.com/p/DdWsL7TmXWk/",
-      "publishedAt": "2026-10-12T12:50:25.057Z",
-      "category": "social",
-      "tags": [
-        "Instagram TT",
-        "TV6 Reels",
-        "Viral Video"
-      ],
-      "trendingScore": 82,
-      "upvotes": 247,
-      "commentsCount": 46,
-      "isBreaking": false,
-      "media": {
-        "type": "video",
-        "url": "https://www.instagram.com/p/DdWsL7TmXWk/media?size=l",
-        "aspectRatio": "portrait"
-      }
-    },
-    {
-      "id": "rss-bridge-instagram-https://www.instagram.com/p/DdUIJEPjAoQ/",
-      "title": "PREMIER LEAGUE ON TV6!...",
-      "summary": "PREMIER LEAGUE ON TV6!\n\nArsenal VS Sunderland A.F.C.\nWatch on TV6\nTonight at 8:30!\n\nDon't miss the action on CCN TV6!\n\n#TV6 #CCNTV6 #PremierLeague #football #sunderland #sunderl...",
-      "content": "PREMIER LEAGUE ON TV6!\n\nArsenal VS Sunderland A.F.C.\nWatch on TV6\nTonight at 8:30!\n\nDon't miss the action on CCN TV6!\n\n#TV6 #CCNTV6 #PremierLeague #football #sunderland #sunderlandafc",
-      "sourceId": "instagram",
-      "sourceName": "Instagram TT Reels",
-      "sourceType": "social",
-      "author": "tv6tnt",
-      "originalUrl": "https://www.instagram.com/p/DdUIJEPjAoQ/",
-      "publishedAt": "2026-10-12T12:50:25.057Z",
-      "category": "social",
-      "tags": [
-        "Instagram TT",
-        "TV6 Reels",
-        "Viral Video"
-      ],
-      "trendingScore": 94,
-      "upvotes": 54,
-      "commentsCount": 15,
-      "isBreaking": false,
-      "media": {
-        "type": "video",
-        "url": "https://www.instagram.com/p/DdUIJEPjAoQ/media?size=l",
-        "aspectRatio": "portrait"
-      }
-    },
-    {
-      "id": "rss-bridge-instagram-https://www.instagram.com/p/DeXmeQIjEk3/",
-      "title": "Six talented young girls will grace the stage on Saturday, October 17, as they compete for the title of Little Miss...",
-      "summary": "Six talented young girls will grace the stage on Saturday, October 17, as they compete for the title of Little Miss Pleasantville Queen 2026 at the Pleasantville Community Centr...",
-      "content": "Six talented young girls will grace the stage on Saturday, October 17, as they compete for the title of Little Miss Pleasantville Queen 2026 at the Pleasantville Community Centre. \n\nFor more&hellip; tap link in bio",
-      "sourceId": "instagram",
-      "sourceName": "Instagram TT Reels",
-      "sourceType": "social",
-      "author": "cnc3news",
-      "originalUrl": "https://www.instagram.com/p/DeXmeQIjEk3/",
-      "publishedAt": "2026-10-12T12:50:25.200Z",
-      "category": "social",
-      "tags": [
-        "CNC3 Reels",
-        "Breaking Instagram",
-        "Caribbean"
-      ],
-      "trendingScore": 82,
-      "upvotes": 96,
-      "commentsCount": 15,
-      "isBreaking": false,
-      "media": {
-        "type": "video",
-        "url": "https://www.instagram.com/p/DeXmeQIjEk3/media?size=l",
-        "aspectRatio": "portrait"
-      }
-    },
-    {
-      "id": "rss-bridge-instagram-https://www.instagram.com/p/DeXmN_1jHmb/",
-      "title": "October 11, 2026, the world observes the International Day of the Girl Child under the urgent and powerful theme: “End...",
-      "summary": "October 11, 2026, the world observes the International Day of the Girl Child under the urgent and powerful theme: &ldquo;End child marriage and invest in girls&rsquo; rights!&rd...",
-      "content": "October 11, 2026, the world observes the International Day of the Girl Child under the urgent and powerful theme: &ldquo;End child marriage and invest in girls&rsquo; rights!&rdquo; \nThe day serves to champion their empowerment and celebrate the boundless potential that blooms when a girl&rsquo;s rights are protected and her ambitions nurtured. \nAt just five years old, Maia Oiseoghade, a student at Victory Academy of Learning, is a vibrant, local embodiment of this year&rsquo;s theme. \n\nFor more&hellip; tap link in bio",
-      "sourceId": "instagram",
-      "sourceName": "Instagram TT Reels",
-      "sourceType": "social",
-      "author": "cnc3news",
-      "originalUrl": "https://www.instagram.com/p/DeXmN_1jHmb/",
-      "publishedAt": "2026-10-12T12:50:25.201Z",
-      "category": "social",
-      "tags": [
-        "CNC3 Reels",
-        "Breaking Instagram",
-        "Caribbean"
-      ],
-      "trendingScore": 89,
-      "upvotes": 125,
-      "commentsCount": 56,
-      "isBreaking": true,
-      "media": {
-        "type": "video",
-        "url": "https://www.instagram.com/p/DeXmN_1jHmb/media?size=l",
-        "aspectRatio": "portrait"
-      }
-    },
-    {
-      "id": "rss-bridge-instagram-https://www.instagram.com/p/DeXkkwSkX0o/",
-      "title": "“Healthy eating is often associated with expensive ingredients, speciality products and complicated meal plans. Eating...",
-      "summary": "&ldquo;Healthy eating is often associated with expensive ingredients, speciality products and complicated meal plans. Eating well does not have to strain the household budget .....",
-      "content": "&ldquo;Healthy eating is often associated with expensive ingredients, speciality products and complicated meal plans. Eating well does not have to strain the household budget ... The key is to stop thinking that you have to spend more money to eat &lsquo;healthy foods&rsquo;...&rdquo; \n&mdash;Dr Candida Khan (Registered Dietitian Nutritionist) \n\nFor more&hellip; tap link in bio",
-      "sourceId": "instagram",
-      "sourceName": "Instagram TT Reels",
-      "sourceType": "social",
-      "author": "cnc3news",
-      "originalUrl": "https://www.instagram.com/p/DeXkkwSkX0o/",
-      "publishedAt": "2026-10-12T12:50:25.201Z",
-      "category": "social",
-      "tags": [
-        "CNC3 Reels",
-        "Breaking Instagram",
-        "Caribbean"
-      ],
-      "trendingScore": 91,
-      "upvotes": 86,
-      "commentsCount": 52,
-      "isBreaking": false,
-      "media": {
-        "type": "video",
-        "url": "https://www.instagram.com/p/DeXkkwSkX0o/media?size=l",
-        "aspectRatio": "portrait"
-      }
-    },
-    {
-      "id": "sports-express-soca-warriors-brief",
-      "targetId": "bridge-fb-express-sports",
-      "title": "Soca Warriors Squad Confirmed for Concacaf Nations League Knockout Stage",
-      "summary": "National football coaches release a sharp 24-man roster blending European-based strikers with standout TT Premier Football League midfielders.",
-      "content": "The Trinidad & Tobago Football Association (TTFA) announced the 24-player squad preparing for next week's fixture at Hasely Crawford Stadium. Fan ticket sales surpass 10,000.",
-      "sourceId": "express",
-      "sourceName": "Trinidad Express Sports",
-      "sourceType": "newspaper",
-      "author": "Express Sports Editor",
-      "originalUrl": "https://trinidadexpress.com/sports/soca-warriors-knockout-roster",
-      "publishedAt": "2026-10-12T12:25:11.891Z",
-      "category": "sports",
-      "tags": [
-        "Soca Warriors",
-        "TTFA",
-        "Concacaf",
-        "Hasely Crawford Stadium"
-      ],
-      "trendingScore": 97,
-      "upvotes": 512,
-      "commentsCount": 94,
-      "isBreaking": false,
-      "media": {
-        "type": "image",
-        "url": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80",
-        "aspectRatio": "landscape"
-      }
     }
-  ],
-  "errors": []
+  ]
 }
