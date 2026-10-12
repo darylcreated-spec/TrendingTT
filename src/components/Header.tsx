@@ -126,15 +126,25 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-3">
             <button 
               onClick={() => onSelectView('feed')}
-              className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 flex items-center justify-center text-white shadow-md shadow-red-950/40 border border-red-500/80 transition-all active:scale-95 group focus:outline-none focus:ring-2 focus:ring-red-400"
+              className="relative w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center text-white shadow-md shadow-red-950/60 border border-red-500/80 transition-all active:scale-95 group focus:outline-none focus:ring-2 focus:ring-red-400 bg-[#CE1126]"
               title="Return to Home Feed"
               aria-label="Trending.TT Home Feed"
             >
-              {/* Rising Scarlet Flare Trendmark */}
-              <svg className="w-6 h-6 transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M3 17l6-6 4 4 8-9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M14 6h7v7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="21" cy="6" r="1.5" fill="white" stroke="none" />
+              {/* National Flag Diagonal Band */}
+              <div 
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.95) 40%, rgba(255,255,255,0.95) 46%, #000000 46%, #000000 56%, rgba(255,255,255,0.95) 56%, rgba(255,255,255,0.95) 62%, transparent 62%)'
+                }}
+              />
+              {/* Rising Trending Arrow with shadow */}
+              <svg className="w-5 h-5 relative z-10 transition-transform group-hover:scale-110 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" viewBox="0 0 24 24" fill="none">
+                <path d="M3 17l6-6 4 4 8-9" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M14 6h7v7" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M3 17l6-6 4 4 8-9" stroke="#FDE047" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M14 6h7v7" stroke="#FDE047" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="21" cy="6" r="2" fill="#FFFFFF" />
+                <circle cx="21" cy="6" r="1" fill="#CE1126" />
               </svg>
             </button>
             <div>

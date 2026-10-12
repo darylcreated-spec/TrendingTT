@@ -1,42 +1,46 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0F172A" />
-      <stop offset="100%" stop-color="#020617" />
-    </linearGradient>
-    <linearGradient id="flareRed" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#DC2626" />
-      <stop offset="100%" stop-color="#FF3333" />
-    </linearGradient>
-    <linearGradient id="flagWhite" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.25" />
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.05" />
-    </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="14" flood-color="#EF4444" flood-opacity="0.55"/>
+    <!-- Shadow filter for contrast between arrow and flag -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
     </filter>
   </defs>
 
-  <!-- Background Canvas -->
-  <rect width="512" height="512" rx="120" fill="url(#bg)" />
-  <rect width="500" height="500" x="6" y="6" rx="114" fill="none" stroke="#DC2626" stroke-width="6" stroke-opacity="0.4" />
+  <!-- Trinidad and Tobago National Flag Background Base (Red field) -->
+  <!-- Official Flag Red #CE1126 -->
+  <rect width="512" height="512" rx="112" fill="#CE1126" />
 
-  <!-- Trinidad & Tobago Flag Diagonal Stripe Motif -->
-  <polygon points="0,460 70,512 512,70 442,0" fill="url(#flagWhite)" />
-  <polygon points="0,488 36,512 512,36 476,0" fill="#0A0A0C" opacity="0.6" />
-  <polygon points="0,504 16,512 512,16 496,0" fill="#DC2626" opacity="0.4" />
+  <!-- Diagonal Band: White borders with central Black stripe running from Top-Left to Bottom-Right -->
+  <!-- White border outer stripe (approx 1/5 of width) -->
+  <polygon points="0,0 120,0 512,392 512,512 392,512 0,120" fill="#FFFFFF" />
 
-  <!-- Rising Trending Flare Vector -->
-  <!-- Base zigzag trendline -->
-  <path d="M 96 360 L 196 260 L 284 320 L 416 150" fill="none" stroke="url(#flareRed)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
-  
-  <!-- Arrow Head -->
-  <polyline points="320,150 416,150 416,246" fill="none" stroke="url(#flareRed)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
-  
-  <!-- Trend Peak Live Beacon -->
-  <circle cx="416" cy="150" r="18" fill="#FFFFFF" />
-  <circle cx="416" cy="150" r="30" fill="none" stroke="#FF4444" stroke-width="4" opacity="0.6" />
+  <!-- Black central stripe -->
+  <polygon points="0,0 88,0 512,424 512,512 424,512 0,88" fill="#000000" />
 
-  <!-- Trending.TT Brand Signature -->
-  <text x="256" y="445" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="44" fill="#FFFFFF" text-anchor="middle" letter-spacing="4">TRENDING<tspan fill="#EF4444">.TT</tspan></text>
+  <!-- Rounded subtle outline for PWA app icon containment -->
+  <rect width="504" height="504" x="4" y="4" rx="108" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-opacity="0.3" />
+
+  <!-- Rising Trending Flare Arrow (Contrasting White and Golden-Amber with Deep Drop Shadow) -->
+  <g filter="url(#shadow)">
+    <!-- Base zigzag trendline in crisp White with high visibility over Red and Black -->
+    <path d="M 88 380 L 190 278 L 280 340 L 416 160" fill="none" stroke="#FFFFFF" stroke-width="42" stroke-linecap="round" stroke-linejoin="round" />
+    
+    <!-- Arrow Head in White -->
+    <polyline points="316,160 416,160 416,260" fill="none" stroke="#FFFFFF" stroke-width="42" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Inner Core Accent in Amber/Yellow for vibrant heat/trending signal -->
+    <path d="M 88 380 L 190 278 L 280 340 L 416 160" fill="none" stroke="#FDE047" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+    <polyline points="340,160 416,160 416,236" fill="none" stroke="#FDE047" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Apex Beacon Dot -->
+    <circle cx="416" cy="160" r="22" fill="#FFFFFF" />
+    <circle cx="416" cy="160" r="14" fill="#CE1126" />
+    <circle cx="416" cy="160" r="6" fill="#FDE047" />
+  </g>
+
+  <!-- High-contrast Badge pill at bottom for "TRENDING.TT" -->
+  <g filter="url(#shadow)">
+    <rect x="76" y="420" width="360" height="54" rx="27" fill="#000000" fill-opacity="0.88" stroke="#FFFFFF" stroke-width="2" />
+    <text x="256" y="457" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="28" fill="#FFFFFF" text-anchor="middle" letter-spacing="3">TRENDING<tspan fill="#EF4444">.TT</tspan></text>
+  </g>
 </svg>
