@@ -11,6 +11,9 @@
     "ingest": "node scripts/ingestion-worker.mjs",
     "ingest:mock": "node scripts/ingestion-worker.mjs --mock",
     "ingest:dry": "node scripts/ingestion-worker.mjs --dry-run",
+    "scrape:py": "python scripts/news_scraper.py --output public/data/ingested-posts.json",
+    "scrape:mock": "python scripts/news_scraper.py --mock",
+    "scrape:dry": "python scripts/news_scraper.py --dry-run",
     "preview": "vite preview"
   },
   "dependencies": {

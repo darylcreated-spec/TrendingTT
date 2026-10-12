@@ -506,7 +506,25 @@ const scraperEngineContent = fs.readFileSync('src/services/scraperEngine.ts', 'u
 assert(scraperEngineContent.includes('LIVE_BULLETIN_TEMPLATES'), 'scraperEngine must include dynamic bulletin templates');
 assert(scraperEngineContent.includes('Soca Warriors') && scraperEngineContent.includes('Red Force'), 'scraperEngine must include authentic sports bulletins');
 
-console.log('PASS: Live Updates & Post Date/Time Installation fully verified.\n');
+// Python Local News Scraper checks
+console.log('11. Verifying Python Local News Agency Scraper...');
+assert(fs.existsSync('scripts/news_scraper.py'), 'scripts/news_scraper.py must exist');
+const scraperPyContent = fs.readFileSync('scripts/news_scraper.py', 'utf8');
+assert(scraperPyContent.includes('scrape_newsday'), 'news_scraper.py missing scrape_newsday');
+assert(scraperPyContent.includes('scrape_express'), 'news_scraper.py missing scrape_express');
+assert(scraperPyContent.includes('scrape_guardian'), 'news_scraper.py missing scrape_guardian');
+assert(scraperPyContent.includes('scrape_tv6'), 'news_scraper.py missing scrape_tv6');
+assert(scraperPyContent.includes('scrape_cnc3'), 'news_scraper.py missing scrape_cnc3');
+assert(scraperPyContent.includes('scrape_ttt'), 'news_scraper.py missing scrape_ttt');
+assert(scraperPyContent.includes('scrape_ian'), 'news_scraper.py missing scrape_ian');
+
+// Check ingested-posts.json has posts
+assert(fs.existsSync('public/data/ingested-posts.json'), 'public/data/ingested-posts.json must exist');
+const ingestedData = JSON.parse(fs.readFileSync('public/data/ingested-posts.json', 'utf8'));
+assert(Array.isArray(ingestedData.posts) && ingestedData.posts.length > 0, 'ingested-posts.json must contain posts array');
+const hasLocalAgencies = ingestedData.posts.some(p => ['newsday', 'express', 'guardian', 'tv6', 'cnc3', 'ttt', 'ian'].includes(p.sourceId));
+assert(hasLocalAgencies, 'ingested-posts.json must contain items from local news agencies');
+console.log(`PASS: Python News Scraper validated (${ingestedData.posts.length} posts present in public/data/ingested-posts.json).\n`);
 
 console.log('=== ALL VERIFICATION CHECKS PASSED SUCCESSFULLY ===');
 
