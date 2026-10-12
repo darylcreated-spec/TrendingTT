@@ -126,19 +126,26 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-3">
             <button 
               onClick={() => onSelectView('feed')}
-              className="w-10 h-10 rounded-lg bg-red-600 hover:bg-red-500 flex items-center justify-center font-black text-white text-xl tracking-tighter shadow-md border border-red-500 text-left transition-colors"
+              className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 flex items-center justify-center text-white shadow-md shadow-red-950/40 border border-red-500/80 transition-all active:scale-95 group focus:outline-none focus:ring-2 focus:ring-red-400"
               title="Return to Home Feed"
+              aria-label="Trending.TT Home Feed"
             >
-              TT
+              {/* Rising Scarlet Flare Trendmark */}
+              <svg className="w-6 h-6 transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M3 17l6-6 4 4 8-9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M14 6h7v7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="21" cy="6" r="1.5" fill="white" stroke="none" />
+              </svg>
             </button>
             <div>
               <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
                 <button
                   onClick={() => onSelectView('feed')}
-                  className="text-left group shrink-0"
+                  className="text-left group shrink-0 focus:outline-none"
+                  aria-label="Trending.TT Brand Home"
                 >
-                  <h1 className="text-2xl font-black tracking-tight text-white m-0 p-0 font-sans group-hover:text-red-400 transition-colors">
-                    TRENDING<span className="text-red-500">.TT</span>
+                  <h1 className="text-2xl font-black tracking-tight text-white m-0 p-0 font-sans group-hover:text-red-400 transition-colors flex items-center gap-1.5">
+                    <span>TRENDING</span><span className="text-red-500">.TT</span>
                   </h1>
                 </button>
                 {currentDateTime.dateStr && (

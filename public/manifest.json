@@ -1,11 +1,11 @@
 {
-  "name": "Trending TT - Trinidad & Tobago News & Trends",
-  "short_name": "Trending TT",
-  "description": "Real-time aggregator for Trinidad & Tobago broadcast news (TTT, CNC3, TV6, Newsday) and trending social media (TikTok, Facebook, Instagram) in one unified dashboard.",
+  "name": "Trending TT - Trinidad & Tobago News & Social Radar",
+  "short_name": "Trending.TT",
+  "description": "Real-time aggregator for Trinidad & Tobago broadcast news (TV6, CNC3, TTT, Newsday) and trending social media (TikTok, Facebook, Instagram) in one unified dashboard.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#090d16",
-  "theme_color": "#ce1126",
+  "background_color": "#020617",
+  "theme_color": "#dc2626",
   "orientation": "portrait-primary",
   "categories": ["news", "social", "entertainment"],
   "icons": [
@@ -20,6 +20,11 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ],
   "shortcuts": [
@@ -29,14 +34,14 @@
       "description": "View breaking news across Trinidad & Tobago"
     },
     {
-      "name": "Broadcast Live",
-      "url": "/?category=broadcast",
-      "description": "Watch TTT, CNC3, and TV6 updates"
+      "name": "Traffic & Weather Radar",
+      "url": "/?view=radar",
+      "description": "Live CRH, UBH, and TTMS weather radar"
     },
     {
-      "name": "Trending TikToks",
+      "name": "Trending Buzz",
       "url": "/?category=social",
-      "description": "See viral TT social clips"
+      "description": "See viral TT social clips & D Macko Leaderboard"
     }
   ]
 }

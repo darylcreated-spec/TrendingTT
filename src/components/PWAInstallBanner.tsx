@@ -23,12 +23,16 @@ export const PWAInstallBanner: React.FC<PWAInstallBannerProps> = ({ onInstall, c
     <div className="bg-gradient-to-r from-red-950 via-slate-900 to-slate-950 border-b border-red-900/60 text-slate-100 px-4 py-2.5">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2.5 text-center sm:text-left">
-          <div className="w-8 h-8 rounded-lg bg-red-600 text-white flex items-center justify-center shrink-0 shadow-sm font-black">
-            TT
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 to-red-700 text-white flex items-center justify-center shrink-0 shadow-md border border-red-500/80">
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M3 17l6-6 4 4 8-9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M14 6h7v7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="21" cy="6" r="1.5" fill="white" stroke="none" />
+            </svg>
           </div>
           <div>
             <p className="font-bold text-slate-100">
-              Install Trending TT on your phone for instant breaking alerts
+              Install Trending.TT on your phone for instant breaking alerts
             </p>
             <p className="text-slate-400 text-[11px]">
               Works offline, fast mobile experience, zero app store download needed.
