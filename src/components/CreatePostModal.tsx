@@ -12,7 +12,8 @@ import {
   Trophy,
   Car,
   CloudRain,
-  Radio
+  Radio,
+  Camera
 } from 'lucide-react';
 
 interface CreatePostModalProps {
@@ -319,16 +320,42 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                Custom Image URL (Optional)
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center justify-between">
+                <span>Attach Photo (Upload or URL)</span>
+                <span className="text-[10px] text-emerald-400 font-normal">100% Free</span>
               </label>
-              <input
-                type="url"
-                value={customImageUrl}
-                onChange={(e) => setCustomImageUrl(e.target.value)}
-                placeholder="https://images.unsplash.com/..."
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-red-500"
-              />
+              <div className="flex items-center gap-2">
+                <input
+                  type="url"
+                  value={customImageUrl}
+                  onChange={(e) => setCustomImageUrl(e.target.value)}
+                  placeholder="https://images.unsplash.com/..."
+                  className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-red-500"
+                />
+                <label className="cursor-pointer px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold flex items-center gap-1 shrink-0 active:scale-95 transition-all">
+                  <Camera className="w-3.5 h-3.5 text-red-400" />
+                  <span>Photo</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          if (event.target?.result) {
+                            setCustomImageUrl(event.target.result as string);
+                            onShowToast('Photo attached from device camera/gallery!');
+                          }
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                  />
+                </label>
+              </div>
             </div>
           </div>
 
