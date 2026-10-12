@@ -464,6 +464,51 @@ assert(workflowContent.includes('yt-dlp'), 'Workflow must install yt-dlp');
 
 console.log('PASS: Curated Sectioned Feed & Gemini/NotebookLM Briefing Engine verified.\n');
 
+// 12. Verify Live Updates (News, Sports, Weather, Traffic) & Post Date/Time Installation
+console.log('12. Verifying Live Updates & Post Date/Time Installation...');
+
+assert(fs.existsSync('src/utils/dateUtils.ts'), 'src/utils/dateUtils.ts must exist');
+const dateUtilsContent = fs.readFileSync('src/utils/dateUtils.ts', 'utf8');
+assert(dateUtilsContent.includes('formatPostDateTime'), 'dateUtils must export formatPostDateTime');
+assert(dateUtilsContent.includes('America/Port_of_Spain'), 'dateUtils must target Trinidad & Tobago AST timezone');
+assert(dateUtilsContent.includes('AST'), 'dateUtils must include AST timezone indicator');
+
+// PostCard date & time check
+const postCardContent = fs.readFileSync('src/components/PostCard.tsx', 'utf8');
+assert(postCardContent.includes('formatPostDateTime'), 'PostCard.tsx must display exact date and time of the post when made');
+
+// CreatePostModal check
+assert(fs.existsSync('src/components/CreatePostModal.tsx'), 'src/components/CreatePostModal.tsx must exist');
+const createModalContent = fs.readFileSync('src/components/CreatePostModal.tsx', 'utf8');
+assert(createModalContent.includes('Post Live Update'), 'CreatePostModal must feature header');
+assert(createModalContent.includes('Post Date & Time when made'), 'CreatePostModal must display live timestamp when made');
+assert(createModalContent.includes('Sports & Cricket'), 'CreatePostModal must support sports updates');
+
+// RadarService check
+assert(fs.existsSync('src/services/radarService.ts'), 'src/services/radarService.ts must exist');
+const radarServiceContent = fs.readFileSync('src/services/radarService.ts', 'utf8');
+assert(radarServiceContent.includes('refreshTrafficSegments'), 'RadarService must refresh traffic segments');
+assert(radarServiceContent.includes('refreshWeatherAdvisory'), 'RadarService must refresh weather advisories');
+assert(radarServiceContent.includes('refreshRiverLevels'), 'RadarService must refresh river flood levels');
+
+// TrafficWeatherRadar dynamic refresh check
+const radarComponentContent = fs.readFileSync('src/components/TrafficWeatherRadar.tsx', 'utf8');
+assert(radarComponentContent.includes('Refresh Radar'), 'TrafficWeatherRadar must feature Live Radar Refresh action');
+assert(radarComponentContent.includes('RadarService.refreshAllRadarData'), 'TrafficWeatherRadar must wire RadarService');
+
+// Custom posts storage check
+const freshStorageContent = fs.readFileSync('src/services/storage.ts', 'utf8');
+assert(freshStorageContent.includes('getCustomPosts'), 'Storage must implement getCustomPosts');
+assert(freshStorageContent.includes('saveCustomPost'), 'Storage must implement saveCustomPost');
+
+// ScraperEngine sports & dynamic rotation check
+const scraperEngineContent = fs.readFileSync('src/services/scraperEngine.ts', 'utf8');
+assert(scraperEngineContent.includes('LIVE_BULLETIN_TEMPLATES'), 'scraperEngine must include dynamic bulletin templates');
+assert(scraperEngineContent.includes('Soca Warriors') && scraperEngineContent.includes('Red Force'), 'scraperEngine must include authentic sports bulletins');
+
+console.log('PASS: Live Updates & Post Date/Time Installation fully verified.\n');
+
 console.log('=== ALL VERIFICATION CHECKS PASSED SUCCESSFULLY ===');
+
 
 

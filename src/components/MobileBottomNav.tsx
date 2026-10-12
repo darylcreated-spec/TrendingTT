@@ -1,5 +1,5 @@
 import React from 'react';
-import { Newspaper, Compass, Zap, BarChart3, Bookmark } from 'lucide-react';
+import { Newspaper, Compass, Zap, BarChart3, Bookmark, PlusCircle } from 'lucide-react';
 import type { ActiveView } from '../types';
 
 interface MobileBottomNavProps {
@@ -9,6 +9,7 @@ interface MobileBottomNavProps {
   onToggleBookmarks: () => void;
   bookmarksCount: number;
   onOpenNotifications: () => void;
+  onOpenCreatePost?: () => void;
 }
 
 export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
@@ -17,13 +18,14 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   showBookmarks,
   onToggleBookmarks,
   bookmarksCount,
+  onOpenCreatePost,
 }) => {
   return (
     <nav
       aria-label="Mobile Navigation"
       className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-slate-950/95 backdrop-blur-lg border-t border-slate-800/90 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.5)] transition-all"
     >
-      <div className="grid grid-cols-5 h-14 max-w-md mx-auto items-center px-1">
+      <div className={`grid ${onOpenCreatePost ? 'grid-cols-6' : 'grid-cols-5'} h-14 max-w-md mx-auto items-center px-1`}>
         {/* News Feed */}
         <button
           type="button"
@@ -60,6 +62,21 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           </div>
           <span className="text-[10px] mt-0.5 tracking-tight">Radar</span>
         </button>
+
+        {/* Post Update (Dispatch) */}
+        {onOpenCreatePost && (
+          <button
+            type="button"
+            onClick={onOpenCreatePost}
+            className="flex flex-col items-center justify-center h-full min-h-[44px] transition-all active:scale-90 text-red-500 hover:text-red-400 group"
+            title="Post a live news, sports, weather or traffic update"
+          >
+            <div className="p-1 rounded-full bg-red-600 text-white shadow-md shadow-red-950 group-hover:bg-red-500">
+              <PlusCircle className="w-5 h-5" />
+            </div>
+            <span className="text-[9px] mt-0.5 font-bold tracking-tight text-red-400">Post</span>
+          </button>
+        )}
 
         {/* Utilities: T&TEC, WASA, Cable TV */}
         <button

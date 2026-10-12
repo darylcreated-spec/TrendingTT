@@ -10,7 +10,8 @@ import {
   Compass,
   BarChart3,
   Newspaper,
-  Zap
+  Zap,
+  PlusCircle
 } from 'lucide-react';
 import { CarouselTabs } from './CarouselTabs';
 import type { ActiveView } from '../types';
@@ -31,6 +32,7 @@ interface HeaderProps {
   activeView: ActiveView;
   onSelectView: (view: ActiveView) => void;
   onOpenBriefing?: () => void;
+  onOpenCreatePost?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -48,7 +50,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenNotifications,
   activeView,
   onSelectView,
-  onOpenBriefing
+  onOpenBriefing,
+  onOpenCreatePost
 }) => {
   const [currentTime, setCurrentTime] = useState<string>('');
 
@@ -209,6 +212,17 @@ export const Header: React.FC<HeaderProps> = ({
               <Bell className="w-4 h-4" />
               <span className="w-2 h-2 rounded-full bg-red-500 absolute top-1.5 right-1.5 animate-pulse" />
             </button>
+
+            {onOpenCreatePost && (
+              <button
+                onClick={onOpenCreatePost}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold border border-red-500 active:scale-95 transition-all shadow-md shadow-red-950/40"
+                title="Post a live news, sports, weather or traffic update"
+              >
+                <PlusCircle className="w-3.5 h-3.5" />
+                <span>Post Update</span>
+              </button>
+            )}
 
             <button
               onClick={onRefresh}

@@ -8,6 +8,7 @@ import {
   type CrossPostDispatchResult,
   type CrossPostProvider
 } from '../services/crossPostingService';
+import { formatPostDateTime } from '../utils/dateUtils';
 import { 
   X, 
   Copy, 
@@ -62,7 +63,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ post, isOpen, onClose })
   const shareUrl = typeof window !== 'undefined' && window.location.origin 
     ? `${window.location.origin}/#post-${post.id}` 
     : post.originalUrl;
-  const shareText = `*${post.title}*\n\nRead on Trending TT (Trinidad & Tobago Live Dashboard):\n${shareUrl}\n\nSource: ${post.sourceName}`;
+  const shareText = `*${post.title}*\n\n📅 ${formatPostDateTime(post.publishedAt)}\n\nRead on Trending TT (Trinidad & Tobago Live Dashboard):\n${shareUrl}\n\nSource: ${post.sourceName}`;
 
   // Quick Share handlers with mobile deep-linking and haptics
   const handleCopy = () => {
@@ -277,9 +278,12 @@ export const ShareModal: React.FC<ShareModalProps> = ({ post, isOpen, onClose })
               {post.category}
             </span>
           </div>
-          <p className="text-xs text-slate-200 font-semibold line-clamp-2 leading-relaxed">
+          <p className="text-xs text-slate-200 font-semibold line-clamp-2 leading-relaxed mb-1.5">
             {post.title}
           </p>
+          <div className="text-[10px] text-slate-400 font-medium">
+            📅 {formatPostDateTime(post.publishedAt)}
+          </div>
         </div>
 
         {/* Scrollable Content Body */}

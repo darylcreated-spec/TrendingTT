@@ -27,16 +27,7 @@ interface PostCardProps {
   onMediaClick?: (media: { url: string; title: string; sourceName: string }) => void;
 }
 
-const formatRelativeTime = (isoString: string) => {
-  const diff = Math.max(0, Date.now() - new Date(isoString).getTime());
-  const mins = Math.floor(diff / (1000 * 60));
-  if (mins < 1) return 'Just now';
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-};
+import { formatPostDateTime, formatRelativeTime } from '../utils/dateUtils';
 
 export const PostCard: React.FC<PostCardProps> = ({
   post,
@@ -124,9 +115,14 @@ export const PostCard: React.FC<PostCardProps> = ({
             )}
           </div>
 
-          <div className="flex items-center gap-1 text-slate-500 font-medium shrink-0">
-            <Clock className="w-3 h-3" />
-            <span>{formatRelativeTime(post.publishedAt)}</span>
+          <div 
+            className="flex items-center gap-1.5 text-slate-400 font-medium text-[11px] sm:text-xs shrink-0 bg-slate-950/70 px-2 py-0.5 rounded border border-slate-800/80"
+            title={`Posted on ${formatPostDateTime(post.publishedAt)}`}
+          >
+            <Clock className="w-3 h-3 text-red-400 shrink-0" />
+            <span className="text-slate-200 font-medium">{formatPostDateTime(post.publishedAt)}</span>
+            <span className="text-slate-600 hidden sm:inline">•</span>
+            <span className="text-slate-400 font-semibold hidden sm:inline">{formatRelativeTime(post.publishedAt)}</span>
           </div>
         </div>
 

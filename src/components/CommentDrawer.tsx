@@ -25,15 +25,7 @@ const TT_LOCATIONS = [
   'Trinidad Diaspora (Abroad)',
 ];
 
-const formatTime = (isoString: string) => {
-  const diff = Math.max(0, Date.now() - new Date(isoString).getTime());
-  const mins = Math.floor(diff / (1000 * 60));
-  if (mins < 1) return 'Just now';
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  return new Date(isoString).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-};
+import { formatPostDateTime, formatRelativeTime } from '../utils/dateUtils';
 
 interface CommentDrawerContentProps {
   post: Post;
@@ -90,9 +82,14 @@ const CommentDrawerContent: React.FC<CommentDrawerContentProps> = ({
 
         {/* Post Context Bar */}
         <div className="p-4 bg-slate-900 border-b border-slate-800/80">
-          <span className="text-[11px] font-bold text-red-400 uppercase tracking-wider block mb-1">
-            {post.sourceName}
-          </span>
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <span className="text-[11px] font-bold text-red-400 uppercase tracking-wider block">
+              {post.sourceName}
+            </span>
+            <span className="text-[11px] text-slate-400 font-medium">
+              📅 {formatPostDateTime(post.publishedAt)}
+            </span>
+          </div>
           <p className="text-xs text-slate-300 font-semibold line-clamp-2">
             {post.title}
           </p>
@@ -123,8 +120,11 @@ const CommentDrawerContent: React.FC<CommentDrawerContentProps> = ({
                       </span>
                     )}
                   </div>
-                  <span className="text-[11px] text-slate-500">
-                    {formatTime(comment.createdAt)}
+                  <span 
+                    className="text-[11px] text-slate-400 font-medium" 
+                    title={`Posted on ${formatPostDateTime(comment.createdAt)}`}
+                  >
+                    {formatRelativeTime(comment.createdAt)}
                   </span>
                 </div>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">

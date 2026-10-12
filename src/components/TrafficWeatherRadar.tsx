@@ -14,7 +14,8 @@ import {
   CheckCircle,
   TrendingUp,
   TrendingDown,
-  Minus
+  Minus,
+  RefreshCw
 } from 'lucide-react';
 import type { 
   HighwayId, 
@@ -29,6 +30,8 @@ import {
   INITIAL_WASA_NOTICES 
 } from '../data/radarAndPollData';
 import { Storage } from '../services/storage';
+import { RadarService } from '../services/radarService';
+import { formatPostTimeOnly } from '../utils/dateUtils';
 import { CarouselTabs, type CarouselTabItem } from './CarouselTabs';
 
 interface TrafficWeatherRadarProps {
@@ -64,6 +67,27 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
   const [activeTab, setActiveTab] = useState<RadarTab>('all');
   const [selectedHighway, setSelectedHighway] = useState<'all' | HighwayId>('all');
 
+  // Dynamic live traffic, weather, and river levels state
+  const [trafficSegments, setTrafficSegments] = useState(INITIAL_TRAFFIC_SEGMENTS);
+  const [ttmsAdvisory, setTtmsAdvisory] = useState(INITIAL_TTMS_ADVISORY);
+  const [riverLevels, setRiverLevels] = useState(INITIAL_RIVER_LEVELS);
+  const [lastRadarSync, setLastRadarSync] = useState(() => formatPostTimeOnly(new Date().toISOString()));
+  const [isRefreshingRadar, setIsRefreshingRadar] = useState(false);
+
+  // Manual & automatic Radar refresh
+  const handleRefreshRadar = () => {
+    setIsRefreshingRadar(true);
+    setTimeout(() => {
+      const refreshed = RadarService.refreshAllRadarData(trafficSegments, ttmsAdvisory, riverLevels);
+      setTrafficSegments(refreshed.trafficSegments);
+      setTtmsAdvisory(refreshed.ttmsAdvisory);
+      setRiverLevels(refreshed.riverLevels);
+      setLastRadarSync(refreshed.timestamp);
+      setIsRefreshingRadar(false);
+      onShowToast(`Radar feeds updated with live AST telemetry (${refreshed.timestamp})`);
+    }, 400);
+  };
+
   // Community reports state & persistence
   const [communityReports, setCommunityReports] = useState<CommunityReport[]>(() => Storage.getCommunityReports());
   const [confirmedIds, setConfirmedIds] = useState<string[]>(() => Storage.getConfirmedReportIds());
@@ -77,14 +101,14 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
 
   // Traffic segments filtering
   const filteredTraffic = useMemo(() => {
-    if (selectedHighway === 'all') return INITIAL_TRAFFIC_SEGMENTS;
-    return INITIAL_TRAFFIC_SEGMENTS.filter(t => t.highwayId === selectedHighway);
-  }, [selectedHighway]);
+    if (selectedHighway === 'all') return trafficSegments;
+    return trafficSegments.filter(t => t.highwayId === selectedHighway);
+  }, [selectedHighway, trafficSegments]);
 
   // Aggregate stats
   const trafficIssuesCount = useMemo(() => {
-    return INITIAL_TRAFFIC_SEGMENTS.filter(s => ['heavy', 'gridlock', 'flood'].includes(s.severity)).length;
-  }, []);
+    return trafficSegments.filter(s => ['heavy', 'gridlock', 'flood'].includes(s.severity)).length;
+  }, [trafficSegments]);
 
   const handleToggleConfirmReport = (reportId: string) => {
     const { confirmed, allConfirmed } = Storage.toggleConfirmReport(reportId);
@@ -161,7 +185,16 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 flex-wrap">
+            <button
+              onClick={handleRefreshRadar}
+              disabled={isRefreshingRadar}
+              className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition-colors"
+              title="Refresh live telemetry for all highways and river basins"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-emerald-400 ${isRefreshingRadar ? 'animate-spin' : ''}`} />
+              <span>{isRefreshingRadar ? 'Refreshing...' : `Refresh Radar (${lastRadarSync})`}</span>
+            </button>
             <button
               onClick={() => setIsReportModalOpen(true)}
               className="flex items-center gap-1.5 px-3.5 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl shadow-md transition-all active:scale-95"
@@ -187,7 +220,7 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
               <CloudRain className="w-3.5 h-3.5 text-amber-400" />
             </div>
             <div className="text-base font-black text-amber-400 mt-1 uppercase">
-              {INITIAL_TTMS_ADVISORY.level} Level
+              {ttmsAdvisory.level} Level
             </div>
             <div className="text-[11px] text-slate-400 truncate mt-0.5">
               Adverse Weather Warning
@@ -255,21 +288,26 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
                 <AlertTriangle className="w-5 h-5" />
               </span>
               <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-amber-400">
-                  Official Advisory • {INITIAL_TTMS_ADVISORY.authority}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-amber-400">
+                    Official Advisory • {ttmsAdvisory.authority}
+                  </span>
+                  <span className="text-[10px] text-emerald-400 font-mono">
+                    {ttmsAdvisory.issuedAt}
+                  </span>
+                </div>
                 <h3 className="text-base font-bold text-white mt-0.5">
-                  {INITIAL_TTMS_ADVISORY.type}
+                  {ttmsAdvisory.type}
                 </h3>
               </div>
             </div>
             <div className="text-xs text-amber-200/80 font-mono flex items-center gap-2">
-              <span>Valid: {INITIAL_TTMS_ADVISORY.validUntil}</span>
+              <span>Valid: {ttmsAdvisory.validUntil}</span>
             </div>
           </div>
 
           <p className="text-xs sm:text-sm text-slate-200 mt-3 leading-relaxed">
-            {INITIAL_TTMS_ADVISORY.description}
+            {ttmsAdvisory.description}
           </p>
 
           <div className="mt-4 pt-3 border-t border-amber-800/30">
@@ -277,7 +315,7 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
               Key Areas on Alert
             </div>
             <div className="flex flex-wrap gap-1.5">
-              {INITIAL_TTMS_ADVISORY.affectedAreas.map((area, i) => (
+              {ttmsAdvisory.affectedAreas.map((area, i) => (
                 <span
                   key={i}
                   className="px-2 py-0.5 rounded-md text-[11px] bg-slate-900/80 text-slate-200 border border-amber-900/50"
@@ -295,7 +333,7 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
               <span>National Riverine Basin Water Levels</span>
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {INITIAL_RIVER_LEVELS.map((basin) => (
+              {riverLevels.map((basin) => (
                 <div key={basin.id} className="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
                   <div className="flex items-center justify-between text-xs font-semibold text-slate-300">
                     <span className="truncate">{basin.basin}</span>

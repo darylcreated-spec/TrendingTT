@@ -5,7 +5,6 @@ import {
   Zap, 
   Trophy, 
   Flame, 
-  Layers, 
   ChevronRight 
 } from 'lucide-react';
 
@@ -19,7 +18,7 @@ interface SectionedFeedProps {
   onShare: (post: Post) => void;
   onWhatsAppShare: (post: Post) => void;
   onMediaClick: (media: { url: string; title: string; type?: string }) => void;
-  onOpenBriefingModal: () => void;
+  onOpenBriefingModal?: () => void;
   onSelectCategory: (category: Post['category']) => void;
 }
 
@@ -33,7 +32,6 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
   onShare,
   onWhatsAppShare,
   onMediaClick,
-  onOpenBriefingModal,
   onSelectCategory
 }) => {
   const [activeSectionTab] = useState<'all' | 'breaking' | 'sports' | 'social'>('all');
@@ -57,38 +55,6 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
 
   return (
     <div className="space-y-10">
-      {/* Editorial Intelligence Summary Banner */}
-      <div className="bg-gradient-to-r from-red-950/60 via-slate-900 to-slate-950 border border-red-900/40 rounded-2xl p-5 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-start gap-3.5">
-          <div className="p-2.5 bg-red-600/20 text-red-400 rounded-xl border border-red-500/30 shrink-0">
-            <Zap className="w-6 h-6" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs uppercase font-extrabold tracking-wider text-red-400 bg-red-950/80 px-2 py-0.5 rounded border border-red-800/60">
-                Live Intelligence Brief
-              </span>
-              <span className="text-xs text-slate-400">
-                Curated across 10 T&T media outlets
-              </span>
-            </div>
-            <h2 className="text-lg font-bold text-slate-100 mt-1">
-              National Dispatch & Multi-Source Synthesis
-            </h2>
-            <p className="text-xs text-slate-300 mt-0.5 max-w-xl">
-              Real-time monitoring of breaking developments, sports fixtures, and social media trends with 1-click publishing.
-            </p>
-          </div>
-        </div>
-
-        <button
-          onClick={onOpenBriefingModal}
-          className="flex items-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-bold transition-all shadow-md active:scale-95 shrink-0"
-        >
-          <Layers className="w-4 h-4" />
-          <span>Open Daily Brief & Synthesizer</span>
-        </button>
-      </div>
 
       {/* SECTION 1: BREAKING NEWS CAROUSEL / SPOTLIGHT */}
       {(activeSectionTab === 'all' || activeSectionTab === 'breaking') && breakingPosts.length > 0 && (

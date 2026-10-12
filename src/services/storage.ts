@@ -1,7 +1,8 @@
-import type { Comment, NotificationSettings, CommunityReport, UtilityReport } from '../types';
+import type { Comment, NotificationSettings, CommunityReport, UtilityReport, Post } from '../types';
 import { INITIAL_COMMENTS } from '../data/mockPosts';
 import { INITIAL_COMMUNITY_REPORTS } from '../data/radarAndPollData';
 import { INITIAL_UTILITY_REPORTS } from '../data/utilitiesData';
+import { formatPostTimeOnly } from '../utils/dateUtils';
 
 const STORAGE_KEYS = {
   UPVOTES: 'trending_tt_upvotes',
@@ -73,6 +74,26 @@ export const Storage = {
     }
     localStorage.setItem(STORAGE_KEYS.BOOKMARKS, JSON.stringify(bookmarks));
     return { bookmarked, allBookmarks: bookmarks };
+  },
+
+  getCustomPosts(): Post[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.CUSTOM_POSTS);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  },
+
+  saveCustomPost(post: Post): Post {
+    try {
+      const existing = this.getCustomPosts();
+      existing.unshift(post);
+      localStorage.setItem(STORAGE_KEYS.CUSTOM_POSTS, JSON.stringify(existing));
+    } catch (e) {
+      void e;
+    }
+    return post;
   },
 
   getComments(postId: string): Comment[] {
@@ -211,10 +232,11 @@ export const Storage = {
   },
 
   addCommunityReport(report: Omit<CommunityReport, 'id' | 'reportedTime' | 'confirmations'>): CommunityReport {
+    const timeStr = formatPostTimeOnly(new Date().toISOString());
     const newReport: CommunityReport = {
       ...report,
       id: `report-${Date.now()}`,
-      reportedTime: 'Just now',
+      reportedTime: `Just now (${timeStr})`,
       confirmations: 1,
       isVerified: false
     };

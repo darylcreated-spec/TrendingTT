@@ -22,6 +22,7 @@ import { MobileBottomNav } from './components/MobileBottomNav';
 import { ImageZoomLightbox, type ZoomMedia } from './components/ImageZoomLightbox';
 import { SectionedFeed } from './components/SectionedFeed';
 import { BriefingModal } from './components/BriefingModal';
+import { CreatePostModal } from './components/CreatePostModal';
 import { 
   Inbox, 
   CheckCircle,
@@ -32,7 +33,7 @@ export const App: React.FC = () => {
   const [activeView, setActiveView] = useState<ActiveView>('feed');
 
   // Core Feed States
-  const [posts, setPosts] = useState<Post[]>(INITIAL_POSTS);
+  const [posts, setPosts] = useState<Post[]>(() => [...Storage.getCustomPosts(), ...INITIAL_POSTS]);
   const [category, setCategory] = useState<Category>('all');
   const [sortOption, setSortOption] = useState<SortOption>('trending');
   const [selectedSources, setSelectedSources] = useState<SourceId[]>(() =>
@@ -51,6 +52,7 @@ export const App: React.FC = () => {
   const [isSourcesModalOpen, setIsSourcesModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [isBriefingModalOpen, setIsBriefingModalOpen] = useState(false);
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [feedLayout, setFeedLayout] = useState<'sections' | 'stream'>('sections');
   const [zoomMedia, setZoomMedia] = useState<ZoomMedia | null>(null);
 
@@ -332,6 +334,7 @@ export const App: React.FC = () => {
         activeView={activeView}
         onSelectView={setActiveView}
         onOpenBriefing={() => setIsBriefingModalOpen(true)}
+        onOpenCreatePost={() => setIsCreatePostModalOpen(true)}
       />
 
       {/* Breaking News Ticker Bar */}
@@ -551,6 +554,16 @@ export const App: React.FC = () => {
         onShowToast={showToast}
       />
 
+      {/* User Post Creation Modal */}
+      <CreatePostModal
+        isOpen={isCreatePostModalOpen}
+        onClose={() => setIsCreatePostModalOpen(false)}
+        onPostCreated={(newPost) => {
+          setPosts((prev) => [newPost, ...prev]);
+        }}
+        onShowToast={showToast}
+      />
+
       {/* Mobile Bottom Navigation Bar (1-Thumb Ergonomics) */}
       <MobileBottomNav
         activeView={activeView}
@@ -559,6 +572,7 @@ export const App: React.FC = () => {
         onToggleBookmarks={() => setShowBookmarksOnly(!showBookmarksOnly)}
         bookmarksCount={bookmarkedIds.length}
         onOpenNotifications={() => setIsNotificationModalOpen(true)}
+        onOpenCreatePost={() => setIsCreatePostModalOpen(true)}
       />
       {/* Toast Notification */}
       {toastMessage && (
