@@ -31,7 +31,6 @@ interface HeaderProps {
   onOpenNotifications: () => void;
   activeView: ActiveView;
   onSelectView: (view: ActiveView) => void;
-  onOpenBriefing?: () => void;
   onOpenCreatePost?: () => void;
 }
 
@@ -50,15 +49,27 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenNotifications,
   activeView,
   onSelectView,
-  onOpenBriefing,
   onOpenCreatePost
 }) => {
-  const [currentTime, setCurrentTime] = useState<string>('');
+  const [currentDateTime, setCurrentDateTime] = useState<{
+    dateStr: string;
+    timeStr: string;
+  }>({
+    dateStr: '',
+    timeStr: ''
+  });
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      // Trinidad and Tobago AST timezone
+      // Trinidad and Tobago AST timezone (UTC-4)
+      const dateStr = now.toLocaleDateString('en-US', {
+        timeZone: 'America/Port_of_Spain',
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
       const timeStr = now.toLocaleTimeString('en-US', {
         timeZone: 'America/Port_of_Spain',
         hour: '2-digit',
@@ -66,7 +77,10 @@ export const Header: React.FC<HeaderProps> = ({
         second: '2-digit',
         hour12: true,
       });
-      setCurrentTime(`${timeStr} AST (Port of Spain)`);
+      setCurrentDateTime({
+        dateStr,
+        timeStr: `${timeStr} AST`
+      });
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
@@ -84,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
           <span className="hidden sm:inline text-slate-600">|</span>
           <span className="hidden sm:inline text-slate-400">
-            {currentTime}
+            {currentDateTime.dateStr && `${currentDateTime.dateStr} • ${currentDateTime.timeStr} (Port of Spain)`}
           </span>
         </div>
         <div className="flex items-center gap-2 text-xs">
@@ -113,18 +127,21 @@ export const Header: React.FC<HeaderProps> = ({
               TT
             </button>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
                 <button
                   onClick={() => onSelectView('feed')}
-                  className="text-left group"
+                  className="text-left group shrink-0"
                 >
                   <h1 className="text-2xl font-black tracking-tight text-white m-0 p-0 font-sans group-hover:text-red-400 transition-colors">
                     TRENDING<span className="text-red-500">.TT</span>
                   </h1>
                 </button>
-                <span className="text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                  PWA 2.0
-                </span>
+                {currentDateTime.dateStr && (
+                  <span className="text-[11px] font-bold tracking-normal px-2.5 py-0.5 rounded-full bg-slate-950 text-amber-300 border border-slate-700/80 shadow-inner flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                    <span>{currentDateTime.dateStr} • {currentDateTime.timeStr}</span>
+                  </span>
+                )}
               </div>
               <p className="text-xs text-slate-400 font-medium tracking-wide">
                 Unified News & Social Media Radar • TV6, CNC3, TTT, I.A.N, TikTok & Newsday
@@ -134,15 +151,6 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Mobile buttons */}
           <div className="flex items-center gap-1.5 md:hidden">
-            {onOpenBriefing && (
-              <button
-                onClick={onOpenBriefing}
-                className="p-2 rounded-lg bg-red-950/80 text-red-400 border border-red-800/80 active:scale-95 transition-transform"
-                title="Intelligence Briefing & Synthesizer"
-              >
-                <Zap className="w-4 h-4" />
-              </button>
-            )}
             <button
               onClick={onOpenNotifications}
               className="p-2 rounded-lg bg-slate-800 text-amber-400 border border-slate-700 active:scale-95 transition-transform"
@@ -192,16 +200,6 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-2 shrink-0">
-            {onOpenBriefing && (
-              <button
-                onClick={onOpenBriefing}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-950/70 hover:bg-red-900/80 text-red-300 text-xs font-bold border border-red-800/80 active:scale-95 transition-all shadow-sm"
-                title="Intelligence Briefing & Synthesizer"
-              >
-                <Zap className="w-3.5 h-3.5 text-red-400" />
-                <span>Daily Brief</span>
-              </button>
-            )}
 
             {/* Notification Bell */}
             <button

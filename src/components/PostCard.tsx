@@ -12,7 +12,8 @@ import {
   Radio,
   Tv,
   Smartphone,
-  CheckCircle2
+  CheckCircle2,
+  User
 } from 'lucide-react';
 
 interface PostCardProps {
@@ -95,11 +96,11 @@ export const PostCard: React.FC<PostCardProps> = ({
 
       {/* Card Body */}
       <div className="p-4 sm:p-5 flex-1 flex flex-col">
-        {/* Source and Timestamp Row */}
-        <div className="flex items-center justify-between gap-2 mb-2.5 text-xs">
-          <div className="flex items-center gap-1.5 flex-wrap">
+        {/* Row 1: Dedicated Originator Credit & Outlet Badge */}
+        <div className="flex items-center justify-between gap-2 mb-2 pb-2 border-b border-slate-800/60 text-xs">
+          <div className="flex items-center gap-2 flex-wrap min-w-0">
             <span
-              className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold border ${source.badgeBg}`}
+              className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold border shrink-0 ${source.badgeBg}`}
             >
               {getSourceIcon()}
               {source.badgeText}
@@ -108,22 +109,39 @@ export const PostCard: React.FC<PostCardProps> = ({
               )}
             </span>
 
-            {post.author && (
-              <span className="text-slate-400 text-xs truncate max-w-[140px]">
-                by {post.author}
-              </span>
-            )}
+            <div className="flex items-center gap-1 text-slate-300 font-semibold text-xs truncate">
+              <User className="w-3 h-3 text-red-400 shrink-0" />
+              <span className="text-slate-400 font-normal">Credit:</span>
+              <span className="text-slate-200 truncate">{post.author || post.sourceName}</span>
+            </div>
           </div>
 
-          <div 
-            className="flex items-center gap-1.5 text-slate-400 font-medium text-[11px] sm:text-xs shrink-0 bg-slate-950/70 px-2 py-0.5 rounded border border-slate-800/80"
-            title={`Posted on ${formatPostDateTime(post.publishedAt)}`}
+          <a
+            href={post.originalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] font-bold text-red-400 hover:text-red-300 hover:underline flex items-center gap-1 shrink-0 bg-red-950/40 px-2 py-0.5 rounded border border-red-900/50"
+            title={`View original post on ${post.sourceName}`}
           >
-            <Clock className="w-3 h-3 text-red-400 shrink-0" />
-            <span className="text-slate-200 font-medium">{formatPostDateTime(post.publishedAt)}</span>
-            <span className="text-slate-600 hidden sm:inline">•</span>
-            <span className="text-slate-400 font-semibold hidden sm:inline">{formatRelativeTime(post.publishedAt)}</span>
+            <span>Original Story</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
+        </div>
+
+        {/* Row 2: High-Visibility Dedicated Date & Time Badge */}
+        <div className="flex items-center justify-between gap-2 mb-3 bg-slate-950 px-2.5 py-1.5 rounded-lg border border-slate-800">
+          <div 
+            className="flex items-center gap-2 text-xs font-semibold text-slate-200"
+            title={`Exact post date & time when made: ${formatPostDateTime(post.publishedAt)}`}
+          >
+            <Clock className="w-3.5 h-3.5 text-red-400 shrink-0" />
+            <span className="text-slate-400 font-normal text-[11px]">Published:</span>
+            <span className="text-amber-300 font-bold">{formatPostDateTime(post.publishedAt)}</span>
           </div>
+
+          <span className="text-[11px] font-bold text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800/80 shrink-0">
+            {formatRelativeTime(post.publishedAt)}
+          </span>
         </div>
 
         {/* Title */}

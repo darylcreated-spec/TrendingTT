@@ -333,7 +333,6 @@ export const App: React.FC = () => {
         onOpenNotifications={() => setIsNotificationModalOpen(true)}
         activeView={activeView}
         onSelectView={setActiveView}
-        onOpenBriefing={() => setIsBriefingModalOpen(true)}
         onOpenCreatePost={() => setIsCreatePostModalOpen(true)}
       />
 
