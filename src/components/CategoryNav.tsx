@@ -39,9 +39,9 @@ export const CategoryNav: React.FC<CategoryNavProps> = ({
 }) => {
 
   return (
-    <div className="bg-slate-900 border-b border-slate-800 px-4 py-2.5 max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <div className="bg-slate-900 border-b border-slate-800 px-3 sm:px-4 py-2 sm:py-2.5 max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 w-full max-w-full overflow-hidden">
       {/* Category Carousel Slider */}
-      <div className="flex-1 min-w-0">
+      <div className="w-full sm:flex-1 min-w-0 overflow-hidden">
         <CarouselTabs<Category>
           items={CATEGORY_ITEMS}
           activeId={activeCategory}
@@ -51,7 +51,7 @@ export const CategoryNav: React.FC<CategoryNavProps> = ({
         />
       </div>
 
-      <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+      <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5 w-full sm:w-auto min-w-0 sm:shrink-0 justify-between sm:justify-end">
         {/* Layout Toggle (Sections vs Stream) */}
         {onToggleFeedLayout && (
           <div className="flex items-center gap-0.5 bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">

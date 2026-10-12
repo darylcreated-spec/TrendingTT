@@ -37,7 +37,7 @@ export const BreakingTicker: React.FC<BreakingTickerProps> = ({
 
 
   return (
-    <div className="bg-slate-950 border-y border-slate-800 text-slate-100 px-3 sm:px-4 py-2 flex items-center justify-between overflow-hidden select-none relative z-20">
+    <div className="bg-slate-950 border-y border-slate-800 text-slate-100 px-3 sm:px-4 py-2 flex items-center justify-between overflow-hidden select-none relative z-20 w-full max-w-full min-w-0">
       {/* Dynamic Alert Mode Pill */}
       <div className="flex items-center gap-2 shrink-0 mr-3">
         {activeMode === 'news' && (

@@ -93,20 +93,20 @@ export const Header: React.FC<HeaderProps> = ({
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-slate-100 shadow-lg">
+    <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-slate-100 shadow-lg w-full max-w-full overflow-x-hidden">
       {/* Top micro-bar: TT Live Clock & Status */}
-      <div className="bg-slate-950 px-4 py-1 text-xs text-slate-400 flex items-center justify-between border-b border-slate-800/80">
-        <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
+      <div className="bg-slate-950 px-3 sm:px-4 py-1 text-xs text-slate-400 flex items-center justify-between border-b border-slate-800/80 w-full overflow-hidden">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <span className="flex items-center gap-1.5 text-emerald-400 font-medium shrink-0">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             LIVE INGESTION ACTIVE
           </span>
           <span className="hidden sm:inline text-slate-600">|</span>
-          <span className="hidden sm:inline text-slate-400">
+          <span className="hidden sm:inline text-slate-400 truncate">
             {currentDateTime.dateStr && `${currentDateTime.dateStr} • ${currentDateTime.timeStr} (Port of Spain)`}
           </span>
         </div>
-        <div className="flex items-center gap-2 text-xs">
+        <div className="flex items-center gap-2 text-xs shrink-0">
           <span className="text-emerald-400/90 font-medium hidden sm:inline bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">
             Auto-refresh: Every 5m
           </span>
@@ -115,18 +115,18 @@ export const Header: React.FC<HeaderProps> = ({
               Updated: {lastScrapedTime}
             </span>
           )}
-          <span className="text-red-500 font-bold tracking-wider">TRINIDAD & TOBAGO</span>
+          <span className="text-red-500 font-bold tracking-wider text-[11px] sm:text-xs">TRINIDAD & TOBAGO</span>
         </div>
       </div>
 
       {/* Main Masthead */}
-      <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-4 flex flex-col md:flex-row md:items-center justify-between gap-3 w-full overflow-hidden">
         {/* Logo and Tagline */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between gap-2 min-w-0 w-full md:w-auto">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <button 
               onClick={() => onSelectView('feed')}
-              className="relative w-11 h-11 rounded-xl overflow-hidden flex items-center justify-center text-white shadow-md shadow-red-950/60 border border-red-500/80 transition-all active:scale-95 group focus:outline-none focus:ring-2 focus:ring-red-400 bg-[#CE1126]"
+              className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden flex items-center justify-center text-white shadow-md shadow-red-950/60 border border-red-500/80 transition-all active:scale-95 group focus:outline-none focus:ring-2 focus:ring-red-400 bg-[#CE1126] shrink-0"
               title="Return to Home Feed"
               aria-label="Trending.TT Home Feed"
             >
@@ -147,32 +147,32 @@ export const Header: React.FC<HeaderProps> = ({
                 </svg>
               </div>
             </button>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
                 <button
                   onClick={() => onSelectView('feed')}
                   className="text-left group shrink-0 focus:outline-none"
                   aria-label="Trending.TT Brand Home"
                 >
-                  <h1 className="text-2xl font-black tracking-tight text-white m-0 p-0 font-sans group-hover:text-red-400 transition-colors flex items-center gap-1.5">
+                  <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white m-0 p-0 font-sans group-hover:text-red-400 transition-colors flex items-center gap-1.5">
                     <span>TRENDING</span><span className="text-red-500">.TT</span>
                   </h1>
                 </button>
                 {currentDateTime.dateStr && (
-                  <span className="text-[11px] font-bold tracking-normal px-2.5 py-0.5 rounded-full bg-slate-950 text-amber-300 border border-slate-700/80 shadow-inner flex items-center gap-1.5">
+                  <span className="hidden sm:inline-flex text-[11px] font-bold tracking-normal px-2.5 py-0.5 rounded-full bg-slate-950 text-amber-300 border border-slate-700/80 shadow-inner items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
                     <span>{currentDateTime.dateStr} • {currentDateTime.timeStr}</span>
                   </span>
                 )}
               </div>
-              <p className="text-xs text-slate-400 font-medium tracking-wide">
+              <p className="text-[11px] sm:text-xs text-slate-400 font-medium tracking-wide truncate">
                 Unified News & Social Media Radar • TV6, CNC3, TTT, I.A.N, TikTok & Newsday
               </p>
             </div>
           </div>
 
           {/* Mobile buttons */}
-          <div className="flex items-center gap-1.5 md:hidden">
+          <div className="flex items-center gap-1 sm:gap-1.5 md:hidden shrink-0">
             {onOpenAuthModal && (
               <button
                 onClick={onOpenAuthModal}

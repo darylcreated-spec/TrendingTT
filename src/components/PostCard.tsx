@@ -97,7 +97,7 @@ export const PostCard: React.FC<PostCardProps> = ({
   };
 
   return (
-    <article className="bg-slate-900/90 rounded-xl border border-slate-800 hover:border-slate-700/80 transition-all duration-200 overflow-hidden flex flex-col justify-between shadow-md hover:shadow-xl group">
+    <article className="bg-slate-900/90 rounded-xl border border-slate-800 hover:border-slate-700/80 transition-all duration-200 overflow-hidden flex flex-col justify-between shadow-md hover:shadow-xl group w-full max-w-full min-w-0">
       {/* Top Media / Thumbnail with Instagram-style Double-Tap Like & Tap-to-Zoom */}
       {post.media?.url && (
         <div 
@@ -172,9 +172,9 @@ export const PostCard: React.FC<PostCardProps> = ({
 
 
       {/* Card Body */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col">
+      <div className="p-3.5 sm:p-5 flex-1 flex flex-col min-w-0 w-full">
         {/* Row 1: Dedicated Originator Credit & Outlet Badge */}
-        <div className="flex items-center justify-between gap-2 mb-2 pb-2 border-b border-slate-800/60 text-xs">
+        <div className="flex items-center justify-between gap-2 mb-2 pb-2 border-b border-slate-800/60 text-xs flex-wrap min-w-0">
           <div className="flex items-center gap-2 flex-wrap min-w-0">
             <span
               className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold border shrink-0 ${source.badgeBg}`}
@@ -346,9 +346,9 @@ export const PostCard: React.FC<PostCardProps> = ({
         </div>
 
         {/* Action Toolbar */}
-        <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
+        <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 flex-wrap min-w-0">
           {/* Left: Upvotes & Comments */}
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-2 flex-wrap min-w-0">
             <button
               onClick={() => onToggleUpvote(post.id)}
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-all active:scale-95 ${
@@ -392,7 +392,7 @@ export const PostCard: React.FC<PostCardProps> = ({
 
 
           {/* Right: WhatsApp Share, Share Drawer, Bookmark, Source Link */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 flex-wrap shrink-0">
             {/* Quick WhatsApp Share Button */}
             <button
               onClick={() => onWhatsAppShare(post)}

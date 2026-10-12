@@ -232,9 +232,9 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full max-w-full overflow-hidden">
       {/* Top Utility Mission Control Card */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl relative overflow-hidden w-full max-w-full">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-800">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-amber-600 flex items-center justify-center text-white shadow-lg border border-amber-500 shrink-0">

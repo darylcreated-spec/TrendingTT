@@ -71,28 +71,29 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
       {/* SECTION 1: BREAKING NEWS CAROUSEL / SPOTLIGHT */}
       {(activeSectionTab === 'all' || activeSectionTab === 'breaking') && breakingPosts.length > 0 && (
         <section aria-labelledby="section-breaking">
-          <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
-            <div className="flex items-center gap-2.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-              <h2 id="section-breaking" className="text-base sm:text-lg font-black tracking-tight text-slate-100 uppercase flex items-center gap-2">
-                <Zap className="w-4 h-4 text-red-500" />
-                Breaking News & Critical Bulletins
+          <div className="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-slate-800 flex-wrap sm:flex-nowrap">
+            <div className="flex items-center gap-2 flex-wrap min-w-0">
+              <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shrink-0" />
+              <h2 id="section-breaking" className="text-sm sm:text-base md:text-lg font-black tracking-tight text-slate-100 uppercase flex items-center gap-1.5">
+                <Zap className="w-4 h-4 text-red-500 shrink-0" />
+                <span>Breaking News</span>
+                <span className="hidden sm:inline">& Critical Bulletins</span>
               </h2>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-950 text-red-400 border border-red-800">
+              <span className="text-[11px] sm:text-xs font-semibold px-2 py-0.5 rounded-full bg-red-950 text-red-400 border border-red-800 shrink-0">
                 {breakingPosts.length} Live
               </span>
             </div>
 
             <button
               onClick={() => onSelectCategory('breaking')}
-              className="text-xs text-red-400 hover:text-red-300 font-bold flex items-center gap-1 group"
+              className="text-xs text-red-400 hover:text-red-300 font-bold flex items-center gap-1 group shrink-0 ml-auto sm:ml-0"
             >
               <span>View All</span>
               <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full min-w-0">
             {breakingPosts.slice(0, 3).map((post) => (
               <PostCard
                 key={post.id}
@@ -118,22 +119,22 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
       {/* SECTION 2: TRINBAGO SPORTS ARENA */}
       {(activeSectionTab === 'all' || activeSectionTab === 'sports') && (
         <section aria-labelledby="section-sports">
-          <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
-            <div className="flex items-center gap-2.5">
-              <div className="p-1 rounded bg-amber-500/20 text-amber-400">
+          <div className="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-slate-800 flex-wrap sm:flex-nowrap">
+            <div className="flex items-center gap-2 flex-wrap min-w-0">
+              <div className="p-1 rounded bg-amber-500/20 text-amber-400 shrink-0">
                 <Trophy className="w-4 h-4" />
               </div>
-              <h2 id="section-sports" className="text-base sm:text-lg font-black tracking-tight text-slate-100 uppercase flex items-center gap-2">
+              <h2 id="section-sports" className="text-sm sm:text-base md:text-lg font-black tracking-tight text-slate-100 uppercase flex items-center gap-2">
                 Trinbago Sports Arena
               </h2>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-800/60">
+              <span className="hidden sm:inline-block text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-800/60 shrink-0">
                 Cricket • Football • Track
               </span>
             </div>
 
             <button
               onClick={() => onSelectCategory('sports')}
-              className="text-xs text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 group"
+              className="text-xs text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 group shrink-0 ml-auto sm:ml-0"
             >
               <span>All Sports</span>
               <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -145,7 +146,7 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
               No recent sports fixtures reported. Refresh feeds to check for new match recaps.
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full min-w-0">
               {sportsPosts.slice(0, 3).map((post) => (
                 <PostCard
                   key={post.id}
@@ -172,22 +173,22 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
       {/* SECTION 3: TRENDING ON SOCIAL MEDIA */}
       {(activeSectionTab === 'all' || activeSectionTab === 'social') && (
         <section aria-labelledby="section-social">
-          <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
-            <div className="flex items-center gap-2.5">
-              <div className="p-1 rounded bg-pink-500/20 text-pink-400">
+          <div className="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-slate-800 flex-wrap sm:flex-nowrap">
+            <div className="flex items-center gap-2 flex-wrap min-w-0">
+              <div className="p-1 rounded bg-pink-500/20 text-pink-400 shrink-0">
                 <Flame className="w-4 h-4" />
               </div>
-              <h2 id="section-social" className="text-base sm:text-lg font-black tracking-tight text-slate-100 uppercase flex items-center gap-2">
+              <h2 id="section-social" className="text-sm sm:text-base md:text-lg font-black tracking-tight text-slate-100 uppercase flex items-center gap-2">
                 Trending on Social Media
               </h2>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-pink-950/80 text-pink-300 border border-pink-800/60">
+              <span className="hidden sm:inline-block text-xs font-semibold px-2 py-0.5 rounded-full bg-pink-950/80 text-pink-300 border border-pink-800/60 shrink-0">
                 #TriniTikTok • FB Reels • IG
               </span>
             </div>
 
             <button
               onClick={() => onSelectCategory('social')}
-              className="text-xs text-pink-400 hover:text-pink-300 font-bold flex items-center gap-1 group"
+              className="text-xs text-pink-400 hover:text-pink-300 font-bold flex items-center gap-1 group shrink-0 ml-auto sm:ml-0"
             >
               <span>Social Feed</span>
               <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -199,7 +200,7 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
               No viral social clips loaded. Ingest social feeds via yt-dlp to view trending videos.
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full min-w-0">
               {socialPosts.slice(0, 3).map((post) => (
                 <PostCard
                   key={post.id}
@@ -226,16 +227,16 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
       {/* SECTION 4: NATIONAL HEADLINES & REGULAR CHRONOLOGICAL STREAM */}
       {generalPosts.length > 0 && (
         <section aria-labelledby="section-general">
-          <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
-            <h2 id="section-general" className="text-base sm:text-lg font-black tracking-tight text-slate-100 uppercase">
+          <div className="flex items-center justify-between gap-2 mb-4 pb-2 border-b border-slate-800 flex-wrap sm:flex-nowrap">
+            <h2 id="section-general" className="text-sm sm:text-base md:text-lg font-black tracking-tight text-slate-100 uppercase">
               National Broadcast & Newspaper Desks
             </h2>
-            <span className="text-xs text-slate-400 font-medium">
+            <span className="hidden sm:inline text-xs text-slate-400 font-medium">
               TV6, CNC3, TTT, Newsday, Guardian & I.A.N
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full min-w-0">
             {generalPosts.map((post) => (
               <PostCard
                 key={post.id}

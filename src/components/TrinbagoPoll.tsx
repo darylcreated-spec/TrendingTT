@@ -78,23 +78,23 @@ export const TrinbagoPoll: React.FC<TrinbagoPollProps> = ({
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl text-slate-100">
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl text-slate-100 w-full max-w-full overflow-hidden">
       {/* Poll Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800 w-full min-w-0">
+        <div className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
+          <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white shadow-sm shrink-0 mt-0.5 sm:mt-0">
             <BarChart3 className="w-4 h-4" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-red-500 bg-red-950/60 px-2 py-0.5 rounded border border-red-900/60">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-red-500 bg-red-950/60 px-2 py-0.5 rounded border border-red-900/60 shrink-0">
                 Trinbago Sentiment
               </span>
-              <span className="text-xs text-slate-400 font-medium">
+              <span className="text-xs text-slate-400 font-medium truncate">
                 {activePoll.tagline}
               </span>
             </div>
-            <h3 className="text-base sm:text-lg font-black text-white mt-0.5 tracking-tight">
+            <h3 className="text-sm sm:text-base md:text-lg font-black text-white mt-0.5 tracking-tight">
               {activePoll.question}
             </h3>
           </div>

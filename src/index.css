@@ -6,6 +6,10 @@
   html {
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    position: relative;
   }
 
   body {
@@ -13,6 +17,19 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     overscroll-behavior-y: contain;
     -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
   /* Prevent iOS Safari auto-zoom on input focus by guaranteeing 16px minimum */

@@ -118,35 +118,35 @@ export const MackoLeaderboard: React.FC<MackoLeaderboardProps> = ({
   return (
     <section 
       aria-label="D Macko Leaderboard: Top 5 Trending Topics"
-      className={`relative rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-red-950/40 border border-red-500/30 p-4 sm:p-5 shadow-xl mb-6 overflow-hidden ${className}`}
+      className={`relative rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-red-950/40 border border-red-500/30 p-3.5 sm:p-5 shadow-xl mb-6 overflow-hidden w-full max-w-full ${className}`}
     >
       {/* Decorative background glow */}
       <div className="absolute -top-12 -right-12 w-48 h-48 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header bar */}
-      <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
-        <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-gradient-to-tr from-red-600 to-amber-500 text-white shadow-lg shadow-red-900/30">
+      <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800 w-full min-w-0">
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+          <div className="p-2 rounded-xl bg-gradient-to-tr from-red-600 to-amber-500 text-white shadow-lg shadow-red-900/30 shrink-0">
             <Flame className="w-5 h-5 animate-pulse" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-base sm:text-lg font-black text-white tracking-tight uppercase">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h2 className="text-sm sm:text-base md:text-lg font-black text-white tracking-tight uppercase">
                 D Macko Leaderboard
               </h2>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-500/20 text-red-400 border border-red-500/40">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-500/20 text-red-400 border border-red-500/40 shrink-0">
                 Top 5 Buzzing
               </span>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-400 truncate sm:whitespace-normal">
               Highest citizen buzz & vote velocity across Trinidad & Tobago in the last 12–24h
             </p>
           </div>
         </div>
 
         {/* View Switcher & Carousel Controls */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap shrink-0">
           <div className="flex bg-slate-950/80 p-0.5 rounded-lg border border-slate-800">
             <button
               onClick={() => setViewMode('carousel')}
@@ -197,7 +197,7 @@ export const MackoLeaderboard: React.FC<MackoLeaderboardProps> = ({
       {viewMode === 'carousel' && (
         <div
           ref={scrollContainerRef}
-          className="flex gap-3.5 overflow-x-auto pb-2 scrollbar-none snap-x snap-mandatory focus:outline-none"
+          className="flex gap-3.5 overflow-x-auto pb-2 scrollbar-none snap-x snap-mandatory focus:outline-none w-full max-w-full min-w-0"
           tabIndex={0}
           aria-label="Top 5 Trending Carousel"
         >

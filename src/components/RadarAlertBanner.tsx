@@ -22,13 +22,13 @@ export const RadarAlertBanner: React.FC<RadarAlertBannerProps> = ({
   const delayHighlights = severeDelays.map(s => `${s.highwayName}: ${s.statusText}`).join(' • ');
 
   return (
-    <div className="mb-6 rounded-2xl bg-gradient-to-r from-amber-950/40 via-slate-900 to-red-950/30 border border-amber-800/50 p-4 shadow-lg">
+    <div className="mb-6 rounded-2xl bg-gradient-to-r from-amber-950/40 via-slate-900 to-red-950/30 border border-amber-800/50 p-3.5 sm:p-4 shadow-lg w-full max-w-full overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-3 min-w-0 flex-1">
           <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 shrink-0 mt-0.5">
             <Compass className="w-5 h-5" />
           </div>
-          <div>
+          <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800">
                 TTMS {INITIAL_TTMS_ADVISORY.level.toUpperCase()} ALERT
@@ -47,7 +47,7 @@ export const RadarAlertBanner: React.FC<RadarAlertBannerProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap shrink-0">
           {onPlayCommuterAudio && (
             <button
               onClick={onPlayCommuterAudio}
