@@ -13,7 +13,10 @@ import {
   Smartphone,
   CheckCircle2,
   User,
-  Volume2
+  Volume2,
+  ChevronDown,
+  ChevronUp,
+  Eye
 } from 'lucide-react';
 
 import { AudioNarrator, type AudioPlayerState } from '../services/audioNarrator';
@@ -57,6 +60,7 @@ export const PostCard: React.FC<PostCardProps> = ({
   onMediaClick,
 }) => {
   const [showHeartBurst, setShowHeartBurst] = React.useState(false);
+  const [isMackoDrawerOpen, setIsMackoDrawerOpen] = React.useState(false);
   const lastTapRef = React.useRef<number>(0);
 
   const source = SOURCES[post.sourceId] || {
@@ -274,31 +278,72 @@ export const PostCard: React.FC<PostCardProps> = ({
           </div>
         )}
 
-        {/* Feature: The Signature "D Macko Meter" Card */}
-        <div className="mb-3">
-          <MackoMeter
-            score={post.mackoScore ?? post.trendingScore}
-            votesCount={post.mackoVotes ?? 0}
-            hasVoted={hasMackoVoted}
-            onBoostMacko={onBoostMacko ? () => onBoostMacko(post.id) : undefined}
-          />
-        </div>
-
-        {/* Feature: Trini Reaction Bar Strip */}
-        {onSelectReaction && (
-          <div className="mb-3 pt-2 border-t border-slate-800/60">
-            <div className="flex items-center justify-between gap-1 mb-1">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
-                Trini Reactions
+        {/* Feature: Collapsible "D Macko & Reactions" Drawer (Keeps the story text clean & focused) */}
+        <div className="mb-3 rounded-xl border border-slate-800/80 bg-slate-950/70 overflow-hidden transition-all shadow-inner">
+          <button
+            type="button"
+            onClick={() => setIsMackoDrawerOpen(!isMackoDrawerOpen)}
+            className="w-full px-3 py-2 flex items-center justify-between text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900/60 transition-colors"
+            aria-expanded={isMackoDrawerOpen}
+            aria-label="Toggle D Macko Meter and Reactions drawer"
+          >
+            <div className="flex items-center gap-2">
+              <span className="flex items-center gap-1 text-amber-400 font-extrabold tracking-wide">
+                <Eye className="w-3.5 h-3.5" />
+                <span>D Macko Meter</span>
               </span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-red-950/80 text-red-400 border border-red-800/60">
+                {post.mackoScore ?? post.trendingScore}%
+              </span>
+              {/* Active Reaction Preview Pill */}
+              {userReaction && (
+                <span className="text-[10px] font-bold text-slate-300 bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-700">
+                  {userReaction === 'macko' ? '👀' : userReaction === 'realtalk' ? '💯' : userReaction === 'deadwidlaugh' ? '😂' : userReaction === 'lordwhy' ? '🤦‍♂️' : '⚠️'} You reacted
+                </span>
+              )}
             </div>
-            <TriniReactionBar
-              currentReaction={userReaction}
-              onSelectReaction={(type) => onSelectReaction(post.id, type)}
-              reactionsCounts={post.triniReactions}
-            />
-          </div>
-        )}
+
+            <div className="flex items-center gap-1 text-[11px] text-slate-400 font-medium">
+              <span>{isMackoDrawerOpen ? 'Hide' : 'React & Rate'}</span>
+              {isMackoDrawerOpen ? (
+                <ChevronUp className="w-3.5 h-3.5 text-slate-400" />
+              ) : (
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              )}
+            </div>
+          </button>
+
+          {/* Drawer Content: Unrolls smoothly when opened */}
+          {isMackoDrawerOpen && (
+            <div className="p-3 border-t border-slate-800/80 space-y-3 bg-slate-900/40 animate-in slide-in-from-top-2 duration-200">
+              {/* D Macko Meter */}
+              <div>
+                <MackoMeter
+                  score={post.mackoScore ?? post.trendingScore}
+                  votesCount={post.mackoVotes ?? 0}
+                  hasVoted={hasMackoVoted}
+                  onBoostMacko={onBoostMacko ? () => onBoostMacko(post.id) : undefined}
+                />
+              </div>
+
+              {/* Trini Reaction Bar */}
+              {onSelectReaction && (
+                <div className="pt-2 border-t border-slate-800/60">
+                  <div className="flex items-center justify-between gap-1 mb-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                      Trini Reactions
+                    </span>
+                  </div>
+                  <TriniReactionBar
+                    currentReaction={userReaction}
+                    onSelectReaction={(type) => onSelectReaction(post.id, type)}
+                    reactionsCounts={post.triniReactions}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Action Toolbar */}
         <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
