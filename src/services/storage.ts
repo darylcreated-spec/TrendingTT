@@ -1,4 +1,4 @@
-import type { Comment, NotificationSettings, CommunityReport, UtilityReport, Post } from '../types';
+import type { Comment, NotificationSettings, CommunityReport, UtilityReport, Post, UserProfile } from '../types';
 import { INITIAL_COMMENTS } from '../data/mockPosts';
 import { INITIAL_COMMUNITY_REPORTS } from '../data/radarAndPollData';
 import { INITIAL_UTILITY_REPORTS } from '../data/utilitiesData';
@@ -15,7 +15,8 @@ const STORAGE_KEYS = {
   COMMUNITY_REPORTS: 'trending_tt_community_reports',
   CONFIRMED_REPORTS: 'trending_tt_confirmed_reports',
   UTILITY_REPORTS: 'trending_tt_utility_reports',
-  CONFIRMED_UTILITY_REPORTS: 'trending_tt_confirmed_utility_reports'
+  CONFIRMED_UTILITY_REPORTS: 'trending_tt_confirmed_utility_reports',
+  USER_PROFILE: 'trending_tt_user_profile'
 };
 
 const DEFAULT_NOTIFICATIONS: NotificationSettings = {
@@ -132,6 +133,33 @@ export const Storage = {
     }
 
     return newComment;
+  },
+
+  // User Profile Storage (Local Fallback & Sync)
+  getUserProfile(): UserProfile {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.USER_PROFILE);
+      if (data) return JSON.parse(data);
+    } catch {
+      // fallback
+    }
+    const defaultProfile: UserProfile = {
+      uid: 'guest-' + Math.random().toString(36).substring(2, 9),
+      displayName: 'Trinbago Citizen',
+      handle: 'trini_patriot',
+      location: 'Port of Spain',
+      role: 'citizen',
+      joinedAt: new Date().toISOString()
+    };
+    return defaultProfile;
+  },
+
+  saveUserProfile(profile: UserProfile): void {
+    try {
+      localStorage.setItem(STORAGE_KEYS.USER_PROFILE, JSON.stringify(profile));
+    } catch (e) {
+      console.warn('Could not save user profile to localStorage', e);
+    }
   },
 
   // Option C: Trinbago Sentiment Poll Storage

@@ -11,10 +11,11 @@ import {
   BarChart3,
   Newspaper,
   Zap,
-  PlusCircle
+  PlusCircle,
+  User
 } from 'lucide-react';
 import { CarouselTabs } from './CarouselTabs';
-import type { ActiveView } from '../types';
+import type { ActiveView, UserProfile } from '../types';
 
 interface HeaderProps {
   onRefresh: () => void;
@@ -32,6 +33,8 @@ interface HeaderProps {
   activeView: ActiveView;
   onSelectView: (view: ActiveView) => void;
   onOpenCreatePost?: () => void;
+  onOpenAuthModal?: () => void;
+  currentUser?: UserProfile;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -49,7 +52,9 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenNotifications,
   activeView,
   onSelectView,
-  onOpenCreatePost
+  onOpenCreatePost,
+  onOpenAuthModal,
+  currentUser
 }) => {
   const [currentDateTime, setCurrentDateTime] = useState<{
     dateStr: string;
@@ -151,6 +156,15 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Mobile buttons */}
           <div className="flex items-center gap-1.5 md:hidden">
+            {onOpenAuthModal && (
+              <button
+                onClick={onOpenAuthModal}
+                className="p-2 rounded-lg bg-slate-800 text-slate-200 border border-slate-700 active:scale-95 transition-transform"
+                title="Trinbago Social Profile"
+              >
+                <User className="w-4 h-4 text-red-400" />
+              </button>
+            )}
             <button
               onClick={onOpenNotifications}
               className="p-2 rounded-lg bg-slate-800 text-amber-400 border border-slate-700 active:scale-95 transition-transform"
@@ -200,6 +214,18 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-2 shrink-0">
+            {onOpenAuthModal && (
+              <button
+                onClick={onOpenAuthModal}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 active:scale-95 transition-all"
+                title="Trinbago Social Profile & Login"
+              >
+                <div className="w-5 h-5 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-red-400">
+                  <User className="w-3 h-3" />
+                </div>
+                <span className="max-w-[100px] truncate">{currentUser?.displayName || 'Citizen'}</span>
+              </button>
+            )}
 
             {/* Notification Bell */}
             <button

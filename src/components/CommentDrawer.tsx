@@ -27,6 +27,8 @@ const TT_LOCATIONS = [
 
 import { formatPostDateTime, formatRelativeTime } from '../utils/dateUtils';
 
+import { FirebaseSocialService, isFirebaseConfigured } from '../services/firebase';
+
 interface CommentDrawerContentProps {
   post: Post;
   onClose: () => void;
@@ -38,21 +40,61 @@ const CommentDrawerContent: React.FC<CommentDrawerContentProps> = ({
   onClose,
   onCommentAdded,
 }) => {
+  const [userProfile] = useState(() => Storage.getUserProfile());
   const [comments, setComments] = useState<Comment[]>(() => Storage.getComments(post.id));
   const [commentText, setCommentText] = useState('');
-  const [authorName, setAuthorName] = useState('');
-  const [authorLocation, setAuthorLocation] = useState(TT_LOCATIONS[0]);
+  const [authorName, setAuthorName] = useState(() => userProfile.displayName || '');
+  const [authorLocation, setAuthorLocation] = useState(() => userProfile.location || TT_LOCATIONS[0]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLiveConnected, setIsLiveConnected] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Subscribe to live Firestore comments if Firebase is configured
+  React.useEffect(() => {
+    if (!isFirebaseConfigured) return;
+
+    const unsubscribe = FirebaseSocialService.subscribeToComments(post.id, (liveComments) => {
+      if (liveComments && liveComments.length > 0) {
+        setComments(liveComments);
+        setIsLiveConnected(true);
+      }
+    });
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [post.id]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!commentText.trim()) return;
 
     setIsSubmitting(true);
-    const name = authorName.trim() || 'Trinbago Citizen';
-    const newComment = Storage.addComment(post.id, commentText.trim(), name, authorLocation);
+    const name = authorName.trim() || userProfile.displayName || 'Trinbago Citizen';
+    const loc = authorLocation || userProfile.location || 'Port of Spain';
 
-    setComments((prev) => [newComment, ...prev]);
+    // 1. Try Live Firebase Firestore (Free Tier Cloud Sync)
+    if (isFirebaseConfigured) {
+      const liveAdded = await FirebaseSocialService.addComment({
+        postId: post.id,
+        text: commentText.trim(),
+        authorName: name,
+        authorLocation: loc,
+        authorId: userProfile.uid,
+        authorPhotoURL: userProfile.photoURL,
+        authorVerified: userProfile.isVerified
+      });
+
+      if (liveAdded) {
+        setComments((prev) => [liveAdded, ...prev]);
+      }
+    }
+
+    // 2. Always persist locally for offline resilience
+    const newComment = Storage.addComment(post.id, commentText.trim(), name, loc);
+    if (!isFirebaseConfigured) {
+      setComments((prev) => [newComment, ...prev]);
+    }
+
     setCommentText('');
     setIsSubmitting(false);
     onCommentAdded(post.id);
@@ -71,6 +113,20 @@ const CommentDrawerContent: React.FC<CommentDrawerContentProps> = ({
             <h3 className="font-bold text-slate-100 text-base">
               Community Discussion ({comments.length})
             </h3>
+            {isFirebaseConfigured ? (
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 border ${
+                isLiveConnected 
+                  ? 'bg-emerald-950 text-emerald-400 border-emerald-800' 
+                  : 'bg-amber-950 text-amber-400 border-amber-800'
+              }`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${isLiveConnected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`}></span>
+                <span>{isLiveConnected ? 'Live Cloud Sync' : 'Connecting Cloud...'}</span>
+              </span>
+            ) : (
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
+                Local + P2P
+              </span>
+            )}
           </div>
           <button
             onClick={onClose}

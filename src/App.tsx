@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import type { Post, Category, SortOption, SourceId, ActiveView } from './types';
+import type { Post, Category, SortOption, SourceId, ActiveView, UserProfile } from './types';
 import { INITIAL_POSTS } from './data/mockPosts';
 import { SOURCES } from './data/sources';
 import { Storage } from './services/storage';
@@ -23,6 +23,7 @@ import { ImageZoomLightbox, type ZoomMedia } from './components/ImageZoomLightbo
 import { SectionedFeed } from './components/SectionedFeed';
 import { BriefingModal } from './components/BriefingModal';
 import { CreatePostModal } from './components/CreatePostModal';
+import { AuthModal } from './components/AuthModal';
 import { 
   Inbox, 
   CheckCircle,
@@ -46,6 +47,9 @@ export const App: React.FC = () => {
   const [upvotedIds, setUpvotedIds] = useState<string[]>(() => Storage.getUpvotedPosts());
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(() => Storage.getBookmarks());
 
+  // User Social Profile State
+  const [currentUser, setCurrentUser] = useState<UserProfile>(() => Storage.getUserProfile());
+
   // Modals & Drawers
   const [commentPost, setCommentPost] = useState<Post | null>(null);
   const [sharePost, setSharePost] = useState<Post | null>(null);
@@ -53,6 +57,7 @@ export const App: React.FC = () => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [isBriefingModalOpen, setIsBriefingModalOpen] = useState(false);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [feedLayout, setFeedLayout] = useState<'sections' | 'stream'>('sections');
   const [zoomMedia, setZoomMedia] = useState<ZoomMedia | null>(null);
 
@@ -334,6 +339,8 @@ export const App: React.FC = () => {
         activeView={activeView}
         onSelectView={setActiveView}
         onOpenCreatePost={() => setIsCreatePostModalOpen(true)}
+        onOpenAuthModal={() => setIsAuthModalOpen(true)}
+        currentUser={currentUser}
       />
 
       {/* Breaking News Ticker Bar */}
@@ -560,6 +567,15 @@ export const App: React.FC = () => {
         onPostCreated={(newPost) => {
           setPosts((prev) => [newPost, ...prev]);
         }}
+        onShowToast={showToast}
+      />
+
+      {/* Trinbago User Identity & Auth Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        currentUser={currentUser}
+        onUserUpdated={setCurrentUser}
         onShowToast={showToast}
       />
 

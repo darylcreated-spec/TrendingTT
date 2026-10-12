@@ -59,15 +59,35 @@ export interface Post {
   };
 }
 
+export interface UserProfile {
+  uid: string;
+  displayName: string;
+  handle?: string;
+  email?: string;
+  photoURL?: string;
+  location: string;
+  isVerified?: boolean;
+  role?: 'citizen' | 'journalist' | 'official';
+  bio?: string;
+  joinedAt: string;
+}
+
 export interface Comment {
   id: string;
   postId: string;
+  authorId?: string;
   authorName: string;
+  authorPhotoURL?: string;
   authorLocation?: string;
+  authorVerified?: boolean;
   text: string;
   createdAt: string;
   upvotes: number;
+  reactions?: Record<string, number>;
+  parentId?: string; // For nested replies
 }
+
+export type ReactionType = 'like' | 'hot' | 'alert' | 'laugh' | 'flag';
 
 export type SortOption = 'trending' | 'latest' | 'discussed';
 
