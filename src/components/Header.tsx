@@ -93,7 +93,7 @@ export const Header: React.FC<HeaderProps> = ({
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-slate-100 shadow-lg w-full max-w-full overflow-x-hidden">
+    <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-slate-100 shadow-lg w-full">
       {/* Top micro-bar: TT Live Clock & Status */}
       <div className="bg-slate-950 px-3 sm:px-4 py-1 text-xs text-slate-400 flex items-center justify-between border-b border-slate-800/80 w-full overflow-hidden">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">

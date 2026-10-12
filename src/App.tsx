@@ -456,7 +456,7 @@ export const App: React.FC = () => {
   }, [posts]);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans w-full">
       {/* PWA Install Banner */}
       <PWAInstallBanner
         onInstall={handleInstallPWA}
@@ -511,7 +511,7 @@ export const App: React.FC = () => {
       <main 
         onTouchStart={handleTouchStart} 
         onTouchEnd={handleTouchEnd} 
-        className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 flex-1 w-full min-w-0 max-w-full overflow-x-hidden pb-24 md:pb-6"
+        className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 flex-1 w-full min-w-0 pb-24 md:pb-6"
       >
         {/* OPTION B VIEW: TRAFFIC & WEATHER RADAR */}
         {activeView === 'radar' && (
