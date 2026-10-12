@@ -809,25 +809,41 @@ def run_scraper(
         else:
             merged_map[key] = post
 
-    final_posts = list(merged_map.values())
+    # Retain posts based on freshness rules (retire posts older than 7 days or keep top 120 most active)
+    now_ast = get_ast_now()
+    retention_cutoff = now_ast - datetime.timedelta(days=7)
     
-    # Sort posts by publishedAt descending or trendingScore
-    final_posts.sort(key=lambda p: (p.get("isBreaking", False), p.get("trendingScore", 0)), reverse=True)
+    pruned_posts = []
+    for post in merged_map.values():
+        pub_dt = parse_ast_datetime(post.get("publishedAt"))
+        if pub_dt:
+            # Drop posts older than 7 days unless breaking
+            if pub_dt < retention_cutoff and not post.get("isBreaking", False):
+                continue
+        pruned_posts.append(post)
+
+    # Sort posts by freshness and velocity
+    pruned_posts.sort(key=lambda p: (p.get("isBreaking", False), p.get("trendingScore", 0)), reverse=True)
+    
+    # Cap total archive to top 120 items for lightweight bundle delivery
+    final_posts = pruned_posts[:120]
 
     result_payload = {
         "meta": {
             "generator": "Trending TT Multi-Source News Scraper (Python 3.12)",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "timezone": "AST (America/Port_of_Spain)",
             "generatedAt": format_iso_ast(),
             "stats": {
                 "scrapedCount": len(new_posts),
                 "totalNormalized": len(final_posts),
+                "retentionDays": 7,
                 "sourcesRepresented": list(set(p["sourceId"] for p in final_posts))
             }
         },
         "posts": final_posts
     }
+
 
     # Ensure parent dir exists
     os.makedirs(os.path.dirname(os.path.abspath(target_file)), exist_ok=True)

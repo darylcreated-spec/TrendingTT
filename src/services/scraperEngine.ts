@@ -314,10 +314,26 @@ export async function fetchLiveTTFeeds(): Promise<ScrapeResult> {
   return result;
 }
 
+export function getPostFreshness(publishedAt: string): 'live' | 'recent' | 'archived' {
+  const hoursSince = (Date.now() - new Date(publishedAt).getTime()) / (1000 * 60 * 60);
+  if (hoursSince <= 12) return 'live';
+  if (hoursSince <= 48) return 'recent';
+  return 'archived';
+}
+
 export function calculateTrendingVelocity(post: Post): number {
   const hoursSince = Math.max(0.1, (Date.now() - new Date(post.publishedAt).getTime()) / (1000 * 60 * 60));
-  const engagementWeight = post.upvotes * 1.5 + post.commentsCount * 2.5;
-  // Gravity decay formula: velocity = Engagement / (Hours + 2)^1.2
-  const velocity = Math.round(engagementWeight / Math.pow(hoursSince + 1.2, 1.1));
-  return Math.min(99, Math.max(30, velocity + (post.isBreaking ? 25 : 0)));
+  const engagementWeight = post.upvotes * 2.0 + post.commentsCount * 3.5;
+  // Category-specific gravity: Traffic/road incidents decay much faster (G=1.8), general news (G=1.4)
+  const isTransitOrTraffic = post.tags?.some((t) => /traffic|accident|highway|radar|ferry|bridge/i.test(t));
+  const gravity = isTransitOrTraffic ? 1.8 : 1.4;
+  
+  // Exponential time decay: Engagement / (Hours + 1.5)^Gravity
+  const velocity = Math.round(engagementWeight / Math.pow(hoursSince + 1.5, gravity));
+  
+  // Breaking bonus is high in the first 12 hours, decays after 24 hours
+  const breakingBonus = post.isBreaking ? (hoursSince <= 12 ? 30 : hoursSince <= 24 ? 15 : 0) : 0;
+  
+  return Math.min(99, Math.max(20, Math.min(99, velocity + breakingBonus)));
 }
+

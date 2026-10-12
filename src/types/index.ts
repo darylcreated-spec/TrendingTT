@@ -91,6 +91,10 @@ export type ReactionType = 'like' | 'hot' | 'alert' | 'laugh' | 'flag';
 
 export type SortOption = 'trending' | 'latest' | 'discussed';
 
+export type TimeFilterOption = 'all-time' | '24h' | '48h' | '7d';
+
+export type PostFreshness = 'live' | 'recent' | 'archived';
+
 // Option B: Traffic, Weather & Radar Types
 export type TrafficSeverity = 'smooth' | 'moderate' | 'heavy' | 'gridlock' | 'flood' | 'roadwork';
 

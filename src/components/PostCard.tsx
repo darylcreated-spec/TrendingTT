@@ -161,9 +161,35 @@ export const PostCard: React.FC<PostCardProps> = ({
             <span className="text-amber-300 font-bold">{formatPostDateTime(post.publishedAt)}</span>
           </div>
 
-          <span className="text-[11px] font-bold text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800/80 shrink-0">
-            {formatRelativeTime(post.publishedAt)}
-          </span>
+          {/* Freshness Status Pill */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            {(() => {
+              const diffHours = (Date.now() - new Date(post.publishedAt).getTime()) / (1000 * 60 * 60);
+              if (diffHours <= 12) {
+                return (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-emerald-400 bg-emerald-950/70 border border-emerald-800/80 px-2 py-0.5 rounded">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Live
+                  </span>
+                );
+              }
+              if (diffHours <= 48) {
+                return (
+                  <span className="text-[10px] font-semibold text-amber-300 bg-amber-950/40 border border-amber-800/40 px-1.5 py-0.5 rounded">
+                    Recent
+                  </span>
+                );
+              }
+              return (
+                <span className="text-[10px] font-semibold text-slate-400 bg-slate-900 border border-slate-800 px-1.5 py-0.5 rounded">
+                  Archive
+                </span>
+              );
+            })()}
+            <span className="text-[11px] font-bold text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800/80">
+              {formatRelativeTime(post.publishedAt)}
+            </span>
+          </div>
         </div>
 
         {/* Title */}

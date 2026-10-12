@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import type { Post, Category, SortOption, SourceId, ActiveView, UserProfile } from './types';
+import type { Post, Category, SortOption, TimeFilterOption, SourceId, ActiveView, UserProfile } from './types';
 import { INITIAL_POSTS } from './data/mockPosts';
 import { SOURCES } from './data/sources';
 import { Storage } from './services/storage';
 import { fetchLiveTTFeeds, calculateTrendingVelocity } from './services/scraperEngine';
+
+
 import { socialIngestionEngine } from './services/socialIngestionEngine';
 import { Header } from './components/Header';
 import { BreakingTicker } from './components/BreakingTicker';
@@ -38,7 +40,9 @@ export const App: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>(() => [...Storage.getCustomPosts(), ...INITIAL_POSTS]);
   const [category, setCategory] = useState<Category>('all');
   const [sortOption, setSortOption] = useState<SortOption>('trending');
+  const [timeFilter, setTimeFilter] = useState<TimeFilterOption>('24h');
   const [selectedSources, setSelectedSources] = useState<SourceId[]>(() =>
+
     Object.keys(SOURCES) as SourceId[]
   );
   const [searchQuery, setSearchQuery] = useState('');
@@ -292,9 +296,18 @@ export const App: React.FC = () => {
         }
       }
 
+      // Time Window Freshness Filter
+      if (timeFilter !== 'all-time') {
+        const hoursAgo = (Date.now() - new Date(post.publishedAt).getTime()) / (1000 * 60 * 60);
+        if (timeFilter === '24h' && hoursAgo > 24) return false;
+        if (timeFilter === '48h' && hoursAgo > 48) return false;
+        if (timeFilter === '7d' && hoursAgo > 24 * 7) return false;
+      }
+
       return true;
     });
-  }, [posts, category, selectedSources, searchQuery, showBookmarksOnly, bookmarkedIds]);
+  }, [posts, category, selectedSources, searchQuery, showBookmarksOnly, bookmarkedIds, timeFilter]);
+
 
   const sortedPosts = useMemo(() => {
     return [...filteredPosts].sort((a, b) => {
@@ -357,10 +370,13 @@ export const App: React.FC = () => {
           onSelectCategory={setCategory}
           activeSort={sortOption}
           onSelectSort={setSortOption}
+          activeTimeFilter={timeFilter}
+          onSelectTimeFilter={setTimeFilter}
           feedLayout={feedLayout}
           onToggleFeedLayout={setFeedLayout}
         />
       )}
+
 
       {/* Main Content Area with Touch Swipe Between Views */}
       <main 
@@ -409,10 +425,15 @@ export const App: React.FC = () => {
             </div>
 
             {/* Active Filter Indicator */}
-            {(showBookmarksOnly || searchQuery || selectedSources.length < Object.keys(SOURCES).length) && (
+            {(showBookmarksOnly || searchQuery || timeFilter !== '24h' || selectedSources.length < Object.keys(SOURCES).length) && (
               <div className="mb-4 p-3 bg-slate-900 rounded-xl border border-slate-800 flex items-center justify-between text-xs">
                 <span className="text-slate-300">
                   {showBookmarksOnly && <strong className="text-red-400">Showing Saved Articles • </strong>}
+                  {timeFilter !== '24h' && (
+                    <strong className="text-amber-300">
+                      Window: {timeFilter === 'all-time' ? 'All Archive' : timeFilter} •{' '}
+                    </strong>
+                  )}
                   {searchQuery && <>Filtering by: &quot;{searchQuery}&quot; • </>}
                   <span>{selectedSources.length} of {Object.keys(SOURCES).length} outlets active</span>
                 </span>
@@ -420,6 +441,7 @@ export const App: React.FC = () => {
                   onClick={() => {
                     setShowBookmarksOnly(false);
                     setSearchQuery('');
+                    setTimeFilter('24h');
                     setSelectedSources(Object.keys(SOURCES) as SourceId[]);
                     setCategory('all');
                   }}
@@ -429,6 +451,7 @@ export const App: React.FC = () => {
                 </button>
               </div>
             )}
+
 
             {/* Posts Content: Curated Editorial Sections vs Stream Grid */}
             {sortedPosts.length === 0 ? (
