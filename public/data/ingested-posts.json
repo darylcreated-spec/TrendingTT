@@ -3,12 +3,12 @@
     "generator": "Trending TT Ingestion Engine (yt-dlp + RSS-Bridge)",
     "version": "1.2.0",
     "timezone": "AST (America/Port_of_Spain)",
-    "generatedAt": "2026-10-11T23:33:47.991Z",
+    "generatedAt": "2026-10-12T04:44:24.986Z",
     "stats": {
       "ytDlpProcessed": 5,
-      "rssBridgeProcessed": 7,
-      "totalNormalized": 12,
-      "timestamp": "2026-10-11T23:33:35.382Z"
+      "rssBridgeProcessed": 11,
+      "totalNormalized": 15,
+      "timestamp": "2026-10-12T04:44:07.708Z"
     }
   },
   "posts": [
@@ -23,7 +23,7 @@
       "sourceType": "social",
       "author": "@maracas_vibes868",
       "originalUrl": "https://www.tiktok.com/tag/trinitiktok",
-      "publishedAt": "2026-10-11T22:57:35.381Z",
+      "publishedAt": "2026-10-12T04:08:07.707Z",
       "category": "culture",
       "tags": [
         "#trinitiktok",
@@ -53,7 +53,7 @@
       "sourceType": "broadcast",
       "author": "CCN TV6 News Desk",
       "originalUrl": "https://www.youtube.com/watch?v=tv6-sample-news-7pm",
-      "publishedAt": "2026-10-11T21:58:35.381Z",
+      "publishedAt": "2026-10-12T03:09:07.707Z",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -83,7 +83,7 @@
       "sourceType": "broadcast",
       "author": "CNC3 News Anchor",
       "originalUrl": "https://www.youtube.com/watch?v=cnc3-sample-evening-7",
-      "publishedAt": "2026-10-11T21:43:35.381Z",
+      "publishedAt": "2026-10-12T02:54:07.707Z",
       "category": "business",
       "tags": [
         "CNC3 News",
@@ -113,7 +113,7 @@
       "sourceType": "broadcast",
       "author": "TTT Live Studio",
       "originalUrl": "https://www.youtube.com/watch?v=ttt-sample-news-7pm",
-      "publishedAt": "2026-10-11T21:13:35.381Z",
+      "publishedAt": "2026-10-12T02:24:07.707Z",
       "category": "broadcast",
       "tags": [
         "TTT Live",
@@ -143,7 +143,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/videos/morvant-community-standoff",
-      "publishedAt": "2026-10-11T22:53:35.381Z",
+      "publishedAt": "2026-10-12T04:04:07.707Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -172,16 +172,16 @@
       "sourceType": "broadcast",
       "author": "CCN TV6: Trinidad and Tobago",
       "originalUrl": "https://www.facebook.com/CCNTV6/posts/pfbid02y1ygW9ajVYdpbJEXLXArAMo73EueDALzR8uL9eLXtMwuasPvMrMq75qhsaSbdn9dl",
-      "publishedAt": "2026-10-11T23:33:43.584Z",
+      "publishedAt": "2026-10-12T04:44:18.880Z",
       "category": "broadcast",
       "tags": [
         "TV6 Facebook",
         "News Alert",
         "Trinidad"
       ],
-      "trendingScore": 83,
-      "upvotes": 207,
-      "commentsCount": 32,
+      "trendingScore": 82,
+      "upvotes": 130,
+      "commentsCount": 26,
       "isBreaking": false,
       "media": {
         "type": "image",
@@ -199,16 +199,16 @@
       "sourceType": "broadcast",
       "author": "CNC3 Television, Trinidad and Tobago",
       "originalUrl": "https://www.facebook.com/CNC3Television/videos/2163459957897851/",
-      "publishedAt": "2026-10-11T23:33:45.589Z",
+      "publishedAt": "2026-10-12T04:44:19.582Z",
       "category": "broadcast",
       "tags": [
         "CNC3 Facebook",
         "Digital Desk",
         "Trinidad"
       ],
-      "trendingScore": 93,
-      "upvotes": 199,
-      "commentsCount": 39,
+      "trendingScore": 85,
+      "upvotes": 185,
+      "commentsCount": 38,
       "isBreaking": false,
       "media": {
         "type": "image",
@@ -227,7 +227,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/posts/central-division-highway",
-      "publishedAt": "2026-10-11T22:43:35.381Z",
+      "publishedAt": "2026-10-12T03:54:07.707Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -257,7 +257,7 @@
       "sourceType": "newspaper",
       "author": "Newsday Digital Desk",
       "originalUrl": "https://www.facebook.com/NewsdayTT/posts/sea-results-celebrations",
-      "publishedAt": "2026-10-11T20:33:35.381Z",
+      "publishedAt": "2026-10-12T01:44:07.707Z",
       "category": "culture",
       "tags": [
         "Newsday",
@@ -276,64 +276,138 @@
       }
     },
     {
-      "id": "bridge-ig-tv6-sports-cricket",
-      "targetId": "bridge-ig-tv6",
-      "title": "Instagram Reels: Nicholas Pooran smashes 84 off 32 balls at Queen's Park Oval",
-      "summary": "High-energy highlights shared by TV6 Sports on Instagram show Pooran lighting up the St Clair venue with towering sixes into the Trini Posse stand.",
-      "content": "Queens Park Oval cricket highlights reel reposted by TV6 TNT. West Indies batsman entertains enthusiastic local crowd during domestic T20 cricket clash.",
+      "id": "rss-bridge-instagram-https://www.instagram.com/p/DdWsL7TmXWk/",
+      "title": "▶ (no text)",
+      "summary": "(no text)",
+      "content": "(no text)",
       "sourceId": "instagram",
       "sourceName": "Instagram TT Reels",
       "sourceType": "social",
-      "author": "@tv6tnt",
-      "originalUrl": "https://www.instagram.com/reel/tv6-pooran-sixes",
-      "publishedAt": "2026-10-11T21:23:35.381Z",
-      "category": "sports",
+      "author": "tv6tnt",
+      "originalUrl": "https://www.instagram.com/p/DdWsL7TmXWk/",
+      "publishedAt": "2026-10-12T04:44:22.339Z",
+      "category": "social",
       "tags": [
-        "Cricket TT",
-        "Queens Park Oval",
-        "Nicholas Pooran",
-        "Instagram Reels"
+        "Instagram TT",
+        "TV6 Reels",
+        "Viral Video"
       ],
-      "trendingScore": 94,
-      "upvotes": 755,
-      "commentsCount": 168,
+      "trendingScore": 87,
+      "upvotes": 132,
+      "commentsCount": 49,
       "isBreaking": false,
       "media": {
         "type": "video",
-        "url": "https://images.unsplash.com/photo-1531415074868-836332ff4296?auto=format&fit=crop&w=1200&q=80",
-        "aspectRatio": "portrait",
-        "videoDuration": "0:45"
+        "url": "https://www.instagram.com/p/DdWsL7TmXWk/media?size=l",
+        "aspectRatio": "portrait"
       }
     },
     {
-      "id": "bridge-ig-cnc3-pan-carnival-reel",
-      "targetId": "bridge-ig-cnc3",
-      "title": "Instagram Reels: Massy Trinidad All Stars electrify Duke Street rehearsal yard",
-      "summary": "CNC3 News cultural reel showcases vibrant steelpan arrangement rehearsals on Duke Street as crowds gather to experience sweet iron rhythm sections.",
-      "content": "Duke Street panyard comes alive. CNC3 News Instagram captures youth pan players mastering the musical arrangement alongside veteran pan tuners in East Port of Spain.",
+      "id": "rss-bridge-instagram-https://www.instagram.com/p/DdUIJEPjAoQ/",
+      "title": "PREMIER LEAGUE ON TV6!...",
+      "summary": "PREMIER LEAGUE ON TV6!\n\nArsenal VS Sunderland A.F.C.\nWatch on TV6\nTonight at 8:30!\n\nDon't miss the action on CCN TV6!\n\n#TV6 #CCNTV6 #PremierLeague #football #sunderland #sunderl...",
+      "content": "PREMIER LEAGUE ON TV6!\n\nArsenal VS Sunderland A.F.C.\nWatch on TV6\nTonight at 8:30!\n\nDon't miss the action on CCN TV6!\n\n#TV6 #CCNTV6 #PremierLeague #football #sunderland #sunderlandafc",
       "sourceId": "instagram",
       "sourceName": "Instagram TT Reels",
       "sourceType": "social",
-      "author": "@cnc3news",
-      "originalUrl": "https://www.instagram.com/reel/cnc3-all-stars-duke-street",
-      "publishedAt": "2026-10-11T22:28:35.381Z",
-      "category": "culture",
+      "author": "tv6tnt",
+      "originalUrl": "https://www.instagram.com/p/DdUIJEPjAoQ/",
+      "publishedAt": "2026-10-12T04:44:22.339Z",
+      "category": "social",
       "tags": [
-        "CNC3 Reels",
-        "Steelpan TT",
-        "All Stars",
-        "Duke Street",
-        "Pan Yard"
+        "Instagram TT",
+        "TV6 Reels",
+        "Viral Video"
       ],
-      "trendingScore": 93,
-      "upvotes": 680,
-      "commentsCount": 112,
+      "trendingScore": 89,
+      "upvotes": 124,
+      "commentsCount": 24,
       "isBreaking": false,
       "media": {
         "type": "video",
-        "url": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80",
-        "aspectRatio": "portrait",
-        "videoDuration": "0:52"
+        "url": "https://www.instagram.com/p/DdUIJEPjAoQ/media?size=l",
+        "aspectRatio": "portrait"
+      }
+    },
+    {
+      "id": "rss-bridge-instagram-https://www.instagram.com/p/DeXmeQIjEk3/",
+      "title": "Six talented young girls will grace the stage on Saturday, October 17, as they compete for the title of Little Miss...",
+      "summary": "Six talented young girls will grace the stage on Saturday, October 17, as they compete for the title of Little Miss Pleasantville Queen 2026 at the Pleasantville Community Centr...",
+      "content": "Six talented young girls will grace the stage on Saturday, October 17, as they compete for the title of Little Miss Pleasantville Queen 2026 at the Pleasantville Community Centre. \n\nFor more&hellip; tap link in bio",
+      "sourceId": "instagram",
+      "sourceName": "Instagram TT Reels",
+      "sourceType": "social",
+      "author": "cnc3news",
+      "originalUrl": "https://www.instagram.com/p/DeXmeQIjEk3/",
+      "publishedAt": "2026-10-12T04:44:24.262Z",
+      "category": "social",
+      "tags": [
+        "CNC3 Reels",
+        "Breaking Instagram",
+        "Caribbean"
+      ],
+      "trendingScore": 88,
+      "upvotes": 227,
+      "commentsCount": 15,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://www.instagram.com/p/DeXmeQIjEk3/media?size=l",
+        "aspectRatio": "portrait"
+      }
+    },
+    {
+      "id": "rss-bridge-instagram-https://www.instagram.com/p/DeXmN_1jHmb/",
+      "title": "October 11, 2026, the world observes the International Day of the Girl Child under the urgent and powerful theme: “End...",
+      "summary": "October 11, 2026, the world observes the International Day of the Girl Child under the urgent and powerful theme: &ldquo;End child marriage and invest in girls&rsquo; rights!&rd...",
+      "content": "October 11, 2026, the world observes the International Day of the Girl Child under the urgent and powerful theme: &ldquo;End child marriage and invest in girls&rsquo; rights!&rdquo; \nThe day serves to champion their empowerment and celebrate the boundless potential that blooms when a girl&rsquo;s rights are protected and her ambitions nurtured. \nAt just five years old, Maia Oiseoghade, a student at Victory Academy of Learning, is a vibrant, local embodiment of this year&rsquo;s theme. \n\nFor more&hellip; tap link in bio",
+      "sourceId": "instagram",
+      "sourceName": "Instagram TT Reels",
+      "sourceType": "social",
+      "author": "cnc3news",
+      "originalUrl": "https://www.instagram.com/p/DeXmN_1jHmb/",
+      "publishedAt": "2026-10-12T04:44:24.262Z",
+      "category": "social",
+      "tags": [
+        "CNC3 Reels",
+        "Breaking Instagram",
+        "Caribbean"
+      ],
+      "trendingScore": 87,
+      "upvotes": 101,
+      "commentsCount": 50,
+      "isBreaking": true,
+      "media": {
+        "type": "video",
+        "url": "https://www.instagram.com/p/DeXmN_1jHmb/media?size=l",
+        "aspectRatio": "portrait"
+      }
+    },
+    {
+      "id": "rss-bridge-instagram-https://www.instagram.com/p/DeXkkwSkX0o/",
+      "title": "“Healthy eating is often associated with expensive ingredients, speciality products and complicated meal plans. Eating...",
+      "summary": "&ldquo;Healthy eating is often associated with expensive ingredients, speciality products and complicated meal plans. Eating well does not have to strain the household budget .....",
+      "content": "&ldquo;Healthy eating is often associated with expensive ingredients, speciality products and complicated meal plans. Eating well does not have to strain the household budget ... The key is to stop thinking that you have to spend more money to eat &lsquo;healthy foods&rsquo;...&rdquo; \n&mdash;Dr Candida Khan (Registered Dietitian Nutritionist) \n\nFor more&hellip; tap link in bio",
+      "sourceId": "instagram",
+      "sourceName": "Instagram TT Reels",
+      "sourceType": "social",
+      "author": "cnc3news",
+      "originalUrl": "https://www.instagram.com/p/DeXkkwSkX0o/",
+      "publishedAt": "2026-10-12T04:44:24.262Z",
+      "category": "social",
+      "tags": [
+        "CNC3 Reels",
+        "Breaking Instagram",
+        "Caribbean"
+      ],
+      "trendingScore": 80,
+      "upvotes": 233,
+      "commentsCount": 28,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://www.instagram.com/p/DeXkkwSkX0o/media?size=l",
+        "aspectRatio": "portrait"
       }
     },
     {
@@ -347,7 +421,7 @@
       "sourceType": "newspaper",
       "author": "Express Sports Editor",
       "originalUrl": "https://trinidadexpress.com/sports/soca-warriors-knockout-roster",
-      "publishedAt": "2026-10-11T23:08:35.381Z",
+      "publishedAt": "2026-10-12T04:19:07.707Z",
       "category": "sports",
       "tags": [
         "Soca Warriors",
