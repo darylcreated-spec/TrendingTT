@@ -22,7 +22,6 @@ import { RadarAlertBanner } from './components/RadarAlertBanner';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { ImageZoomLightbox, type ZoomMedia } from './components/ImageZoomLightbox';
 import { SectionedFeed } from './components/SectionedFeed';
-import { AuthModal } from './components/AuthModal';
 import { StickyAudioPlayer } from './components/StickyAudioPlayer';
 import { MackoLeaderboard } from './components/MackoLeaderboard';
 import { AudioNarrator } from './services/audioNarrator';
@@ -47,6 +46,9 @@ const BriefingModal = React.lazy(() =>
 );
 const CreatePostModal = React.lazy(() =>
   import('./components/CreatePostModal').then((m) => ({ default: m.CreatePostModal }))
+);
+const AuthModal = React.lazy(() =>
+  import('./components/AuthModal').then((m) => ({ default: m.AuthModal }))
 );
 
 const ViewLoadingFallback = () => (
@@ -811,14 +813,18 @@ export const App: React.FC = () => {
         )}
       </React.Suspense>
 
-      {/* Trinbago User Identity & Auth Modal */}
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        currentUser={currentUser}
-        onUserUpdated={setCurrentUser}
-        onShowToast={showToast}
-      />
+      {/* Trinbago User Identity & Auth Modal (Lazy Loaded) */}
+      <React.Suspense fallback={null}>
+        {isAuthModalOpen && (
+          <AuthModal
+            isOpen={isAuthModalOpen}
+            onClose={() => setIsAuthModalOpen(false)}
+            currentUser={currentUser}
+            onUserUpdated={setCurrentUser}
+            onShowToast={showToast}
+          />
+        )}
+      </React.Suspense>
 
       {/* Sticky Audio Narrator Player for Commuters */}
       <StickyAudioPlayer />
