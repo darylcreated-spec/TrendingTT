@@ -210,6 +210,7 @@ def scrape_newsday() -> List[Dict[str, Any]]:
                     "upvotes": 48,
                     "commentsCount": 12,
                     "isBreaking": "breaking" in title.lower() or "alert" in title.lower(),
+                    "dataOrigin": "live",
                     "media": {
                         "type": "image",
                         "url": media_url,
@@ -295,6 +296,7 @@ def scrape_express() -> List[Dict[str, Any]]:
                     "upvotes": 65,
                     "commentsCount": 18,
                     "isBreaking": "urgent" in title.lower() or "breaking" in title.lower(),
+                    "dataOrigin": "live",
                     "media": {
                         "type": "image",
                         "url": media_url,
@@ -394,6 +396,7 @@ def scrape_guardian() -> List[Dict[str, Any]]:
                     "upvotes": 68,
                     "commentsCount": 16,
                     "isBreaking": False,
+                    "dataOrigin": "live",
                     "media": {
                         "type": "image",
                         "url": media_url,
@@ -458,6 +461,7 @@ def scrape_tv6() -> List[Dict[str, Any]]:
                     "upvotes": 77,
                     "commentsCount": 21,
                     "isBreaking": False,
+                    "dataOrigin": "live",
                     "media": {
                         "type": "video",
                         "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
@@ -520,6 +524,7 @@ def scrape_cnc3() -> List[Dict[str, Any]]:
                     "upvotes": 84,
                     "commentsCount": 26,
                     "isBreaking": False,
+                    "dataOrigin": "live",
                     "media": {
                         "type": "video",
                         "url": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80",
@@ -555,6 +560,7 @@ def scrape_ttt() -> List[Dict[str, Any]]:
         "upvotes": 120,
         "commentsCount": 35,
         "isBreaking": False,
+        "dataOrigin": "live",
         "media": {
             "type": "video",
             "url": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80",
@@ -587,6 +593,7 @@ def scrape_ian() -> List[Dict[str, Any]]:
         "upvotes": 312,
         "commentsCount": 88,
         "isBreaking": True,
+        "dataOrigin": "live",
         "media": {
             "type": "video",
             "url": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1200&q=80",
@@ -601,7 +608,7 @@ def scrape_ian() -> List[Dict[str, Any]]:
 # ============================================================================
 def generate_mock_news() -> List[Dict[str, Any]]:
     """Synthesizes high-fidelity authentic Trinidad & Tobago headlines for offline tests."""
-    now_iso = format_iso_ast()
+    now_iso = "2026-10-10T12:00:00-04:00"
     return [
         {
             "id": "py-mock-newsday-tobago-ferry",
@@ -620,6 +627,7 @@ def generate_mock_news() -> List[Dict[str, Any]]:
             "upvotes": 142,
             "commentsCount": 38,
             "isBreaking": False,
+            "dataOrigin": "sample",
             "media": {
                 "type": "image",
                 "url": "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1200&q=80",
@@ -643,6 +651,7 @@ def generate_mock_news() -> List[Dict[str, Any]]:
             "upvotes": 98,
             "commentsCount": 24,
             "isBreaking": False,
+            "dataOrigin": "sample",
             "media": {
                 "type": "image",
                 "url": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80",
@@ -666,6 +675,7 @@ def generate_mock_news() -> List[Dict[str, Any]]:
             "upvotes": 115,
             "commentsCount": 29,
             "isBreaking": False,
+            "dataOrigin": "sample",
             "media": {
                 "type": "image",
                 "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
@@ -689,6 +699,7 @@ def generate_mock_news() -> List[Dict[str, Any]]:
             "upvotes": 204,
             "commentsCount": 57,
             "isBreaking": True,
+            "dataOrigin": "sample",
             "media": {
                 "type": "video",
                 "url": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1200&q=80",
@@ -713,6 +724,7 @@ def generate_mock_news() -> List[Dict[str, Any]]:
             "upvotes": 178,
             "commentsCount": 42,
             "isBreaking": False,
+            "dataOrigin": "sample",
             "media": {
                 "type": "video",
                 "url": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1200&q=80",
@@ -737,6 +749,7 @@ def generate_mock_news() -> List[Dict[str, Any]]:
             "upvotes": 133,
             "commentsCount": 19,
             "isBreaking": False,
+            "dataOrigin": "sample",
             "media": {
                 "type": "image",
                 "url": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80",
@@ -760,6 +773,7 @@ def generate_mock_news() -> List[Dict[str, Any]]:
             "upvotes": 420,
             "commentsCount": 115,
             "isBreaking": True,
+            "dataOrigin": "sample",
             "media": {
                 "type": "video",
                 "url": "https://images.unsplash.com/photo-1514632595-4944383f2737?auto=format&fit=crop&w=1200&q=80",
@@ -845,13 +859,8 @@ def run_scraper(
             print(f"    Discovered {len(res)} articles.")
             new_posts.extend(res)
 
-        # Ensure all selected sources are represented: if an outlet failed due to DNS/network/404, supplement with high-fidelity items
-        mocks = generate_mock_news()
-        for m in mocks:
-            s_id = m["sourceId"]
-            if s_id in selected_sources and not any(p["sourceId"] == s_id for p in new_posts):
-                print(f" [Notice] Adding verified fallback coverage for {m['sourceName']} (DNS or live portal blocked).")
-                new_posts.append(m)
+        # In live scraping mode, prefer skipping failed sources over faking them
+        # (mock/fallback items are only generated when explicit --mock mode is enabled)
 
 
     print(f"\n[Scraper Summary] Total newly prepared articles: {len(new_posts)}")

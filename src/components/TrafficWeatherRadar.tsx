@@ -38,6 +38,7 @@ import { Storage } from '../services/storage';
 import { RadarService } from '../services/radarService';
 import { formatPostTimeOnly } from '../utils/dateUtils';
 import { CarouselTabs, type CarouselTabItem } from './CarouselTabs';
+import { DataOriginBadge } from './DataOriginBadge';
 
 interface TrafficWeatherRadarProps {
   onShowToast: (msg: string) => void;
@@ -489,7 +490,10 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
                         {item.segmentName}
                       </h4>
                     </div>
-                    {getSeverityBadge(item.severity)}
+                    <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                      <DataOriginBadge origin={item.dataOrigin} />
+                      {getSeverityBadge(item.severity)}
+                    </div>
                   </div>
 
                   <div className="flex items-center gap-2 text-xs text-slate-400 mt-2 font-mono">

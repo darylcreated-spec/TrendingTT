@@ -34,6 +34,8 @@ export interface SourceMeta {
   verified: boolean;
 }
 
+export type DataOrigin = 'live' | 'cached' | 'sample';
+
 export interface Post {
   id: string;
   title: string;
@@ -51,6 +53,7 @@ export interface Post {
   upvotes: number;
   commentsCount: number;
   isBreaking?: boolean;
+  dataOrigin?: DataOrigin;
   media?: {
     type: 'image' | 'video' | 'embed';
     url: string;
@@ -125,6 +128,7 @@ export interface TrafficSegment {
   averageSpeedKmh: number;
   lastUpdated: string;
   advisoryNote?: string;
+  dataOrigin?: DataOrigin;
 }
 
 export type TTMSAlertLevel = 'green' | 'yellow' | 'orange' | 'red';
@@ -138,6 +142,7 @@ export interface TTMSAdvisory {
   validUntil: string;
   authority: string;
   affectedAreas: string[];
+  dataOrigin?: DataOrigin;
 }
 
 export interface RiverLevelStatus {
@@ -148,6 +153,7 @@ export interface RiverLevelStatus {
   status: 'Normal' | 'Alert' | 'Bankfull' | 'Overflowing';
   trend: 'rising' | 'steady' | 'falling';
   updatedAt: string;
+  dataOrigin?: DataOrigin;
 }
 
 export interface TideEvent {
@@ -261,6 +267,7 @@ export interface UtilityDisruption {
   hotline: string;
   officialUrl: string;
   bulletinNumber?: string;
+  dataOrigin?: DataOrigin;
 }
 
 export interface WaterSchedule {
@@ -289,6 +296,7 @@ export interface TelecomStatus {
   whatsappSupport?: string;
   officialUrl: string;
   updatedAt: string;
+  dataOrigin?: DataOrigin;
 }
 
 export interface UtilityReport {

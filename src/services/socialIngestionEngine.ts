@@ -102,13 +102,14 @@ export const OFFLINE_SOCIAL_FALLBACK: Post[] = [
     sourceType: 'social',
     author: '@maracas_vibes868',
     originalUrl: 'https://www.tiktok.com/tag/trinitiktok',
-    publishedAt: new Date(Date.now() - 36 * 60 * 1000).toISOString(),
+    publishedAt: '2026-04-10T14:30:00.000Z',
     category: 'culture',
     tags: ['#trinitiktok', 'Maracas Bay', 'Bake and Shark', 'TikTok TT'],
     trendingScore: 98,
     upvotes: 642,
     commentsCount: 147,
     isBreaking: false,
+    dataOrigin: 'sample',
     media: {
       type: 'video',
       url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
@@ -126,13 +127,14 @@ export const OFFLINE_SOCIAL_FALLBACK: Post[] = [
     sourceType: 'broadcast',
     author: 'CCN TV6 News Desk',
     originalUrl: 'https://www.youtube.com/watch?v=tv6-sample-news-7pm',
-    publishedAt: new Date(Date.now() - 95 * 60 * 1000).toISOString(),
+    publishedAt: '2026-04-10T13:45:00.000Z',
     category: 'broadcast',
     tags: ['TV6 News', 'Evening Broadcast', 'Parliament TT', 'Port of Spain'],
     trendingScore: 95,
     upvotes: 430,
     commentsCount: 88,
     isBreaking: false,
+    dataOrigin: 'sample',
     media: {
       type: 'video',
       url: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80',
@@ -150,13 +152,14 @@ export const OFFLINE_SOCIAL_FALLBACK: Post[] = [
     sourceType: 'broadcast',
     author: 'CNC3 News Anchor',
     originalUrl: 'https://www.youtube.com/watch?v=cnc3-sample-evening-7',
-    publishedAt: new Date(Date.now() - 110 * 60 * 1000).toISOString(),
+    publishedAt: '2026-04-10T13:20:00.000Z',
     category: 'business',
     tags: ['CNC3 News', 'Point Lisas', 'Energy TT', 'Economy'],
     trendingScore: 91,
     upvotes: 385,
     commentsCount: 42,
     isBreaking: false,
+    dataOrigin: 'sample',
     media: {
       type: 'video',
       url: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1200&q=80',
@@ -174,13 +177,14 @@ export const OFFLINE_SOCIAL_FALLBACK: Post[] = [
     sourceType: 'broadcast',
     author: 'TTT Live Studio',
     originalUrl: 'https://www.youtube.com/watch?v=ttt-sample-news-7pm',
-    publishedAt: new Date(Date.now() - 140 * 60 * 1000).toISOString(),
+    publishedAt: '2026-04-10T12:50:00.000Z',
     category: 'broadcast',
     tags: ['TTT Live', 'Churchill Roosevelt Highway', 'Infrastructure', 'Curepe'],
     trendingScore: 89,
     upvotes: 312,
     commentsCount: 35,
     isBreaking: false,
+    dataOrigin: 'sample',
     media: {
       type: 'video',
       url: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80',
@@ -198,13 +202,14 @@ export const OFFLINE_SOCIAL_FALLBACK: Post[] = [
     sourceType: 'broadcast',
     author: 'Ian Alleyne',
     originalUrl: 'https://www.facebook.com/ianalleyne/videos/morvant-community-standoff',
-    publishedAt: new Date(Date.now() - 40 * 60 * 1000).toISOString(),
+    publishedAt: '2026-04-10T12:30:00.000Z',
     category: 'crime',
     tags: ['Crime Watch', 'Ian Alleyne', 'Morvant', 'Community Alert'],
     trendingScore: 96,
     upvotes: 890,
     commentsCount: 345,
-    isBreaking: true,
+    isBreaking: false,
+    dataOrigin: 'sample',
     media: {
       type: 'video',
       url: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80',
@@ -222,13 +227,14 @@ export const OFFLINE_SOCIAL_FALLBACK: Post[] = [
     sourceType: 'broadcast',
     author: 'CCN TV6 Digital Desk',
     originalUrl: 'https://www.facebook.com/CCNTV6/posts/morning-edition-agriculture',
-    publishedAt: new Date(Date.now() - 75 * 60 * 1000).toISOString(),
+    publishedAt: '2026-04-10T11:15:00.000Z',
     category: 'broadcast',
     tags: ['TV6 Facebook', 'Morning Edition', 'Food Security', 'Trinidad Agriculture'],
     trendingScore: 88,
     upvotes: 395,
     commentsCount: 94,
     isBreaking: false,
+    dataOrigin: 'sample',
     media: {
       type: 'image',
       url: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80',
@@ -245,13 +251,14 @@ export const OFFLINE_SOCIAL_FALLBACK: Post[] = [
     sourceType: 'broadcast',
     author: 'CNC3 Television Digital Desk',
     originalUrl: 'https://www.facebook.com/CNC3Television/posts/port-logistics-update',
-    publishedAt: new Date(Date.now() - 85 * 60 * 1000).toISOString(),
+    publishedAt: '2026-04-10T10:45:00.000Z',
     category: 'business',
     tags: ['CNC3 Facebook', 'Port of Spain', 'Trade TT', 'Infrastructure'],
     trendingScore: 87,
     upvotes: 340,
     commentsCount: 61,
     isBreaking: false,
+    dataOrigin: 'sample',
     media: {
       type: 'image',
       url: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=80',
@@ -268,13 +275,14 @@ export const OFFLINE_SOCIAL_FALLBACK: Post[] = [
     sourceType: 'broadcast',
     author: 'Ian Alleyne',
     originalUrl: 'https://www.facebook.com/ianalleyne/posts/central-division-highway',
-    publishedAt: new Date(Date.now() - 50 * 60 * 1000).toISOString(),
+    publishedAt: '2026-04-10T10:10:00.000Z',
     category: 'crime',
     tags: ['Crime Watch', 'Ian Alleyne', 'Uriah Butler Highway', 'Chaguanas'],
     trendingScore: 97,
     upvotes: 820,
     commentsCount: 310,
-    isBreaking: true,
+    isBreaking: false,
+    dataOrigin: 'sample',
     media: {
       type: 'video',
       url: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80',
@@ -292,13 +300,14 @@ export const OFFLINE_SOCIAL_FALLBACK: Post[] = [
     sourceType: 'newspaper',
     author: 'Newsday Digital Desk',
     originalUrl: 'https://www.facebook.com/NewsdayTT/posts/sea-results-celebrations',
-    publishedAt: new Date(Date.now() - 180 * 60 * 1000).toISOString(),
+    publishedAt: '2026-04-10T09:30:00.000Z',
     category: 'culture',
     tags: ['Newsday', 'SEA Exam', 'Education TT', 'Port of Spain'],
     trendingScore: 86,
     upvotes: 460,
     commentsCount: 52,
     isBreaking: false,
+    dataOrigin: 'sample',
     media: {
       type: 'image',
       url: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
@@ -315,13 +324,14 @@ export const OFFLINE_SOCIAL_FALLBACK: Post[] = [
     sourceType: 'social',
     author: '@tv6tnt',
     originalUrl: 'https://www.instagram.com/reel/tv6-pooran-sixes',
-    publishedAt: new Date(Date.now() - 130 * 60 * 1000).toISOString(),
+    publishedAt: '2026-04-10T08:45:00.000Z',
     category: 'sports',
     tags: ['Cricket TT', 'Queens Park Oval', 'Nicholas Pooran', 'Instagram Reels'],
     trendingScore: 94,
     upvotes: 755,
     commentsCount: 168,
     isBreaking: false,
+    dataOrigin: 'sample',
     media: {
       type: 'video',
       url: 'https://images.unsplash.com/photo-1531415074868-836332ff4296?auto=format&fit=crop&w=1200&q=80',
@@ -339,13 +349,14 @@ export const OFFLINE_SOCIAL_FALLBACK: Post[] = [
     sourceType: 'social',
     author: '@cnc3news',
     originalUrl: 'https://www.instagram.com/reel/cnc3-all-stars-duke-street',
-    publishedAt: new Date(Date.now() - 65 * 60 * 1000).toISOString(),
+    publishedAt: '2026-04-10T08:00:00.000Z',
     category: 'culture',
     tags: ['CNC3 Reels', 'Steelpan TT', 'All Stars', 'Duke Street', 'Pan Yard'],
     trendingScore: 93,
     upvotes: 680,
     commentsCount: 112,
     isBreaking: false,
+    dataOrigin: 'sample',
     media: {
       type: 'video',
       url: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80',
@@ -401,6 +412,7 @@ export function normalizeYtDlpMetadata(raw: YtDlpRawMetadata, target: {
     upvotes: likeCount,
     commentsCount: commentCount,
     isBreaking: Boolean(title.toLowerCase().includes('breaking') || title.toLowerCase().includes('live')),
+    dataOrigin: 'live',
     media: {
       type: 'video',
       url: raw.thumbnail || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80',
@@ -452,6 +464,7 @@ export function normalizeRssBridgeItem(item: RssBridgeRawItem, target: {
     upvotes: 240,
     commentsCount: 38,
     isBreaking: Boolean(title.toLowerCase().includes('breaking')),
+    dataOrigin: 'live',
     media: {
       type: isVideo ? 'video' : 'image',
       url: mediaUrl || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
@@ -499,7 +512,8 @@ export function sanitizeIngestedPosts(rawPosts: any[]): Post[] {
     return {
       ...raw,
       category,
-      tags
+      tags,
+      dataOrigin: raw.dataOrigin || (raw.id?.startsWith('yt-dlp-') || raw.id?.startsWith('bridge-') ? 'live' : 'cached')
     } as Post;
   });
 }
@@ -595,16 +609,12 @@ export class SocialIngestionEngine {
       };
     }
 
-    // 3. Fall back cleanly to the built-in authentic offline catalog with refreshed recency
-    const now = Date.now();
+    // 3. Fall back cleanly to authentic sample offline catalog without fabricating freshness
     const fallbackPosts: Post[] = sanitizeIngestedPosts(
-      OFFLINE_SOCIAL_FALLBACK.map((post, idx) => {
-        const recencyMins = 15 + (idx * 22);
-        return {
-          ...post,
-          publishedAt: new Date(now - recencyMins * 60 * 1000).toISOString()
-        };
-      })
+      OFFLINE_SOCIAL_FALLBACK.map((post) => ({
+        ...post,
+        dataOrigin: 'sample'
+      }))
     );
 
     for (const post of fallbackPosts) {
@@ -616,7 +626,7 @@ export class SocialIngestionEngine {
       totalIngested: fallbackPosts.length,
       sourceCounts,
       errors,
-      timestamp: new Date().toISOString(),
+      timestamp: 'Sample catalog (April 2026)',
       isOfflineFallback: true
     };
   }

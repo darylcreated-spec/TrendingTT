@@ -8,7 +8,7 @@ import {
   INITIAL_WATER_SCHEDULES, 
   INITIAL_TELECOM_NOTICES 
 } from '../data/utilitiesData';
-import { formatPostTimeOnly } from '../utils/dateUtils';
+import { formatPostTimeOnly, formatPostDateOnly } from '../utils/dateUtils';
 
 export interface UtilityRefreshResult {
   disruptions: UtilityDisruption[];
@@ -29,29 +29,18 @@ const DAYS_OF_WEEK = [
 ];
 
 /**
- * Service to manage live, dynamic utility disruptions and schedules across Trinidad & Tobago
- * with synchronized AST (UTC-4 Port of Spain) timestamps.
+ * Service to manage utility disruptions and schedules across Trinidad & Tobago
+ * with truthful AST timestamps and transparent data origins.
  */
 export const UtilityService = {
   /**
-   * Refreshes T&TEC and WASA utility disruptions with dynamic AST timestamps and active statuses.
+   * Refreshes T&TEC and WASA utility disruptions with truthful sample labels.
    */
   refreshDisruptions(previous: UtilityDisruption[] = INITIAL_UTILITY_DISRUPTIONS): UtilityDisruption[] {
-    const nowTimeStr = formatPostTimeOnly(new Date().toISOString());
+    const reviewDate = formatPostDateOnly(new Date().toISOString());
     const currentDay = DAYS_OF_WEEK[new Date().getDay()];
 
-    return previous.map((item, idx) => {
-      // Dynamic timestamps reflecting recency in AST
-      let dynamicUpdated: string;
-      if (item.status === 'active') {
-        dynamicUpdated = `Live (${nowTimeStr})`;
-      } else if (item.status === 'restoring') {
-        dynamicUpdated = `Restoration Active (${nowTimeStr})`;
-      } else {
-        const jitterMins = (idx * 17 + 5) % 55;
-        dynamicUpdated = `Updated ${jitterMins}m ago (AST)`;
-      }
-
+    return previous.map((item) => {
       // Ensure scheduled dates match current or upcoming day
       let dynamicScheduled = item.scheduledTime;
       if (dynamicScheduled.startsWith('Tomorrow') || dynamicScheduled.startsWith('Wednesday') || dynamicScheduled.startsWith('Thursday')) {
@@ -60,32 +49,24 @@ export const UtilityService = {
 
       return {
         ...item,
-        updatedAt: dynamicUpdated,
-        scheduledTime: dynamicScheduled
+        updatedAt: `Sample data — last reviewed ${reviewDate}`,
+        scheduledTime: dynamicScheduled,
+        dataOrigin: 'sample' as const
       };
     });
   },
 
   /**
-   * Refreshes telecom and ISP notices (Amplia, Flow, Digicel, bmobile) with live status and AST telemetry.
+   * Refreshes telecom and ISP notices (Amplia, Flow, Digicel, bmobile) with truthful sample labels.
    */
   refreshTelecomNotices(previous: TelecomStatus[] = INITIAL_TELECOM_NOTICES): TelecomStatus[] {
-    const nowTimeStr = formatPostTimeOnly(new Date().toISOString());
+    const reviewDate = formatPostDateOnly(new Date().toISOString());
 
-    return previous.map((notice, idx) => {
-      let dynamicUpdated: string;
-      if (notice.status === 'maintenance') {
-        dynamicUpdated = `Active Maintenance (${nowTimeStr})`;
-      } else if (notice.status === 'degraded') {
-        dynamicUpdated = `Telemetry Alert (${nowTimeStr})`;
-      } else {
-        const mins = (idx * 23 + 12) % 60;
-        dynamicUpdated = `Verified ${mins}m ago (AST)`;
-      }
-
+    return previous.map((notice) => {
       return {
         ...notice,
-        updatedAt: dynamicUpdated
+        updatedAt: `Sample data — last reviewed ${reviewDate}`,
+        dataOrigin: 'sample' as const
       };
     });
   },

@@ -38,6 +38,7 @@ import {
 import { Storage } from '../services/storage';
 import { UtilityService } from '../services/utilityService';
 import { formatPostTimeOnly } from '../utils/dateUtils';
+import { DataOriginBadge } from './DataOriginBadge';
 import { CarouselTabs, type CarouselTabItem } from './CarouselTabs';
 
 interface UtilitiesDashboardProps {
@@ -514,7 +515,10 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
                             {item.region} Region
                           </span>
                         </div>
-                        {getStatusBadge(item.status)}
+                        <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                          <DataOriginBadge origin={item.dataOrigin} />
+                          {getStatusBadge(item.status)}
+                        </div>
                       </div>
 
                       {/* Title */}
@@ -701,15 +705,18 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
                           {item.serviceType}
                         </span>
                       </div>
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                        item.status === 'operational'
-                          ? 'bg-emerald-950 text-emerald-400 border border-emerald-800'
-                          : item.status === 'maintenance'
-                          ? 'bg-amber-950 text-amber-400 border border-amber-800'
-                          : 'bg-red-950 text-red-400 border border-red-800'
-                      }`}>
-                        {item.status === 'operational' ? 'Operational' : item.status === 'maintenance' ? 'Scheduled Upgrade' : 'Degraded Signal'}
-                      </span>
+                      <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                        <DataOriginBadge origin={item.dataOrigin} />
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                          item.status === 'operational'
+                            ? 'bg-emerald-950 text-emerald-400 border border-emerald-800'
+                            : item.status === 'maintenance'
+                            ? 'bg-amber-950 text-amber-400 border border-amber-800'
+                            : 'bg-red-950 text-red-400 border border-red-800'
+                        }`}>
+                          {item.status === 'operational' ? 'Operational' : item.status === 'maintenance' ? 'Scheduled Upgrade' : 'Degraded Signal'}
+                        </span>
+                      </div>
                     </div>
 
                     <h4 className="text-sm sm:text-base font-bold text-slate-100 mb-2 leading-snug">

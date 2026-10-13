@@ -124,7 +124,7 @@ const TT_FEEDS = [
 
 // Fallback dynamic feed items for Sports, Breaking, and Social
 // Dynamic Rotating Pool of Live Trinidad & Tobago Bulletins across News, Sports, Weather, and Traffic
-const LIVE_BULLETIN_TEMPLATES = [
+export const LIVE_BULLETIN_TEMPLATES = [
   {
     title: 'Soca Warriors Nations League: Technical Staff Finalize Starting XI Ahead of Crucial Fixture',
     summary: 'Head coach confirms high spirits in camp at Hasely Crawford Stadium with key overseas midfielders linking seamlessly with domestic league standouts.',
@@ -232,8 +232,6 @@ const LIVE_BULLETIN_TEMPLATES = [
   }
 ];
 
-let rotationIndex = 0;
-
 export async function fetchLiveTTFeeds(): Promise<ScrapeResult> {
   const result: ScrapeResult = {
     newPosts: [],
@@ -293,6 +291,7 @@ export async function fetchLiveTTFeeds(): Promise<ScrapeResult> {
                 upvotes: Math.floor(Math.random() * 80) + 40,
                 commentsCount: Math.floor(Math.random() * 25) + 5,
                 isBreaking: classification.isBreaking,
+                dataOrigin: 'live',
                 media: {
                   type: 'image',
                   url: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80',
@@ -305,47 +304,11 @@ export async function fetchLiveTTFeeds(): Promise<ScrapeResult> {
         }
       }
     } catch {
-      // CORS proxy timeout or offline fallback handled gracefully below
+      // CORS proxy timeout or offline fallback handled gracefully
     }
   }
 
-  // 2. Always generate 3-4 fresh, dynamic bulletins with distinct timestamps and unique IDs on every scrape
-  const poolSize = LIVE_BULLETIN_TEMPLATES.length;
-  const numToPick = 3;
-
-  for (let i = 0; i < numToPick; i++) {
-    const template = LIVE_BULLETIN_TEMPLATES[(rotationIndex + i) % poolSize];
-    const uniqueBatchId = `${template.sourceId}-dyn-${Date.now()}-${Math.floor(Math.random() * 10000)}-${i}`;
-    const jitterMinutes = Math.floor(Math.random() * 8) + 1; // 1 to 9 minutes ago
-    const publishedIso = new Date(Date.now() - jitterMinutes * 60 * 1000).toISOString();
-
-    result.newPosts.push({
-      id: uniqueBatchId,
-      title: template.title,
-      summary: template.summary,
-      content: template.content,
-      sourceId: template.sourceId,
-      sourceName: template.sourceName,
-      sourceType: template.sourceType,
-      author: template.author,
-      originalUrl: template.originalUrl,
-      publishedAt: publishedIso,
-      category: template.category,
-      tags: [...template.tags, 'Live Update'],
-      trendingScore: template.trendingScore,
-      upvotes: Math.floor(Math.random() * 120) + 150,
-      commentsCount: Math.floor(Math.random() * 35) + 15,
-      isBreaking: template.isBreaking,
-      media: {
-        type: 'image',
-        url: template.mediaUrl,
-        aspectRatio: 'landscape'
-      }
-    });
-  }
-
-  rotationIndex = (rotationIndex + numToPick) % poolSize;
-
+  // Live truthful scraping: if no real items fetched from live RSS, return empty array (UI preserves existing feed)
   return result;
 }
 

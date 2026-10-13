@@ -57,7 +57,7 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
     .sort(sortByNewest);
 
   const breakingPosts = posts
-    .filter((p) => !isSports(p) && (p.isBreaking || p.category === 'breaking'))
+    .filter((p) => !isSports(p) && p.dataOrigin !== 'sample' && (p.isBreaking || p.category === 'breaking'))
     .sort(sortByNewest);
 
   const socialPosts = posts

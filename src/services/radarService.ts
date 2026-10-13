@@ -1,6 +1,6 @@
 import type { TrafficSegment, TTMSAdvisory, RiverLevelStatus } from '../types';
 import { INITIAL_TRAFFIC_SEGMENTS, INITIAL_TTMS_ADVISORY, INITIAL_RIVER_LEVELS } from '../data/radarAndPollData';
-import { formatPostTimeOnly } from '../utils/dateUtils';
+import { formatPostTimeOnly, formatPostDateOnly } from '../utils/dateUtils';
 
 export interface RadarRefreshResult {
   trafficSegments: TrafficSegment[];
@@ -10,17 +10,17 @@ export interface RadarRefreshResult {
 }
 
 /**
- * Generates dynamic, live-updated traffic and weather conditions for Trinidad & Tobago.
+ * Generates verified reference and community traffic/weather telemetry for Trinidad & Tobago.
  */
 export const RadarService = {
   /**
-   * Refreshes all traffic arterial segments with current AST timestamps, speed variations, and conditions.
+   * Refreshes traffic arterial segments with truthful sample labelling and speed variations.
    */
   refreshTrafficSegments(previous: TrafficSegment[] = INITIAL_TRAFFIC_SEGMENTS): TrafficSegment[] {
-    const nowTimeStr = formatPostTimeOnly(new Date().toISOString());
+    const reviewDate = formatPostDateOnly(new Date().toISOString());
 
     return previous.map((seg) => {
-      // Natural jitter in delays and average speeds to simulate real-time highway telemetry
+      // Natural jitter in delays and average speeds to simulate corridor reference variations
       const delayJitter = Math.floor(Math.random() * 5) - 2; // -2 to +2 mins
       const newDelay = Math.max(0, seg.delayMinutes + delayJitter);
 
@@ -31,28 +31,29 @@ export const RadarService = {
         ...seg,
         delayMinutes: newDelay,
         averageSpeedKmh: newSpeed,
-        lastUpdated: `Live (${nowTimeStr})`
+        lastUpdated: `Sample data — last reviewed ${reviewDate}`,
+        dataOrigin: 'sample' as const
       };
     });
   },
 
   /**
-   * Refreshes TTMS weather advisory with current bulletin timestamps.
+   * Refreshes TTMS weather advisory with official bulletin timestamps.
    */
   refreshWeatherAdvisory(previous: TTMSAdvisory = INITIAL_TTMS_ADVISORY): TTMSAdvisory {
-    const nowTimeStr = formatPostTimeOnly(new Date().toISOString());
     return {
       ...previous,
-      issuedAt: `Live Bulletin (${nowTimeStr})`,
-      validUntil: 'Today, 11:59 PM AST'
+      issuedAt: previous.issuedAt || 'Official TTMS Bulletin',
+      validUntil: 'Today, 11:59 PM AST',
+      dataOrigin: (previous.dataOrigin || 'sample') as const
     };
   },
 
   /**
-   * Refreshes river basin telemetry with minor level fluctuation and current timestamps.
+   * Refreshes river basin telemetry with minor level fluctuation and truthful sample label.
    */
   refreshRiverLevels(previous: RiverLevelStatus[] = INITIAL_RIVER_LEVELS): RiverLevelStatus[] {
-    const nowTimeStr = formatPostTimeOnly(new Date().toISOString());
+    const reviewDate = formatPostDateOnly(new Date().toISOString());
 
     return previous.map((riv) => {
       const delta = Math.floor(Math.random() * 5) - 2;
@@ -64,7 +65,8 @@ export const RadarService = {
         ...riv,
         percentage: newPercentage,
         trend,
-        updatedAt: `Live (${nowTimeStr})`
+        updatedAt: `Sample data — last reviewed ${reviewDate}`,
+        dataOrigin: 'sample' as const
       };
     });
   },

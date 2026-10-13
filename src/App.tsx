@@ -187,7 +187,7 @@ export const App: React.FC = () => {
 
   // Scraper & PWA status
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [lastScrapedTime, setLastScrapedTime] = useState<string>('Live (AST)');
+  const [lastScrapedTime, setLastScrapedTime] = useState<string>('AST');
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -529,7 +529,7 @@ export const App: React.FC = () => {
   }, [filteredPosts, sortOption]);
 
   const breakingPosts = useMemo(() => {
-    return posts.filter((p) => (p.isBreaking || p.category === 'breaking') && !isSportsPost(p));
+    return posts.filter((p) => (p.isBreaking || p.category === 'breaking') && !isSportsPost(p) && p.dataOrigin !== 'sample');
   }, [posts]);
 
   return (
