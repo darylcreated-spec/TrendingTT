@@ -78,6 +78,7 @@ export function formatPostTimeOnly(isoString: string): string {
 export function formatRelativeTime(isoString: string): string {
   try {
     const date = new Date(isoString);
+    if (isNaN(date.getTime())) return '';
     const diff = Math.max(0, Date.now() - date.getTime());
     const mins = Math.floor(diff / (1000 * 60));
     if (mins < 1) return 'Just now';
@@ -88,7 +89,7 @@ export function formatRelativeTime(isoString: string): string {
     if (days < 30) return `${days}d ago`;
     return formatPostDateOnly(isoString);
   } catch {
-    return 'Recently';
+    return '';
   }
 }
 

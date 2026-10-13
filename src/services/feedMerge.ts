@@ -80,31 +80,29 @@ export function mergePosts(existing: Post[] = [], incoming: Post[] = []): Post[]
       const higherUpvotes = Math.max(prior.upvotes || 0, post.upvotes || 0);
       const higherComments = Math.max(prior.commentsCount || 0, post.commentsCount || 0);
 
-      // 3. Keep most descriptive summary & content
-      const content = (post.content && post.content.length >= (prior.content?.length || 0))
-        ? post.content
-        : prior.content;
-      const summary = (post.summary && post.summary.length >= (prior.summary?.length || 0))
-        ? post.summary
-        : prior.summary;
-
-      // 4. Prefer newer publication timestamp if valid
+      // 3. Newer publishedAt wins content/summary/title updates
       const priorTime = safeTimestamp(prior.publishedAt);
       const postTime = safeTimestamp(post.publishedAt);
-      const publishedAt = (postTime > priorTime && post.publishedAt) ? post.publishedAt : prior.publishedAt;
+      const isPostNewer = postTime >= priorTime;
 
-      // 5. Media preservation
-      const media = post.media || prior.media;
+      const title = isPostNewer ? (post.title || prior.title) : (prior.title || post.title);
+      const summary = isPostNewer ? (post.summary || prior.summary) : (prior.summary || post.summary);
+      const content = isPostNewer ? (post.content || prior.content) : (prior.content || post.content);
+      const publishedAt = isPostNewer ? (post.publishedAt || prior.publishedAt) : prior.publishedAt;
+
+      // 4. Media preservation
+      const media = (isPostNewer && post.media) ? post.media : (prior.media || post.media);
 
       const mergedPost: Post = {
         ...prior,
         ...post,
         id: prior.id, // preserve stable identity
+        title,
+        summary,
+        content,
+        publishedAt,
         upvotes: higherUpvotes,
         commentsCount: higherComments,
-        summary: summary || post.summary || prior.summary,
-        content: content || post.content || prior.content,
-        publishedAt: publishedAt || prior.publishedAt,
         dataOrigin: chosenOrigin,
         media,
         tags: Array.from(new Set([...(prior.tags || []), ...(post.tags || [])])),
