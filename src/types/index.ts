@@ -23,6 +23,8 @@ export type Category =
   | 'sports' 
   | 'business';
 
+export type Region = 'all' | 'North' | 'Central' | 'South' | 'East' | 'Tobago';
+
 export interface SourceMeta {
   id: SourceId;
   name: string;

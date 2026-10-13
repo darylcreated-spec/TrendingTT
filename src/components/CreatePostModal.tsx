@@ -76,17 +76,15 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   const [location, setLocation] = useState(TT_LOCATIONS[0]);
   const [customImageUrl, setCustomImageUrl] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [currentDateTime, setCurrentDateTime] = useState('');
+  const [currentDateTime, setCurrentDateTime] = useState(() => formatPostDateTime(new Date().toISOString()));
 
   // Update live preview timestamp
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) return;
+    const timer = setInterval(() => {
       setCurrentDateTime(formatPostDateTime(new Date().toISOString()));
-      const timer = setInterval(() => {
-        setCurrentDateTime(formatPostDateTime(new Date().toISOString()));
-      }, 1000);
-      return () => clearInterval(timer);
-    }
+    }, 1000);
+    return () => clearInterval(timer);
   }, [isOpen]);
 
   if (!isOpen) return null;

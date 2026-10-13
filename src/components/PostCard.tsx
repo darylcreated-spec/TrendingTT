@@ -61,7 +61,23 @@ export const PostCard: React.FC<PostCardProps> = ({
   onMediaClick,
 }) => {
   const [showHeartBurst, setShowHeartBurst] = React.useState(false);
-  const [isMackoDrawerOpen, setIsMackoDrawerOpen] = React.useState(false);
+  const [isMackoDrawerOpen, setIsMackoDrawerOpen] = React.useState(() => {
+    try {
+      return sessionStorage.getItem(`trending_tt_drawer_${post.id}`) === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const toggleMackoDrawer = () => {
+    setIsMackoDrawerOpen((prev) => {
+      const next = !prev;
+      try {
+        sessionStorage.setItem(`trending_tt_drawer_${post.id}`, String(next));
+      } catch {}
+      return next;
+    });
+  };
   const lastTapRef = React.useRef<number>(0);
 
   const source = SOURCES[post.sourceId] || {
@@ -132,6 +148,9 @@ export const PostCard: React.FC<PostCardProps> = ({
           <img
             src={resolvePostImage(post)}
             alt={post.title}
+            width={600}
+            height={338}
+            decoding="async"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
             onError={(e) => {
@@ -261,7 +280,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         <div className="mb-3 rounded-xl border border-slate-800/80 bg-slate-950/70 overflow-hidden transition-all shadow-inner">
           <button
             type="button"
-            onClick={() => setIsMackoDrawerOpen(!isMackoDrawerOpen)}
+            onClick={toggleMackoDrawer}
             className="w-full px-3 py-2 flex items-center justify-between text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900/60 transition-colors"
             aria-expanded={isMackoDrawerOpen}
             aria-label="Toggle D Macko Meter and Reactions drawer"
@@ -330,6 +349,7 @@ export const PostCard: React.FC<PostCardProps> = ({
           <div className="flex items-center gap-1 sm:gap-2 flex-wrap min-w-0">
             <button
               onClick={() => onToggleUpvote(post.id)}
+              aria-label={`Upvote article, currently ${post.upvotes + (isUpvoted ? 1 : 0)} upvotes`}
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-all active:scale-95 ${
                 isUpvoted
                   ? 'bg-red-600 text-white border-red-500 shadow-sm'
@@ -343,6 +363,7 @@ export const PostCard: React.FC<PostCardProps> = ({
 
             <button
               onClick={() => onOpenComments(post)}
+              aria-label={`View comments, currently ${post.commentsCount} comments`}
               className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/80 hover:bg-slate-800 text-slate-300 border border-slate-700/70 hover:text-white transition-colors"
               title="View and post comments"
             >
@@ -353,6 +374,7 @@ export const PostCard: React.FC<PostCardProps> = ({
             {/* Commuter Listen Mode TTS */}
             <button
               onClick={handleListen}
+              aria-label={isCurrentPlaying ? 'Pause narration' : 'Listen to story summary in commuter mode'}
               className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
                 isCurrentPlaying
                   ? 'bg-red-600 text-white border-red-500 animate-pulse'
@@ -375,6 +397,7 @@ export const PostCard: React.FC<PostCardProps> = ({
             {/* Quick WhatsApp Share Button */}
             <button
               onClick={() => onWhatsAppShare(post)}
+              aria-label="Share story to WhatsApp"
               className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-500 shadow-sm active:scale-95 transition-all"
               title="Share instantly to WhatsApp"
             >
@@ -384,6 +407,7 @@ export const PostCard: React.FC<PostCardProps> = ({
             {/* General Share */}
             <button
               onClick={() => onShare(post)}
+              aria-label="Share story across social platforms"
               className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 border border-slate-700/70 hover:text-white transition-colors"
               title="Share across social media"
             >
@@ -393,6 +417,7 @@ export const PostCard: React.FC<PostCardProps> = ({
             {/* Bookmark */}
             <button
               onClick={() => onToggleBookmark(post.id)}
+              aria-label={isBookmarked ? 'Remove bookmark' : 'Bookmark this article'}
               className={`p-1.5 rounded-lg border transition-colors ${
                 isBookmarked
                   ? 'bg-amber-600 text-white border-amber-500'
@@ -408,6 +433,7 @@ export const PostCard: React.FC<PostCardProps> = ({
               href={post.originalUrl}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`Open original story on ${post.sourceName}`}
               className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-400 border border-slate-700/70 hover:text-white transition-colors"
               title={`Read full coverage on ${post.sourceName}`}
             >

@@ -178,6 +178,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={onOpenAuthModal}
                 className="p-2 rounded-lg bg-slate-800 text-slate-200 border border-slate-700 active:scale-95 transition-transform"
                 title="Trinbago Social Profile"
+                aria-label="Open Trinbago Social Profile"
               >
                 <User className="w-4 h-4 text-red-400" />
               </button>
@@ -186,6 +187,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={onOpenNotifications}
               className="p-2 rounded-lg bg-slate-800 text-amber-400 border border-slate-700 active:scale-95 transition-transform"
               title="Push Notifications"
+              aria-label="Open Push Notification Settings"
             >
               <Bell className="w-4 h-4" />
             </button>
@@ -194,6 +196,7 @@ export const Header: React.FC<HeaderProps> = ({
               disabled={isRefreshing}
               className="p-2 rounded-lg bg-slate-800 text-slate-200 border border-slate-700 active:scale-95 transition-transform"
               title="Refresh / Scrape Feeds"
+              aria-label="Refresh latest feeds"
             >
               <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-red-400' : ''}`} />
             </button>
@@ -201,6 +204,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={onOpenSourcesFilter}
               className="p-2 rounded-lg bg-slate-800 text-slate-200 border border-slate-700"
               title="Filter Media Outlets"
+              aria-label="Filter media outlets"
             >
               <SlidersHorizontal className="w-4 h-4" />
             </button>
@@ -223,6 +227,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 onClick={() => onSearchChange('')}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                aria-label="Clear search input"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -236,6 +241,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={onOpenAuthModal}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 active:scale-95 transition-all"
                 title="Trinbago Social Profile & Login"
+                aria-label="Open Trinbago user profile and login"
               >
                 <div className="w-5 h-5 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-red-400">
                   <User className="w-3 h-3" />
@@ -249,6 +255,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={onOpenNotifications}
               className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition-colors relative"
               title="Push Notification Settings"
+              aria-label="Push Notification Settings"
             >
               <Bell className="w-4 h-4" />
               <span className="w-2 h-2 rounded-full bg-red-500 absolute top-1.5 right-1.5 animate-pulse" />

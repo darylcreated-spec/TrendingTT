@@ -51,20 +51,34 @@ const AuthModal = React.lazy(() =>
   import('./components/AuthModal').then((m) => ({ default: m.AuthModal }))
 );
 
+import { FeedSkeletonLoader } from './components/FeedSkeletonLoader';
+import { formatPostTimeOnly } from './utils/dateUtils';
+import type { Region } from './types';
+import clsx from 'clsx';
+
 const ViewLoadingFallback = () => (
-  <div className="flex items-center justify-center py-20 min-h-[300px]">
-    <div className="flex flex-col items-center gap-3 text-slate-400">
-      <div className="w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
-      <span className="text-xs font-semibold text-slate-300">Loading module...</span>
-    </div>
+  <div className="py-6 max-w-7xl mx-auto px-4">
+    <FeedSkeletonLoader count={3} />
   </div>
 );
 import { 
   Inbox, 
   CheckCircle,
-  ArrowUp
+  ArrowUp,
+  WifiOff,
+  MapPin
 } from 'lucide-react';
 import { mergePosts } from './services/feedMerge';
+
+const REGIONS: Region[] = ['all', 'North', 'Central', 'South', 'East', 'Tobago'];
+const REGION_KEYWORDS: Record<Region, string[]> = {
+  all: [],
+  North: ['port of spain', 'diego martin', 'maraval', 'st. james', 'woodbrook', 'cascade', 'belmont', 'maracas', 'santa cruz'],
+  Central: ['chaguanas', 'couva', 'montrose', 'chase village', 'cunupia', 'freeport', 'preysal', 'california', 'caroni'],
+  South: ['san fernando', 'point fortin', 'penal', 'debe', 'princes town', 'siparia', 'fyzabad', 'la brea', 'marabella'],
+  East: ['arima', 'sangre grande', 'trincity', 'tunapuna', 'curepe', 'st. augustine', 'arouca', 'valencia', 'toco', 'manzanilla'],
+  Tobago: ['tobago', 'scarborough', 'crown point', 'plymouth', 'roxborough', 'canaan', 'lowlands', 'castara'],
+};
 
 export const App: React.FC = () => {
   // Navigation & View mode: Feed, Radar, Utilities, or Polls
@@ -83,15 +97,75 @@ export const App: React.FC = () => {
     return initialList;
   });
   const [pendingPosts, setPendingPosts] = useState<Post[]>([]);
-  const [category, setCategory] = useState<Category>('all');
+  const [category, setCategory] = useState<Category>(() => {
+    try {
+      const saved = localStorage.getItem('trending_tt_selected_category');
+      return (saved as Category) || 'all';
+    } catch {
+      return 'all';
+    }
+  });
   const [sortOption, setSortOption] = useState<SortOption>('latest');
   const [timeFilter, setTimeFilter] = useState<TimeFilterOption>('24h');
-  const [selectedSources, setSelectedSources] = useState<SourceId[]>(() =>
-
-    Object.keys(SOURCES) as SourceId[]
-  );
+  const [selectedSources, setSelectedSources] = useState<SourceId[]>(() => {
+    try {
+      const saved = localStorage.getItem('trending_tt_selected_sources');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {}
+    return Object.keys(SOURCES) as SourceId[];
+  });
+  const [selectedRegion, setSelectedRegion] = useState<Region>(() => {
+    try {
+      const saved = localStorage.getItem('trending_tt_selected_region');
+      return (saved as Region) || 'all';
+    } catch {
+      return 'all';
+    }
+  });
   const [searchQuery, setSearchQuery] = useState('');
   const [showBookmarksOnly, setShowBookmarksOnly] = useState(false);
+  const [isOnline, setIsOnline] = useState<boolean>(() => typeof navigator !== 'undefined' ? navigator.onLine : true);
+  const [lastSyncTime, setLastSyncTime] = useState<string>(() => new Date().toISOString());
+  const [filterClock] = useState<number>(() => Date.now());
+
+  // Save filter preferences to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('trending_tt_selected_category', category);
+    } catch {}
+  }, [category]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('trending_tt_selected_sources', JSON.stringify(selectedSources));
+    } catch {}
+  }, [selectedSources]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('trending_tt_selected_region', selectedRegion);
+    } catch {}
+  }, [selectedRegion]);
+
+  // Online / Offline connectivity listener
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+      setLastSyncTime(new Date().toISOString());
+    };
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   // Persistence States (lazy initialized)
   const [upvotedIds, setUpvotedIds] = useState<string[]>(() => Storage.getUpvotedPosts());
@@ -409,7 +483,6 @@ export const App: React.FC = () => {
 
   // Filter & Sort Logic
   const filteredPosts = useMemo(() => {
-    const now = Date.now();
     return posts.filter((post) => {
       // Bookmarks filter
       if (showBookmarksOnly && !bookmarkedIds.includes(post.id)) {
@@ -419,6 +492,16 @@ export const App: React.FC = () => {
       // Source filter
       if (!selectedSources.includes(post.sourceId)) {
         return false;
+      }
+
+      // Region filter
+      if (selectedRegion !== 'all') {
+        const keywords = REGION_KEYWORDS[selectedRegion];
+        const text = `${post.title} ${post.summary} ${post.content || ''} ${(post.tags || []).join(' ')}`.toLowerCase();
+        const matchesRegion = keywords.some((kw) => text.includes(kw));
+        if (!matchesRegion) {
+          return false;
+        }
       }
 
       // Category filter
@@ -448,7 +531,7 @@ export const App: React.FC = () => {
 
       // Time Window Freshness Filter
       if (timeFilter !== 'all-time') {
-        const hoursAgo = (now - new Date(post.publishedAt).getTime()) / (1000 * 60 * 60);
+        const hoursAgo = (filterClock - new Date(post.publishedAt).getTime()) / (1000 * 60 * 60);
         if (timeFilter === '24h' && hoursAgo > 24) return false;
         if (timeFilter === '48h' && hoursAgo > 48) return false;
         if (timeFilter === '7d' && hoursAgo > 24 * 7) return false;
@@ -456,7 +539,7 @@ export const App: React.FC = () => {
 
       return true;
     });
-  }, [posts, category, selectedSources, searchQuery, showBookmarksOnly, bookmarkedIds, timeFilter]);
+  }, [posts, category, selectedSources, searchQuery, showBookmarksOnly, bookmarkedIds, timeFilter, selectedRegion, filterClock]);
 
 
   const sortedPosts = useMemo(() => {
@@ -480,6 +563,18 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans w-full">
+      {/* Offline Status Banner */}
+      {!isOnline && (
+        <div 
+          role="status" 
+          aria-live="polite" 
+          className="bg-amber-600/95 text-white px-4 py-2.5 text-xs font-bold text-center flex items-center justify-center gap-2 shadow-md shrink-0"
+        >
+          <WifiOff className="w-4 h-4 shrink-0" />
+          <span>You are currently offline. Showing cached feed (last synced {formatPostTimeOnly(lastSyncTime)}).</span>
+        </div>
+      )}
+
       {/* PWA Install Banner */}
       <PWAInstallBanner
         onInstall={handleInstallPWA}
@@ -527,6 +622,33 @@ export const App: React.FC = () => {
           feedLayout={feedLayout}
           onToggleFeedLayout={setFeedLayout}
         />
+      )}
+
+      {/* Regional Trinidad & Tobago Alert Filter */}
+      {activeView === 'feed' && (
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 pt-2.5 pb-1 w-full" aria-label="Filter by region">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1 shrink-0 mr-1">
+              <MapPin className="w-3.5 h-3.5 text-red-500" />
+              <span>Area:</span>
+            </span>
+            {REGIONS.map((r) => (
+              <button
+                key={r}
+                onClick={() => setSelectedRegion(r)}
+                aria-pressed={selectedRegion === r}
+                className={clsx(
+                  'px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-red-500',
+                  selectedRegion === r
+                    ? 'bg-red-600 text-white shadow-sm'
+                    : 'bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800'
+                )}
+              >
+                {r === 'all' ? 'All T&T' : r}
+              </button>
+            ))}
+          </div>
+        </div>
       )}
 
 
@@ -648,7 +770,9 @@ export const App: React.FC = () => {
 
 
             {/* Posts Content: Curated Editorial Sections vs Stream Grid */}
-            {sortedPosts.length === 0 ? (
+            {isRefreshing && posts.length === 0 ? (
+              <FeedSkeletonLoader count={4} />
+            ) : sortedPosts.length === 0 ? (
               <div className="text-center py-20 bg-slate-900/50 rounded-2xl border border-slate-800 p-8 my-8">
                 <Inbox className="w-12 h-12 mx-auto text-slate-600 mb-3" />
                 <h3 className="text-lg font-bold text-slate-200">No stories match your filter</h3>
