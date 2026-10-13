@@ -102,3 +102,49 @@ export function formatFullTimestampWithRelative(isoString: string): string {
   const relative = formatRelativeTime(isoString);
   return `${dateTime} (${relative})`;
 }
+
+/**
+ * Formats current system time in Trinidad and Tobago AST timezone.
+ */
+export function formatCurrentASTDateTime(): { dateStr: string; timeStr: string } {
+  try {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-US', {
+      timeZone: TT_TIMEZONE,
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+    const timeStr = now.toLocaleTimeString('en-US', {
+      timeZone: TT_TIMEZONE,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    });
+    return {
+      dateStr,
+      timeStr: `${timeStr} AST`
+    };
+  } catch {
+    return { dateStr: '', timeStr: 'AST' };
+  }
+}
+
+/**
+ * Returns current timestamp formatted in AST.
+ */
+export function getCurrentASTTime(): string {
+  try {
+    const now = new Date();
+    return now.toLocaleTimeString('en-US', {
+      timeZone: TT_TIMEZONE,
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    }) + ' AST';
+  } catch {
+    return 'AST';
+  }
+}

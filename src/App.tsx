@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import type { Post, Category, SortOption, TimeFilterOption, SourceId, ActiveView, UserProfile, TriniReactionType } from './types';
 import { INITIAL_POSTS } from './data/mockPosts';
-import { INGESTED_POSTS } from './data/ingestedPosts';
 import { SOURCES } from './data/sources';
 import { Storage } from './services/storage';
 import { fetchLiveTTFeeds, calculateTrendingVelocity, isSportsPost } from './services/scraperEngine';
@@ -52,7 +51,7 @@ const AuthModal = React.lazy(() =>
 );
 
 import { FeedSkeletonLoader } from './components/FeedSkeletonLoader';
-import { formatPostTimeOnly } from './utils/dateUtils';
+import { formatPostTimeOnly, formatRelativeTime } from './utils/dateUtils';
 import type { Region } from './types';
 import clsx from 'clsx';
 
@@ -66,7 +65,8 @@ import {
   CheckCircle,
   ArrowUp,
   WifiOff,
-  MapPin
+  MapPin,
+  RefreshCw
 } from 'lucide-react';
 import { mergePosts } from './services/feedMerge';
 
@@ -88,7 +88,7 @@ export const App: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>(() => {
     const custom = Storage.getCustomPosts();
     const cached = Storage.getCachedFeed();
-    const initialCandidates = [...custom, ...INGESTED_POSTS, ...cached];
+    const initialCandidates = [...custom, ...cached];
     const initialList = mergePosts(
       [],
       initialCandidates.length > 0 ? initialCandidates : INITIAL_POSTS
@@ -97,6 +97,14 @@ export const App: React.FC = () => {
     return initialList;
   });
   const [pendingPosts, setPendingPosts] = useState<Post[]>([]);
+  const isInitialMountRef = useRef<boolean>(true);
+  const [feedMeta, setFeedMeta] = useState<{
+    generatedAt?: string;
+    sourceHealth?: Record<string, { ok: boolean; count: number; error?: string }>;
+  } | null>(null);
+  const [streamVisibleCount, setStreamVisibleCount] = useState<number>(40);
+  const [pullProgress, setPullProgress] = useState<number>(0);
+  const [swUpdateAvailable, setSwUpdateAvailable] = useState<boolean>(false);
   const [category, setCategory] = useState<Category>(() => {
     try {
       const saved = localStorage.getItem('trending_tt_selected_category');
@@ -130,6 +138,25 @@ export const App: React.FC = () => {
   const [isOnline, setIsOnline] = useState<boolean>(() => typeof navigator !== 'undefined' ? navigator.onLine : true);
   const [lastSyncTime, setLastSyncTime] = useState<string>(() => new Date().toISOString());
   const [filterClock] = useState<number>(() => Date.now());
+
+  // Reset stream window when filters change
+  const filterKey = `${category}|${searchQuery}|${timeFilter}|${selectedSources.join(',')}|${selectedRegion}|${showBookmarksOnly}`;
+  const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
+  if (filterKey !== prevFilterKey) {
+    setPrevFilterKey(filterKey);
+    setStreamVisibleCount(40);
+  }
+
+  // Feed status text with AST freshness and sources OK ratio
+  const feedStatusText = useMemo(() => {
+    if (feedMeta?.sourceHealth) {
+      const okCount = Object.values(feedMeta.sourceHealth).filter((s) => s.ok).length;
+      const totalCount = Object.keys(feedMeta.sourceHealth).length;
+      const updatedAgo = feedMeta.generatedAt ? formatRelativeTime(feedMeta.generatedAt) : '';
+      return updatedAgo ? `Feed updated ${updatedAgo} · Sources: ${okCount}/${totalCount} OK` : `Sources: ${okCount}/${totalCount} OK`;
+    }
+    return '';
+  }, [feedMeta]);
 
   // Save filter preferences to localStorage
   useEffect(() => {
@@ -188,21 +215,41 @@ export const App: React.FC = () => {
   const [feedLayout, setFeedLayout] = useState<'sections' | 'stream'>('sections');
   const [zoomMedia, setZoomMedia] = useState<ZoomMedia | null>(null);
 
-  // Touch swipe navigation between views (Feed <-> Radar <-> Polls)
-  const touchStartRef = React.useRef<{ x: number; y: number } | null>(null);
+  // Touch swipe navigation between views (Feed <-> Radar <-> Polls) & Pull-to-refresh
+  const touchStartRef = useRef<{ x: number; y: number; scrollY: number } | null>(null);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartRef.current = {
       x: e.touches[0].clientX,
       y: e.touches[0].clientY,
+      scrollY: typeof window !== 'undefined' ? (window.scrollY || document.documentElement.scrollTop || 0) : 0,
     };
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+    const deltaY = e.touches[0].clientY - touchStartRef.current.y;
+    const deltaX = e.touches[0].clientX - touchStartRef.current.x;
+
+    // Pull-to-refresh visual progress when user drags down at top of page
+    if (activeView === 'feed' && touchStartRef.current.scrollY === 0 && deltaY > 0 && Math.abs(deltaY) > Math.abs(deltaX)) {
+      setPullProgress(Math.min(deltaY * 0.4, 75));
+    }
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (!touchStartRef.current) return;
     const deltaX = e.changedTouches[0].clientX - touchStartRef.current.x;
     const deltaY = e.changedTouches[0].clientY - touchStartRef.current.y;
+    const startScrollY = touchStartRef.current.scrollY;
     touchStartRef.current = null;
+    setPullProgress(0);
+
+    // Pull-to-refresh: triggered when pulling down >= 65px at top of feed
+    if (activeView === 'feed' && startScrollY === 0 && deltaY >= 65 && Math.abs(deltaY) > Math.abs(deltaX) * 1.5) {
+      handleTriggerScrape(false);
+      return;
+    }
 
     // Minimum swipe threshold and enforce horizontal bias (to not trigger during vertical scrolling)
     if (Math.abs(deltaX) > 75 && Math.abs(deltaX) > Math.abs(deltaY) * 1.75) {
@@ -258,19 +305,25 @@ export const App: React.FC = () => {
         setLastScrapedTime(liveRes.value.timestamp);
       }
 
-      if (socialRes.status === 'fulfilled' && socialRes.value.posts.length > 0) {
-        freshPosts.push(...socialRes.value.posts);
-        socialCount = socialRes.value.posts.length;
+      if (socialRes.status === 'fulfilled') {
+        if (socialRes.value.posts.length > 0) {
+          freshPosts.push(...socialRes.value.posts);
+          socialCount = socialRes.value.posts.length;
+        }
+        if (socialRes.value.meta) {
+          setFeedMeta(socialRes.value.meta);
+        }
       }
 
       if (freshPosts.length > 0) {
-        if (silent && posts.length > 0) {
+        if (silent && !isInitialMountRef.current && posts.length > 0) {
           const currentIds = new Set(posts.map((p) => p.id));
           const brandNew = freshPosts.filter((p) => !currentIds.has(p.id));
           if (brandNew.length > 0) {
             setPendingPosts(brandNew);
           }
         } else {
+          isInitialMountRef.current = false;
           setPosts((prev) => {
             const merged = mergePosts(prev, freshPosts);
             Storage.saveCachedFeed(merged);
@@ -331,6 +384,24 @@ export const App: React.FC = () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [handleTriggerScrape]);
+
+  // Listen for Service Worker updates to notify installed PWAs
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then((reg) => {
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                setSwUpdateAvailable(true);
+              }
+            });
+          }
+        });
+      });
+    }
+  }, []);
 
   // Upvote Handler
   const handleToggleUpvote = (postId: string) => {
@@ -581,6 +652,19 @@ export const App: React.FC = () => {
         canInstall={Boolean(deferredPrompt)}
       />
 
+      {/* Pull-to-refresh visual indicator */}
+      {pullProgress > 0 && (
+        <div 
+          className="fixed top-12 left-0 right-0 z-50 flex items-center justify-center transition-opacity pointer-events-none"
+          style={{ transform: `translateY(${pullProgress}px)` }}
+        >
+          <div className="bg-slate-900 border border-slate-700 text-slate-200 px-4 py-1.5 rounded-full shadow-2xl text-xs font-bold flex items-center gap-2">
+            <RefreshCw className={clsx("w-3.5 h-3.5 text-red-500", pullProgress >= 65 && "animate-spin")} />
+            <span>{pullProgress >= 65 ? 'Release to refresh feed' : 'Pull down to refresh'}</span>
+          </div>
+        </div>
+      )}
+
       {/* Main Masthead Header */}
       <Header
         onRefresh={() => handleTriggerScrape(false)}
@@ -594,6 +678,7 @@ export const App: React.FC = () => {
         onInstallPWA={handleInstallPWA}
         canInstallPWA={Boolean(deferredPrompt)}
         lastScrapedTime={lastScrapedTime}
+        feedStatusText={feedStatusText}
         onOpenNotifications={() => setIsNotificationModalOpen(true)}
         activeView={activeView}
         onSelectView={setActiveView}
@@ -652,9 +737,10 @@ export const App: React.FC = () => {
       )}
 
 
-      {/* Main Content Area with Touch Swipe Between Views */}
+      {/* Main Content Area with Touch Swipe Between Views & Pull-to-refresh */}
       <main 
         onTouchStart={handleTouchStart} 
+        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd} 
         className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 flex-1 w-full min-w-0 pb-24 md:pb-6"
       >
@@ -664,6 +750,7 @@ export const App: React.FC = () => {
             <TrafficWeatherRadar
               onShowToast={showToast}
               onOpenNotifications={() => setIsNotificationModalOpen(true)}
+              initialRegion={selectedRegion}
             />
           </React.Suspense>
         )}
@@ -674,6 +761,7 @@ export const App: React.FC = () => {
             <UtilitiesDashboard
               onShowToast={showToast}
               onOpenNotifications={() => setIsNotificationModalOpen(true)}
+              initialRegion={selectedRegion}
             />
           </React.Suspense>
         )}
@@ -810,25 +898,38 @@ export const App: React.FC = () => {
                 onSelectCategory={setCategory}
               />
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {sortedPosts.map((post) => (
-                  <PostCard
-                    key={post.id}
-                    post={post}
-                    isUpvoted={upvotedIds.includes(post.id)}
-                    isBookmarked={bookmarkedIds.includes(post.id)}
-                    hasMackoVoted={mackoVotedIds.includes(post.id)}
-                    userReaction={userReactions[post.id] as any}
-                    onToggleUpvote={handleToggleUpvote}
-                    onToggleBookmark={handleToggleBookmark}
-                    onBoostMacko={handleBoostMacko}
-                    onSelectReaction={handleSelectReaction}
-                    onOpenComments={setCommentPost}
-                    onShare={setSharePost}
-                    onWhatsAppShare={handleWhatsAppShare}
-                    onMediaClick={setZoomMedia}
-                  />
-                ))}
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {sortedPosts.slice(0, streamVisibleCount).map((post) => (
+                    <PostCard
+                      key={post.id}
+                      post={post}
+                      isUpvoted={upvotedIds.includes(post.id)}
+                      isBookmarked={bookmarkedIds.includes(post.id)}
+                      hasMackoVoted={mackoVotedIds.includes(post.id)}
+                      userReaction={userReactions[post.id] as any}
+                      onToggleUpvote={handleToggleUpvote}
+                      onToggleBookmark={handleToggleBookmark}
+                      onBoostMacko={handleBoostMacko}
+                      onSelectReaction={handleSelectReaction}
+                      onOpenComments={setCommentPost}
+                      onShare={setSharePost}
+                      onWhatsAppShare={handleWhatsAppShare}
+                      onMediaClick={setZoomMedia}
+                    />
+                  ))}
+                </div>
+
+                {sortedPosts.length > streamVisibleCount && (
+                  <div className="text-center py-6">
+                    <button
+                      onClick={() => setStreamVisibleCount((prev) => prev + 20)}
+                      className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 rounded-xl text-xs font-bold transition-all shadow-md active:scale-95"
+                    >
+                      Load More Bulletins ({sortedPosts.length - streamVisibleCount} remaining)
+                    </button>
+                  </div>
+                )}
               </div>
             )}
 
@@ -963,6 +1064,27 @@ export const App: React.FC = () => {
         onOpenNotifications={() => setIsNotificationModalOpen(true)}
         onOpenCreatePost={() => setIsCreatePostModalOpen(true)}
       />
+      {/* PWA Update Available Toast */}
+      {swUpdateAvailable && (
+        <div className="fixed bottom-20 left-4 right-4 sm:left-auto sm:right-6 sm:w-96 z-50 bg-slate-900/95 border border-red-500/70 p-3.5 rounded-2xl shadow-2xl backdrop-blur-md flex items-center justify-between gap-3 animate-bounce">
+          <div className="text-xs min-w-0">
+            <p className="font-bold text-slate-100">Update available — reload</p>
+            <p className="text-slate-400 text-[11px] truncate">New bulletins & features ready to install.</p>
+          </div>
+          <button
+            onClick={() => {
+              if (typeof navigator !== 'undefined' && navigator.serviceWorker?.controller) {
+                navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+              }
+              window.location.reload();
+            }}
+            className="px-3.5 py-1.5 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-bold shadow-md shrink-0 transition-transform active:scale-95"
+          >
+            Reload
+          </button>
+        </div>
+      )}
+
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-16 sm:bottom-5 right-5 z-50 bg-slate-900 border border-red-500/50 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs font-semibold flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2">

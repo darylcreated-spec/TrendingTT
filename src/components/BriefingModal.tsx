@@ -4,6 +4,7 @@ import {
   BriefingEngine, 
   type IntelligenceBriefing 
 } from '../services/briefingEngine';
+import { formatPostTimeOnly } from '../utils/dateUtils';
 import { 
   X, 
   Layers, 
@@ -231,7 +232,7 @@ export const BriefingModal: React.FC<BriefingModalProps> = ({
                         {selectedBriefing.topic}
                       </span>
                       <span className="text-xs text-slate-500">
-                        Synthesized at {new Date(selectedBriefing.generatedAt).toLocaleTimeString()}
+                        Synthesized at {formatPostTimeOnly(selectedBriefing.generatedAt)}
                       </span>
                     </div>
 

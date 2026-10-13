@@ -45,6 +45,7 @@ import { DataOriginBadge } from './DataOriginBadge';
 interface TrafficWeatherRadarProps {
   onShowToast: (msg: string) => void;
   onOpenNotifications: () => void;
+  initialRegion?: 'all' | 'North' | 'Central' | 'South' | 'East' | 'Tobago';
 }
 
 type RadarTab = 'all' | 'traffic' | 'maritime' | 'weather' | 'wasa' | 'community';
@@ -71,10 +72,33 @@ const HIGHWAY_FILTER_ITEMS: CarouselTabItem<'all' | HighwayId>[] = [
 
 export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
   onShowToast,
-  onOpenNotifications
+  onOpenNotifications,
+  initialRegion
 }) => {
-  const [activeTab, setActiveTab] = useState<RadarTab>('all');
-  const [selectedHighway, setSelectedHighway] = useState<'all' | HighwayId>('all');
+  const [activeTab, setActiveTab] = useState<RadarTab>(() => initialRegion === 'Tobago' ? 'maritime' : 'all');
+  const [selectedHighway, setSelectedHighway] = useState<'all' | HighwayId>(() => {
+    if (initialRegion === 'East') return 'crh';
+    if (initialRegion === 'Central') return 'ubh';
+    if (initialRegion === 'South') return 'shh';
+    if (initialRegion === 'North') return 'lady-young';
+    return 'all';
+  });
+
+  const [prevInitialRegion, setPrevInitialRegion] = useState(initialRegion);
+  if (initialRegion !== prevInitialRegion) {
+    setPrevInitialRegion(initialRegion);
+    if (initialRegion === 'Tobago') {
+      setActiveTab('maritime');
+    } else if (initialRegion === 'East') {
+      setSelectedHighway('crh');
+    } else if (initialRegion === 'Central') {
+      setSelectedHighway('ubh');
+    } else if (initialRegion === 'South') {
+      setSelectedHighway('shh');
+    } else if (initialRegion === 'North') {
+      setSelectedHighway('lady-young');
+    }
+  }
 
   // Dynamic live traffic, weather, and river levels state initialized with fresh telemetry
   const [trafficSegments, setTrafficSegments] = useState(() => RadarService.refreshTrafficSegments(INITIAL_TRAFFIC_SEGMENTS));

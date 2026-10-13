@@ -1,4 +1,5 @@
 import type { Post } from '../types';
+import { getCurrentASTTime } from '../utils/dateUtils';
 
 export interface ScrapeResult {
   newPosts: Post[];
@@ -237,7 +238,7 @@ export async function fetchLiveTTFeeds(): Promise<ScrapeResult> {
     newPosts: [],
     errors: [],
     sourcesChecked: ['TTT Live Online', 'CNC3 Television', 'CCN TV6', 'I.A.N Network', 'T&T Newsday', 'Trinidad Express', 'Guardian Media TT', 'Trinidad TikTok', 'Facebook TT Community', 'Instagram TT'],
-    timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) + ' AST',
+    timestamp: getCurrentASTTime(),
   };
 
   // 1. Attempt live RSS fetch using CORS proxies
@@ -262,7 +263,9 @@ export async function fetchLiveTTFeeds(): Promise<ScrapeResult> {
             if (count >= 2) return;
             const title = item.querySelector('title')?.textContent || '';
             const link = item.querySelector('link')?.textContent || '';
-            const pubDate = item.querySelector('pubDate')?.textContent || new Date().toISOString();
+            const rawPubDate = item.querySelector('pubDate')?.textContent || '';
+            const parsedTime = rawPubDate ? Date.parse(rawPubDate) : NaN;
+            const pubDate = !isNaN(parsedTime) ? new Date(parsedTime).toISOString() : new Date().toISOString();
             const description = item.querySelector('description')?.textContent?.replace(/<[^>]+>/g, '').slice(0, 240) || '';
 
             if (title && link) {
@@ -284,7 +287,7 @@ export async function fetchLiveTTFeeds(): Promise<ScrapeResult> {
                 sourceName: feed.name,
                 sourceType: feed.sourceType,
                 originalUrl: link,
-                publishedAt: new Date(pubDate).toISOString(),
+                publishedAt: pubDate,
                 category: finalCategory,
                 tags: [...finalTags, feed.name, 'Trinidad & Tobago'],
                 trendingScore: classification.isBreaking ? 98 : Math.floor(Math.random() * 20) + 75,

@@ -36,6 +36,10 @@ export interface IngestionResult {
   timestamp: string;
   isOfflineFallback: boolean;
   storageSource?: 'decoupled-remote' | 'local-bundle' | 'offline-mock';
+  meta?: {
+    generatedAt?: string;
+    sourceHealth?: Record<string, { ok: boolean; count: number; error?: string }>;
+  };
 }
 
 export interface ConnectorTestResult {
@@ -605,7 +609,8 @@ export class SocialIngestionEngine {
         errors: bestPayload.errors || [],
         timestamp: bestPayload.meta?.generatedAt || new Date().toISOString(),
         isOfflineFallback: false,
-        storageSource
+        storageSource,
+        meta: bestPayload.meta
       };
     }
 

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { CarouselTabs } from './CarouselTabs';
 import type { ActiveView, UserProfile } from '../types';
+import { formatCurrentASTDateTime } from '../utils/dateUtils';
 
 interface HeaderProps {
   onRefresh: () => void;
@@ -29,6 +30,7 @@ interface HeaderProps {
   onInstallPWA: () => void;
   canInstallPWA: boolean;
   lastScrapedTime?: string;
+  feedStatusText?: string;
   onOpenNotifications: () => void;
   activeView: ActiveView;
   onSelectView: (view: ActiveView) => void;
@@ -49,6 +51,7 @@ export const Header: React.FC<HeaderProps> = ({
   onInstallPWA,
   canInstallPWA,
   lastScrapedTime,
+  feedStatusText,
   onOpenNotifications,
   activeView,
   onSelectView,
@@ -66,26 +69,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   useEffect(() => {
     const updateTime = () => {
-      const now = new Date();
-      // Trinidad and Tobago AST timezone (UTC-4)
-      const dateStr = now.toLocaleDateString('en-US', {
-        timeZone: 'America/Port_of_Spain',
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-      });
-      const timeStr = now.toLocaleTimeString('en-US', {
-        timeZone: 'America/Port_of_Spain',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true,
-      });
-      setCurrentDateTime({
-        dateStr,
-        timeStr: `${timeStr} AST`
-      });
+      setCurrentDateTime(formatCurrentASTDateTime());
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
@@ -110,11 +94,15 @@ export const Header: React.FC<HeaderProps> = ({
           <span className="text-emerald-400/90 font-medium hidden sm:inline bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">
             Auto-refresh: Every 5m
           </span>
-          {lastScrapedTime && (
+          {feedStatusText ? (
+            <span className="text-slate-300 font-medium hidden md:inline bg-slate-900/90 px-2 py-0.5 rounded border border-slate-800">
+              {feedStatusText}
+            </span>
+          ) : lastScrapedTime ? (
             <span className="text-slate-400 hidden md:inline">
               Updated: {lastScrapedTime}
             </span>
-          )}
+          ) : null}
           <span className="text-red-500 font-bold tracking-wider text-[11px] sm:text-xs">TRINIDAD & TOBAGO</span>
         </div>
       </div>

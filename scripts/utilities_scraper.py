@@ -311,17 +311,50 @@ def probe_ttec_live() -> List[Dict[str, Any]]:
     return live_items
 
 def probe_wasa_live() -> List[Dict[str, Any]]:
-    """Probes WASA website for active notices."""
+    """Probes WASA website for active notices and media releases."""
     live_items: List[Dict[str, Any]] = []
-    if not requests:
+    if not requests or not BeautifulSoup:
         return live_items
 
     try:
         url = "https://www.wasa.gov.tt/"
         resp = requests.get(url, headers=HEADERS, timeout=DEFAULT_TIMEOUT, verify=False)
         if resp.status_code == 200:
-            # If WASA homepage is accessible, note network reachability
-            pass
+            soup = BeautifulSoup(resp.content, "html.parser")
+            # Search for media release PDFs and notice links on homepage
+            links = soup.find_all("a", href=True)
+            for a in links:
+                href = a.get("href", "")
+                text = clean_text(a.get_text())
+                # Match notices or media releases
+                if "media" in href.lower() or "shutdown" in href.lower() or "disruption" in href.lower():
+                    title = text
+                    if not title and "pdf" in href.lower():
+                        # Extract clean title from PDF file name
+                        base_name = href.split("/")[-1].replace(".pdf", "")
+                        title = re.sub(r"^MR\d{4}-\d{2}-\d{2}\s*-\s*", "", base_name)
+                    if title and len(title) > 10:
+                        abs_url = urllib.parse.urljoin("https://www.wasa.gov.tt/", href)
+                        live_items.append({
+                            "id": f"wasa-live-{int(time.time())}-{len(live_items)}",
+                            "providerId": "wasa",
+                            "providerName": "WASA",
+                            "category": "water",
+                            "title": f"WASA Official Bulletin: {title}",
+                            "reason": f"Published WASA operations release: {title}.",
+                            "affectedAreas": ["National Water Supply Network", "Caroni / Navet Feeders"],
+                            "region": "Central" if "caroni" in title.lower() or "desalcott" in title.lower() else ("South" if "navet" in title.lower() else "North"),
+                            "scheduledTime": "Current Official Advisory",
+                            "estimatedRestoration": "Subject to WASA grid stabilization",
+                            "status": "scheduled" if "planned" in title.lower() else "active",
+                            "updatedAt": format_iso_ast(),
+                            "hotline": "800-4420",
+                            "officialUrl": abs_url,
+                            "bulletinNumber": f"WASA-LIVE-{len(live_items)+1}",
+                            "dataOrigin": "live"
+                        })
+                        if len(live_items) >= 2:
+                            break
     except Exception as e:
         print(f"[WASA Probe] Notice: {e}")
 
@@ -330,6 +363,7 @@ def probe_wasa_live() -> List[Dict[str, Any]]:
 def main():
     parser = argparse.ArgumentParser(description="Trending TT Utilities Scraper & Telemetry Engine")
     parser.add_argument("--output", default="public/data/utilities.json", help="Destination path for output JSON")
+    parser.add_argument("--dry-run", action="store_true", help="Perform dry run without writing to file")
     args = parser.parse_args()
 
     print("=" * 60)
@@ -375,6 +409,13 @@ def main():
         "waterSchedules": BASELINE_WATER_SCHEDULES,
         "telecomNotices": BASELINE_TELECOM_NOTICES
     }
+
+    if args.dry_run:
+        print(f"--- DRY RUN (No files modified) ---")
+        print(f"Disruptions discovered/prepared: {len(all_disruptions)} (live: {len(ttec_live + wasa_live)})")
+        print(f"Water schedules: {len(BASELINE_WATER_SCHEDULES)}")
+        print(f"Telecom notices: {len(BASELINE_TELECOM_NOTICES)}")
+        return
 
     os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
     with open(args.output, "w", encoding="utf-8") as f:

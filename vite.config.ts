@@ -8,6 +8,12 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id: string) {
+          if (id.includes('@firebase/firestore') || id.includes('firebase/firestore')) {
+            return 'vendor-firestore';
+          }
+          if (id.includes('@firebase/auth') || id.includes('firebase/auth')) {
+            return 'vendor-auth';
+          }
           if (id.includes('firebase')) {
             return 'vendor-firebase';
           }

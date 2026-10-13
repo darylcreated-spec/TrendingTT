@@ -130,7 +130,7 @@ export default async function handler(req: any, res?: any) {
 
   // Cap to 25 newest posts
   const cappedPosts = posts.slice(0, 25);
-  const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+  const modelName = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
 
   try {
     const ai = new GoogleGenAI({ apiKey });

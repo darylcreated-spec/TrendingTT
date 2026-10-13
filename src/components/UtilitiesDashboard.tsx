@@ -44,6 +44,7 @@ import { CarouselTabs, type CarouselTabItem } from './CarouselTabs';
 interface UtilitiesDashboardProps {
   onShowToast: (msg: string) => void;
   onOpenNotifications: () => void;
+  initialRegion?: 'all' | TrinidadRegion;
 }
 
 type UtilitySubTab = 'all' | 'ttec' | 'wasa' | 'schedules' | 'telecom' | 'community';
@@ -69,10 +70,18 @@ const REGION_FILTER_ITEMS: CarouselTabItem<'all' | TrinidadRegion>[] = [
 export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
   onShowToast,
   onOpenNotifications,
+  initialRegion
 }) => {
   const [activeTab, setActiveTab] = useState<UtilitySubTab>('all');
-  const [selectedRegion, setSelectedRegion] = useState<'all' | TrinidadRegion>('all');
+  const [selectedRegion, setSelectedRegion] = useState<'all' | TrinidadRegion>(() => initialRegion || 'all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [prevInitialRegion, setPrevInitialRegion] = useState(initialRegion);
+  if (initialRegion !== prevInitialRegion) {
+    setPrevInitialRegion(initialRegion);
+    if (initialRegion) {
+      setSelectedRegion(initialRegion);
+    }
+  }
 
   // Dynamic Live Utilities State (T&TEC, WASA, Telecom)
   const [disruptions, setDisruptions] = useState<UtilityDisruption[]>(() => UtilityService.refreshDisruptions(INITIAL_UTILITY_DISRUPTIONS));

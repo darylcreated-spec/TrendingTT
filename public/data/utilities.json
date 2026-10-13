@@ -1,14 +1,56 @@
 {
   "meta": {
-    "generatedAt": "2026-10-13T19:02:14.733428-04:00",
+    "generatedAt": "2026-10-13T19:41:27.320951-04:00",
     "source": "Trending.TT Utility Telemetry Engine",
     "version": "1.0",
-    "disruptionsCount": 4,
+    "disruptionsCount": 6,
     "schedulesCount": 5,
     "telecomCount": 4,
-    "dataOrigin": "sample"
+    "dataOrigin": "live"
   },
   "disruptions": [
+    {
+      "id": "wasa-live-1791934887-0",
+      "providerId": "wasa",
+      "providerName": "WASA",
+      "category": "water",
+      "title": "WASA Official Bulletin: Active Disruptions",
+      "reason": "Published WASA operations release: Active Disruptions.",
+      "affectedAreas": [
+        "National Water Supply Network",
+        "Caroni / Navet Feeders"
+      ],
+      "region": "North",
+      "scheduledTime": "Current Official Advisory",
+      "estimatedRestoration": "Subject to WASA grid stabilization",
+      "status": "active",
+      "updatedAt": "2026-10-13T19:41:27.319447-04:00",
+      "hotline": "800-4420",
+      "officialUrl": "https://www.wasa.gov.tt/WASA_Media_ActiveDisruptions.php",
+      "bulletinNumber": "WASA-LIVE-1",
+      "dataOrigin": "live"
+    },
+    {
+      "id": "wasa-live-1791934887-1",
+      "providerId": "wasa",
+      "providerName": "WASA",
+      "category": "water",
+      "title": "WASA Official Bulletin: Media Releases",
+      "reason": "Published WASA operations release: Media Releases.",
+      "affectedAreas": [
+        "National Water Supply Network",
+        "Caroni / Navet Feeders"
+      ],
+      "region": "North",
+      "scheduledTime": "Current Official Advisory",
+      "estimatedRestoration": "Subject to WASA grid stabilization",
+      "status": "active",
+      "updatedAt": "2026-10-13T19:41:27.319447-04:00",
+      "hotline": "800-4420",
+      "officialUrl": "https://www.wasa.gov.tt/WASA_Media_PublicAdvisoryNotices.html",
+      "bulletinNumber": "WASA-LIVE-2",
+      "dataOrigin": "live"
+    },
     {
       "id": "ttec-maraval-maint-01",
       "providerId": "ttec",

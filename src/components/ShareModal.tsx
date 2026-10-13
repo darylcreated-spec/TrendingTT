@@ -8,7 +8,7 @@ import {
   type CrossPostDispatchResult,
   type CrossPostProvider
 } from '../services/crossPostingService';
-import { formatPostDateTime } from '../utils/dateUtils';
+import { formatPostDateTime, formatPostTimeOnly } from '../utils/dateUtils';
 import { 
   X, 
   Copy, 
@@ -23,8 +23,109 @@ import {
   CheckCircle2,
   AlertCircle,
   Radio,
-  Globe
+  Globe,
+  ImageIcon
 } from 'lucide-react';
+
+async function generateBrandedShareCard(post: Post): Promise<Blob | null> {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 630;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+
+  // Background
+  ctx.fillStyle = '#0f172a';
+  ctx.fillRect(0, 0, 1200, 630);
+
+  // Top National Flag diagonal band
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(240, 0);
+  ctx.lineTo(0, 240);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = '#ce1126';
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(160, 0);
+  ctx.lineTo(0, 160);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = '#000000';
+  ctx.beginPath();
+  ctx.moveTo(160, 0);
+  ctx.lineTo(200, 0);
+  ctx.lineTo(0, 200);
+  ctx.lineTo(0, 160);
+  ctx.closePath();
+  ctx.fill();
+
+  // Header Branding
+  ctx.fillStyle = '#ce1126';
+  ctx.font = 'bold 36px sans-serif';
+  ctx.fillText('TRENDING.TT', 260, 65);
+
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = 'bold 20px sans-serif';
+  ctx.fillText('TRINIDAD & TOBAGO LIVE FEED', 260, 95);
+
+  // Source Badge Pill
+  ctx.fillStyle = '#1e293b';
+  ctx.beginPath();
+  ctx.roundRect(80, 150, 360, 50, 12);
+  ctx.fill();
+  ctx.strokeStyle = '#334155';
+  ctx.stroke();
+
+  ctx.fillStyle = '#f87171';
+  ctx.font = 'bold 22px sans-serif';
+  ctx.fillText(post.sourceName.toUpperCase(), 105, 183);
+
+  // Date in AST
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '18px sans-serif';
+  ctx.fillText(formatPostDateTime(post.publishedAt), 480, 183);
+
+  // Headline Title wrapped
+  ctx.fillStyle = '#f8fafc';
+  ctx.font = 'bold 44px sans-serif';
+  const words = post.title.split(' ');
+  let line = '';
+  let y = 270;
+  const maxWidth = 1040;
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + ' ';
+    const metrics = ctx.measureText(testLine);
+    if (metrics.width > maxWidth && n > 0) {
+      ctx.fillText(line, 80, y);
+      line = words[n] + ' ';
+      y += 58;
+      if (y > 450) {
+        line = line + '...';
+        break;
+      }
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line, 80, y);
+
+  // Bottom footer bar
+  ctx.fillStyle = '#020617';
+  ctx.fillRect(0, 540, 1200, 90);
+  ctx.fillStyle = '#ef4444';
+  ctx.fillRect(0, 536, 1200, 4);
+
+  ctx.fillStyle = '#cbd5e1';
+  ctx.font = '22px sans-serif';
+  ctx.fillText('Verified Trinidad & Tobago News Aggregator • trending.tt', 80, 592);
+
+  return new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+}
 
 interface ShareModalProps {
   post: Post | null;
@@ -49,6 +150,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ post, isOpen, onClose })
   const [configSaved, setConfigSaved] = useState(false);
   const [testingEndpoint, setTestingEndpoint] = useState(false);
   const [testStatus, setTestStatus] = useState<{ success?: boolean; message?: string } | null>(null);
+  const [generatingCard, setGeneratingCard] = useState(false);
 
   // Synchronize initial message template when post changes (React recommended render-time update)
   if (post && post.id !== prevPostId) {
@@ -122,6 +224,38 @@ export const ShareModal: React.FC<ShareModalProps> = ({ post, isOpen, onClose })
       }
     } else {
       handleCopy();
+    }
+  };
+
+  const handleShareBrandedCard = async () => {
+    if (!post) return;
+    setGeneratingCard(true);
+    try {
+      const blob = await generateBrandedShareCard(post);
+      if (!blob) {
+        handleWhatsApp();
+        return;
+      }
+      const file = new File([blob], `trending-tt-${post.id}.png`, { type: 'image/png' });
+      if (typeof navigator !== 'undefined' && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: post.title,
+          text: `*${post.title}*\nRead on Trending.TT:\n${shareUrl}`,
+        });
+      } else {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `trending-tt-${post.id}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+        handleWhatsApp();
+      }
+    } catch {
+      handleWhatsApp();
+    } finally {
+      setGeneratingCard(false);
     }
   };
 
@@ -327,6 +461,18 @@ export const ShareModal: React.FC<ShareModalProps> = ({ post, isOpen, onClose })
                 >
                   <Smartphone className="w-4 h-4 text-red-400" />
                   <span>Device Share</span>
+                </button>
+              </div>
+
+              {/* Branded Flag + Headline Share Card for WhatsApp */}
+              <div className="mb-4">
+                <button
+                  onClick={handleShareBrandedCard}
+                  disabled={generatingCard}
+                  className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold text-xs shadow-md border border-red-400/30 transition-all active:scale-95 disabled:opacity-50"
+                >
+                  <ImageIcon className="w-4 h-4" />
+                  <span>{generatingCard ? 'Generating Branded Card...' : 'Generate & Share Branded Card to WhatsApp'}</span>
                 </button>
               </div>
 
@@ -655,7 +801,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ post, isOpen, onClose })
                       </span>
                     </div>
                     <span className="text-[10px] text-slate-400 font-mono">
-                      {new Date(dispatchResult.dispatchedAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })} AST
+                      {formatPostTimeOnly(dispatchResult.dispatchedAt)}
                     </span>
                   </div>
 

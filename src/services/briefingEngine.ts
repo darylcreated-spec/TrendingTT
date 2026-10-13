@@ -1,5 +1,6 @@
 import type { Post } from '../types';
 import { fetchServerBriefing } from './geminiService';
+import { getCurrentASTTime } from '../utils/dateUtils';
 
 export interface IntelligenceBriefing {
   id: string;
@@ -124,7 +125,7 @@ export class BriefingEngine {
       return `${p.sourceName}: ${p.title.replace(/^(BREAKING|CNC3|TV6|TTT|Newsday|Express):?\s*/i, '').trim()}`;
     });
 
-    const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) + ' AST';
+    const timestamp = getCurrentASTTime();
 
     let title = `${topic}: Lead story from ${mainPost.sourceName}`;
     let summary = mainPost.summary;

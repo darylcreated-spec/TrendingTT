@@ -4,6 +4,8 @@
  * Features 60-Second Commuter Audio Byte for continuous headlines + CRH/UBH/PBR traffic alerts.
  */
 
+import { getCurrentASTTime } from '../utils/dateUtils.ts';
+
 type ListenerCallback = (state: AudioPlayerState) => void;
 
 export interface AudioPlayerState {
@@ -112,13 +114,13 @@ class AudioNarratorService {
       `Drive safe, stay alert on the roads, and keep tuned to Trending TT for live traffic and weather radar updates.`;
 
     // WhatsApp friendly text format with markdown
-    const timestampStr = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    const timestampStr = getCurrentASTTime();
     const headlinesList = topPosts.length > 0
       ? topPosts.map((p, i) => `${i + 1}. *${p.title}* (${p.sourceName || 'T&T'})\n`).join('')
       : '• All clear across Trinidad & Tobago today.\n';
 
     const whatsAppText = 
-      `📻 *TRENDING.TT - 60-SECOND COMMUTER AUDIO SUMMARY* (${timestampStr} AST)\n\n` +
+      `📻 *TRENDING.TT - 60-SECOND COMMUTER AUDIO SUMMARY* (${timestampStr})\n\n` +
       `📰 *TOP HEADLINES:*\n` +
       headlinesList +
       `\n🚗 *HIGHWAY CONGESTION RADAR:*\n` +
