@@ -84,7 +84,19 @@ export const Storage = {
   getCustomPosts(): Post[] {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.CUSTOM_POSTS);
-      return data ? JSON.parse(data) : [];
+      if (!data) return [];
+      const posts: Post[] = JSON.parse(data);
+      if (!Array.isArray(posts)) return [];
+      // Retain breaking posts or posts from the past 48 hours to prevent stale ghost posts
+      const cutoffMs = Date.now() - 48 * 60 * 60 * 1000;
+      const valid = posts.filter(p => {
+        const time = new Date(p.publishedAt).getTime();
+        return !isNaN(time) && (time > cutoffMs || p.isBreaking);
+      });
+      if (valid.length !== posts.length) {
+        localStorage.setItem(STORAGE_KEYS.CUSTOM_POSTS, JSON.stringify(valid));
+      }
+      return valid;
     } catch {
       return [];
     }

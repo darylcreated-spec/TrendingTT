@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   AlertTriangle, 
   CloudRain, 
@@ -73,10 +73,10 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
   const [activeTab, setActiveTab] = useState<RadarTab>('all');
   const [selectedHighway, setSelectedHighway] = useState<'all' | HighwayId>('all');
 
-  // Dynamic live traffic, weather, and river levels state
-  const [trafficSegments, setTrafficSegments] = useState(INITIAL_TRAFFIC_SEGMENTS);
-  const [ttmsAdvisory, setTtmsAdvisory] = useState(INITIAL_TTMS_ADVISORY);
-  const [riverLevels, setRiverLevels] = useState(INITIAL_RIVER_LEVELS);
+  // Dynamic live traffic, weather, and river levels state initialized with fresh telemetry
+  const [trafficSegments, setTrafficSegments] = useState(() => RadarService.refreshTrafficSegments(INITIAL_TRAFFIC_SEGMENTS));
+  const [ttmsAdvisory, setTtmsAdvisory] = useState(() => RadarService.refreshWeatherAdvisory(INITIAL_TTMS_ADVISORY));
+  const [riverLevels, setRiverLevels] = useState(() => RadarService.refreshRiverLevels(INITIAL_RIVER_LEVELS));
   const [lastRadarSync, setLastRadarSync] = useState(() => formatPostTimeOnly(new Date().toISOString()));
   const [isRefreshingRadar, setIsRefreshingRadar] = useState(false);
 
@@ -93,6 +93,23 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
       onShowToast(`Radar feeds updated with live AST telemetry (${refreshed.timestamp})`);
     }, 400);
   };
+
+  // Auto-refresh telemetry on mount and periodically every 60s
+  useEffect(() => {
+    const refreshed = RadarService.refreshAllRadarData(INITIAL_TRAFFIC_SEGMENTS, INITIAL_TTMS_ADVISORY, INITIAL_RIVER_LEVELS);
+    setTrafficSegments(refreshed.trafficSegments);
+    setTtmsAdvisory(refreshed.ttmsAdvisory);
+    setRiverLevels(refreshed.riverLevels);
+    setLastRadarSync(refreshed.timestamp);
+
+    const intervalId = setInterval(() => {
+      setTrafficSegments(prev => RadarService.refreshTrafficSegments(prev));
+      setRiverLevels(prev => RadarService.refreshRiverLevels(prev));
+      setLastRadarSync(formatPostTimeOnly(new Date().toISOString()));
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   // Community reports state & persistence
   const [communityReports, setCommunityReports] = useState<CommunityReport[]>(() => Storage.getCommunityReports());

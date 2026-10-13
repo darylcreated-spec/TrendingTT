@@ -57,6 +57,7 @@
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   overscroll-behavior-x: contain;
+  overscroll-behavior-y: contain;
 }
 
 /* Hide scrollbars while preserving touch scrolling */

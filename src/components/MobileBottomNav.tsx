@@ -23,7 +23,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   return (
     <nav
       aria-label="Mobile Navigation"
-      className="md:hidden fixed bottom-0 left-0 right-0 w-full max-w-full z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/90 pb-[max(env(safe-area-inset-bottom),8px)] shadow-[0_-4px_24px_rgba(0,0,0,0.6)] transition-all"
+      className="md:hidden fixed bottom-0 left-0 right-0 w-full max-w-full z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/90 pb-safe pb-[max(env(safe-area-inset-bottom),8px)] shadow-[0_-4px_24px_rgba(0,0,0,0.6)] transition-all"
     >
       <div className={`grid ${onOpenCreatePost ? 'grid-cols-6' : 'grid-cols-5'} h-16 w-full max-w-md mx-auto items-center px-1`}>
         {/* News Feed */}

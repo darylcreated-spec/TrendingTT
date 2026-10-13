@@ -217,11 +217,11 @@ export async function fetchLiveTTFeeds(): Promise<ScrapeResult> {
   // 1. Attempt live RSS fetch using CORS proxies
   for (const feed of TT_FEEDS) {
     try {
-      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`;
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}&_t=${Date.now()}`;
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 2500);
 
-      const res = await fetch(proxyUrl, { signal: controller.signal });
+      const res = await fetch(proxyUrl, { cache: 'no-store', signal: controller.signal });
       clearTimeout(timeoutId);
 
       if (res.ok) {

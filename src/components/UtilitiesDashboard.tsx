@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Zap, 
   Droplet, 
@@ -16,7 +16,8 @@ import {
   X, 
   Send,
   MessageCircle,
-  Radio
+  Radio,
+  RefreshCw
 } from 'lucide-react';
 import type { 
   UtilityProviderId, 
@@ -24,7 +25,9 @@ import type {
   DisruptionStatus,
   UtilityReport,
   UtilityCategory,
-  WaterSchedule
+  WaterSchedule,
+  UtilityDisruption,
+  TelecomStatus
 } from '../types';
 import { 
   UTILITY_PROVIDERS_META, 
@@ -33,6 +36,8 @@ import {
   INITIAL_TELECOM_NOTICES 
 } from '../data/utilitiesData';
 import { Storage } from '../services/storage';
+import { UtilityService } from '../services/utilityService';
+import { formatPostTimeOnly } from '../utils/dateUtils';
 import { CarouselTabs, type CarouselTabItem } from './CarouselTabs';
 
 interface UtilitiesDashboardProps {
@@ -68,6 +73,44 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
   const [selectedRegion, setSelectedRegion] = useState<'all' | TrinidadRegion>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Dynamic Live Utilities State (T&TEC, WASA, Telecom)
+  const [disruptions, setDisruptions] = useState<UtilityDisruption[]>(() => UtilityService.refreshDisruptions(INITIAL_UTILITY_DISRUPTIONS));
+  const [waterSchedules, setWaterSchedules] = useState<WaterSchedule[]>(() => UtilityService.refreshWaterSchedules(INITIAL_WATER_SCHEDULES));
+  const [telecomNotices, setTelecomNotices] = useState<TelecomStatus[]>(() => UtilityService.refreshTelecomNotices(INITIAL_TELECOM_NOTICES));
+  const [lastSyncTime, setLastSyncTime] = useState(() => formatPostTimeOnly(new Date().toISOString()));
+  const [isRefreshingUtilities, setIsRefreshingUtilities] = useState(false);
+
+  // Manual & automatic live refresh
+  const handleRefreshUtilities = () => {
+    setIsRefreshingUtilities(true);
+    setTimeout(() => {
+      const refreshed = UtilityService.refreshAllUtilityData(disruptions, waterSchedules, telecomNotices);
+      setDisruptions(refreshed.disruptions);
+      setWaterSchedules(refreshed.waterSchedules);
+      setTelecomNotices(refreshed.telecomNotices);
+      setLastSyncTime(refreshed.timestamp);
+      setIsRefreshingUtilities(false);
+      onShowToast(`Utilities radar updated with live AST telemetry (${refreshed.timestamp})`);
+    }, 400);
+  };
+
+  // Auto-refresh telemetry on mount and periodically every 60s
+  useEffect(() => {
+    const refreshed = UtilityService.refreshAllUtilityData(INITIAL_UTILITY_DISRUPTIONS, INITIAL_WATER_SCHEDULES, INITIAL_TELECOM_NOTICES);
+    setDisruptions(refreshed.disruptions);
+    setWaterSchedules(refreshed.waterSchedules);
+    setTelecomNotices(refreshed.telecomNotices);
+    setLastSyncTime(refreshed.timestamp);
+
+    const intervalId = setInterval(() => {
+      setDisruptions(prev => UtilityService.refreshDisruptions(prev));
+      setTelecomNotices(prev => UtilityService.refreshTelecomNotices(prev));
+      setLastSyncTime(formatPostTimeOnly(new Date().toISOString()));
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   // Community reports state
   const [communityReports, setCommunityReports] = useState<UtilityReport[]>(() => Storage.getUtilityReports());
   const [confirmedIds, setConfirmedIds] = useState<string[]>(() => Storage.getConfirmedUtilityReportIds());
@@ -81,7 +124,7 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
 
   // Filtered Disruptions (T&TEC & WASA)
   const filteredDisruptions = useMemo(() => {
-    return INITIAL_UTILITY_DISRUPTIONS.filter((item) => {
+    return disruptions.filter((item) => {
       // Tab filter
       if (activeTab === 'ttec' && item.providerId !== 'ttec') return false;
       if (activeTab === 'wasa' && item.providerId !== 'wasa') return false;
@@ -95,17 +138,17 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
         const q = searchQuery.toLowerCase();
         const matchesTitle = item.title.toLowerCase().includes(q);
         const matchesReason = item.reason.toLowerCase().includes(q);
-        const matchesArea = item.affectedAreas.some((a) => a.toLowerCase().includes(q));
+        const matchesArea = item.affectedAreas.some((a: string) => a.toLowerCase().includes(q));
         if (!matchesTitle && !matchesReason && !matchesArea) return false;
       }
 
       return true;
     });
-  }, [activeTab, selectedRegion, searchQuery]);
+  }, [disruptions, activeTab, selectedRegion, searchQuery]);
 
   // Filtered Water Schedules
   const filteredSchedules = useMemo(() => {
-    return INITIAL_WATER_SCHEDULES.filter((sched) => {
+    return waterSchedules.filter((sched) => {
       if (selectedRegion !== 'all' && sched.region !== selectedRegion) return false;
 
       if (searchQuery.trim()) {
@@ -118,11 +161,11 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
 
       return true;
     });
-  }, [selectedRegion, searchQuery]);
+  }, [waterSchedules, selectedRegion, searchQuery]);
 
   // Filtered Telecom & Cable TV Notices
   const filteredTelecom = useMemo(() => {
-    return INITIAL_TELECOM_NOTICES.filter((item) => {
+    return telecomNotices.filter((item) => {
       if (selectedRegion !== 'all' && item.region !== selectedRegion && item.region !== 'Nationwide') {
         return false;
       }
@@ -131,13 +174,13 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
         const q = searchQuery.toLowerCase();
         const matchesHeadline = item.headline.toLowerCase().includes(q);
         const matchesProvider = item.providerName.toLowerCase().includes(q);
-        const matchesArea = item.affectedAreas.some((a) => a.toLowerCase().includes(q));
+        const matchesArea = item.affectedAreas.some((a: string) => a.toLowerCase().includes(q));
         if (!matchesHeadline && !matchesProvider && !matchesArea) return false;
       }
 
       return true;
     });
-  }, [selectedRegion, searchQuery]);
+  }, [telecomNotices, selectedRegion, searchQuery]);
 
   // Filtered Community Reports
   const filteredReports = useMemo(() => {
@@ -257,6 +300,16 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
 
           <div className="flex items-center gap-2 flex-wrap">
             <button
+              onClick={handleRefreshUtilities}
+              disabled={isRefreshingUtilities}
+              className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition-colors active:scale-95"
+              title="Refresh live telemetry for T&TEC, WASA, and telecom grids"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-amber-400 ${isRefreshingUtilities ? 'animate-spin' : ''}`} />
+              <span>{isRefreshingUtilities ? 'Syncing...' : lastSyncTime}</span>
+            </button>
+
+            <button
               onClick={() => setIsReportModalOpen(true)}
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold shadow-md shadow-red-950 active:scale-95 transition-all"
             >
@@ -283,7 +336,7 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
               <Zap className="w-3.5 h-3.5 text-amber-400" />
             </div>
             <div className="text-base font-black text-amber-400 mt-1">
-              {INITIAL_UTILITY_DISRUPTIONS.filter((d) => d.providerId === 'ttec').length} Maintenance Bulletins
+              {disruptions.filter((d) => d.providerId === 'ttec').length} Maintenance Bulletins
             </div>
             <div className="text-[11px] text-slate-400 truncate mt-0.5">
               Hotline: 800-TTEC (8832)
@@ -493,7 +546,7 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
                           Affected Areas & Streets:
                         </span>
                         <div className="flex flex-wrap gap-1">
-                          {item.affectedAreas.map((area, idx) => (
+                          {item.affectedAreas.map((area: string, idx: number) => (
                             <span
                               key={idx}
                               className="text-[11px] text-slate-300 bg-slate-950 px-2 py-0.5 rounded border border-slate-800"
@@ -632,7 +685,7 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredTelecom.map((item) => {
-              const meta = UTILITY_PROVIDERS_META[item.providerId];
+              const meta = UTILITY_PROVIDERS_META[item.providerId as UtilityProviderId];
               return (
                 <div
                   key={item.id}
@@ -668,7 +721,7 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
                         Affected Environs:
                       </span>
                       <div className="flex flex-wrap gap-1">
-                        {item.affectedAreas.map((area, idx) => (
+                        {item.affectedAreas.map((area: string, idx: number) => (
                           <span
                             key={idx}
                             className="text-[11px] text-slate-300 bg-slate-950 px-2 py-0.5 rounded border border-slate-800"

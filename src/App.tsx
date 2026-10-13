@@ -178,10 +178,25 @@ export const App: React.FC = () => {
 
       if (freshPosts.length > 0) {
         setPosts((prev) => {
-          const existingIds = new Set(prev.map((p) => p.id));
-          const existingTitles = new Set(prev.map((p) => p.title.toLowerCase().trim()));
-          const uniqueNew = freshPosts.filter((p) => !existingIds.has(p.id) && !existingTitles.has(p.title.toLowerCase().trim()));
-          const combined = [...uniqueNew, ...prev];
+          const idMap = new Map<string, Post>();
+          const titleMap = new Map<string, string>();
+
+          // 1. Fresh incoming posts take top billing and update any older versions
+          for (const post of freshPosts) {
+            idMap.set(post.id, post);
+            titleMap.set(post.title.toLowerCase().trim(), post.id);
+          }
+
+          // 2. Retain existing posts only if not superseded
+          for (const post of prev) {
+            const normalizedTitle = post.title.toLowerCase().trim();
+            if (!idMap.has(post.id) && !titleMap.has(normalizedTitle)) {
+              idMap.set(post.id, post);
+              titleMap.set(normalizedTitle, post.id);
+            }
+          }
+
+          const combined = Array.from(idMap.values());
           return combined.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
         });
 

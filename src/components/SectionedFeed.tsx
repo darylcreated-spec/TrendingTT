@@ -76,8 +76,7 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
               <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shrink-0" />
               <h2 id="section-breaking" className="text-sm sm:text-base md:text-lg font-black tracking-tight text-slate-100 uppercase flex items-center gap-1.5">
                 <Zap className="w-4 h-4 text-red-500 shrink-0" />
-                <span>Breaking News</span>
-                <span className="hidden sm:inline">& Critical Bulletins</span>
+                <span>Breaking News & Critical Bulletins</span>
               </h2>
               <span className="text-[11px] sm:text-xs font-semibold px-2 py-0.5 rounded-full bg-red-950 text-red-400 border border-red-800 shrink-0">
                 {breakingPosts.length} Live
