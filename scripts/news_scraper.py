@@ -118,6 +118,22 @@ def generate_post_id(prefix: str, identifier: str) -> str:
         clean_id = f"{clean_id[:30]}-{hash_suffix}"
     return f"py-{prefix}-{clean_id}"
 
+SPORTS_KEYWORDS_PY = [
+    "sport", "sports", "sporting", "spots", "cricket", "cpl", "t20", "red force", "brian lara",
+    "queen's park oval", "queens park oval", "tarouba", "pooran", "pollard", "narine",
+    "bravo", "windies", "west indies", "cwi", "super50", "soca warriors", "football",
+    "soccer", "ttfa", "concacaf", "fifa", "hasely crawford", "pro league", "premier league",
+    "ttpfl", "intercol", "secondary schools", "secondary schools sports", "ssfl", "olympic",
+    "olympics", "ttoc", "canoc", "track and field", "athletics", "athlete", "athletes",
+    "relay", "keshorn", "walcott", "carifta", "marathon", "swimming", "cycling", "netball",
+    "basketball", "wnba", "nba", "volleyball", "rugby", "boxing", "badminton", "table tennis",
+    "brian lewis", "martial arts"
+]
+
+def is_sports_text(text: str) -> bool:
+    t = text.lower()
+    return any(kw in t for kw in SPORTS_KEYWORDS_PY)
+
 # ============================================================================
 # SOURCE 1: T&T Newsday (newsday.co.tt)
 # ============================================================================
@@ -154,7 +170,7 @@ def scrape_newsday() -> List[Dict[str, Any]]:
                 if enclosure and enclosure.get("url"):
                     media_url = enclosure.get("url")
 
-                cat = "news"
+                cat = "politics"
                 tags = ["T&T Newsday", "National News", "Trinidad"]
                 cat_elem = item.find("category")
                 if cat_elem and cat_elem.get_text():
@@ -167,9 +183,15 @@ def scrape_newsday() -> List[Dict[str, Any]]:
                         tags.append("Business TT")
                     elif "sport" in cat_name:
                         cat = "sports"
-                        tags.append("Sports TT")
+                        tags.append("Trinbago Sports")
                     elif "tobago" in cat_name:
+                        cat = "politics"
                         tags.append("Tobago")
+
+                if is_sports_text(f"{title} {clean_desc}") or "/sports/" in link or "/sport/" in link:
+                    cat = "sports"
+                    if "Trinbago Sports" not in tags:
+                        tags.append("Trinbago Sports")
 
                 posts.append({
                     "id": generate_post_id("newsday", link.split("/")[-2] if "/" in link else title),
@@ -240,7 +262,21 @@ def scrape_express() -> List[Dict[str, Any]]:
                 if media_url and not media_url.startswith("http"):
                     media_url = urllib.parse.urljoin("https://trinidadexpress.com", media_url)
 
-                cat = "crime" if any(w in title.lower() for w in ["court", "police", "arrest", "murder", "robbery"]) else "news"
+                cat = "broadcast"
+                tags = ["Trinidad Express", "National News"]
+                lower_text = (title + " " + lead).lower()
+                if is_sports_text(lower_text) or "/sports/" in link or "/sport/" in link:
+                    cat = "sports"
+                    tags.append("Trinbago Sports")
+                elif any(w in lower_text for w in ["court", "police", "arrest", "murder", "robbery", "shooting"]):
+                    cat = "crime"
+                    tags.append("Crime TT")
+                elif any(w in lower_text for w in ["budget", "economy", "central bank", "inflation", "business"]):
+                    cat = "business"
+                    tags.append("Business TT")
+                elif any(w in lower_text for w in ["minister", "parliament", "tha", "election", "government"]):
+                    cat = "politics"
+                    tags.append("Politics TT")
 
                 posts.append({
                     "id": generate_post_id("express", link.split("/")[-1].replace(".html", "")),
@@ -325,7 +361,21 @@ def scrape_guardian() -> List[Dict[str, Any]]:
                     media_url = "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80"
 
                 summary = f"Guardian Media lead report: {title}."
-                cat = "business" if "/business/" in link else ("sports" if "/sports/" in link else "news")
+                tags = ["Trinidad Guardian", "Lead Story", "National Report"]
+                lower_text = (title + " " + summary).lower()
+                if "/sports/" in link or "/sport/" in link or is_sports_text(lower_text):
+                    cat = "sports"
+                    tags = ["Trinidad Guardian", "Trinbago Sports", "Sports TT"]
+                elif "/business/" in link or any(w in lower_text for w in ["business", "economy", "budget", "bank", "gas", "energy"]):
+                    cat = "business"
+                elif any(w in lower_text for w in ["crime", "police", "court", "murder"]):
+                    cat = "crime"
+                elif any(w in lower_text for w in ["minister", "parliament", "tha", "election"]):
+                    cat = "politics"
+                elif any(w in lower_text for w in ["carnival", "calypso", "culture", "pan", "comedian"]):
+                    cat = "culture"
+                else:
+                    cat = "broadcast"
 
                 posts.append({
                     "id": generate_post_id("guardian", link.split("/")[-1]),
@@ -339,7 +389,7 @@ def scrape_guardian() -> List[Dict[str, Any]]:
                     "originalUrl": link,
                     "publishedAt": format_iso_ast(),
                     "category": cat,
-                    "tags": ["Trinidad Guardian", "Lead Story", "National Report"],
+                    "tags": tags,
                     "trendingScore": 91,
                     "upvotes": 68,
                     "commentsCount": 16,
@@ -564,7 +614,7 @@ def generate_mock_news() -> List[Dict[str, Any]]:
             "author": "Newsday Tobago Desk",
             "originalUrl": "https://newsday.co.tt/news/local/ferry-rush-tobago",
             "publishedAt": now_iso,
-            "category": "news",
+            "category": "politics",
             "tags": ["T&T Newsday", "Tobago Ferry", "Port Authority", "Inter-Island"],
             "trendingScore": 94,
             "upvotes": 142,
@@ -587,7 +637,7 @@ def generate_mock_news() -> List[Dict[str, Any]]:
             "author": "Express Transportation Bureau",
             "originalUrl": "https://trinidadexpress.com/news/local/macoya-interchange-expansion",
             "publishedAt": now_iso,
-            "category": "news",
+            "category": "broadcast",
             "tags": ["Trinidad Express", "CRH Traffic", "Highways", "Commute TT"],
             "trendingScore": 91,
             "upvotes": 98,

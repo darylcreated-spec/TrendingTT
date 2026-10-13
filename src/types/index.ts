@@ -60,6 +60,7 @@ export interface Post {
   mackoScore?: number; // 0-100 calculated virality score
   mackoVotes?: number; // Citizen community Macko votes
   triniReactions?: Record<TriniReactionType, number>;
+  targetId?: string;
 }
 
 export type TriniReactionType = 'macko' | 'realtalk' | 'deadwidlaugh' | 'lordwhy' | 'watchyuhback';

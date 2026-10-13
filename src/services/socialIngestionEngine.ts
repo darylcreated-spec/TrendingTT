@@ -1,5 +1,25 @@
 import type { Post, SourceId } from '../types';
 
+const SPORTS_KEYWORDS = [
+  'sport', 'sports', 'sporting', 'spots',
+  'cricket', 'cpl', 't20', 'red force', 'brian lara', 'queen\'s park oval', 'queens park oval',
+  'tarouba', 'pooran', 'nicholas pooran', 'pollard', 'kieron pollard', 'narine', 'sunil narine',
+  'bravo', 'dwayne bravo', 'darren bravo', 'windies', 'west indies', 'cwi', 'super50', 'super 50',
+  'soca warriors', 'football', 'soccer', 'ttfa', 'concacaf', 'fifa', 'hasely crawford',
+  'pro league', 'premier league', 'premier football league', 'ttpfl',
+  'intercol', 'secondary schools', 'secondary schools sports', 'ssfl',
+  'olympic', 'olympics', 'ttoc', 'canoc', 'track and field', 'athletics', 'athlete', 'athletes', 'athelte',
+  'relay', 'keshorn', 'walcott', 'carifta', 'carifta games', 'marathon',
+  'swimming', 'cycling', 'netball', 'basketball', 'wnba', 'nba', 'volleyball', 'rugby', 'boxing', 'badminton', 'table tennis', 'martial arts',
+  'brian lewis', 'atiba charles', 'jereem richards', 'jehue gordon', 'ato boldon'
+];
+
+function isSportsContent(text: string): boolean {
+  if (!text) return false;
+  const lower = text.toLowerCase();
+  return SPORTS_KEYWORDS.some((kw) => lower.includes(kw));
+}
+
 export interface IngestionConfig {
   rssBridgeBaseUrl: string;
   enableMockFallback: boolean;
@@ -360,6 +380,10 @@ export function normalizeYtDlpMetadata(raw: YtDlpRawMetadata, target: {
   const description = (raw.description || raw.title || '').trim();
   const summary = description.length > 180 ? `${description.slice(0, 177)}...` : description;
 
+  const isSports = isSportsContent(`${title} ${description} ${tags.join(' ')}`);
+  const finalCategory = isSports ? 'sports' : (target.platform === 'tiktok' ? 'culture' : 'broadcast');
+  const finalTags = isSports && !tags.includes('Trinbago Sports') ? [...tags, 'Trinbago Sports'] : tags;
+
   return {
     id: `yt-dlp-${target.platform}-${raw.id || Date.now()}`,
     title,
@@ -371,8 +395,8 @@ export function normalizeYtDlpMetadata(raw: YtDlpRawMetadata, target: {
     author: raw.uploader || raw.channel || target.sourceName,
     originalUrl: raw.webpage_url || raw.url || 'https://www.youtube.com',
     publishedAt,
-    category: target.platform === 'tiktok' ? 'culture' : 'broadcast',
-    tags,
+    category: finalCategory,
+    tags: finalTags,
     trendingScore: Math.min(99, Math.max(70, Math.floor(Math.log10(Math.max(10, viewCount)) * 18))),
     upvotes: likeCount,
     commentsCount: commentCount,
@@ -407,6 +431,9 @@ export function normalizeRssBridgeItem(item: RssBridgeRawItem, target: {
   }
 
   const isVideo = target.bridgeType === 'Instagram' || plainText.toLowerCase().includes('video');
+  const isSports = isSportsContent(`${title} ${plainText} ${target.tags.join(' ')}`);
+  const finalCategory = isSports ? 'sports' : (target.bridgeType === 'Instagram' ? 'culture' : 'broadcast');
+  const finalTags = isSports && !target.tags.includes('Trinbago Sports') ? [...target.tags, 'Trinbago Sports'] : target.tags;
 
   return {
     id: `rss-bridge-${target.bridgeType.toLowerCase()}-${item.id || Date.now()}`,
@@ -419,8 +446,8 @@ export function normalizeRssBridgeItem(item: RssBridgeRawItem, target: {
     author: item.author?.name || target.sourceName,
     originalUrl: url,
     publishedAt: new Date(publishedAt).toISOString(),
-    category: target.bridgeType === 'Instagram' ? 'sports' : 'broadcast',
-    tags: target.tags,
+    category: finalCategory,
+    tags: finalTags,
     trendingScore: 88,
     upvotes: 240,
     commentsCount: 38,
@@ -431,6 +458,50 @@ export function normalizeRssBridgeItem(item: RssBridgeRawItem, target: {
       aspectRatio: isVideo ? 'portrait' : 'landscape'
     }
   };
+}
+
+export function sanitizeIngestedPosts(rawPosts: any[]): Post[] {
+  if (!Array.isArray(rawPosts)) return [];
+  return rawPosts.map((raw) => {
+    const title = raw.title || '';
+    const summary = raw.summary || '';
+    const content = raw.content || '';
+    const originalUrl = raw.originalUrl || '';
+    const tags: string[] = Array.isArray(raw.tags) ? [...raw.tags] : [];
+    const text = `${title} ${summary} ${content} ${tags.join(' ')}`;
+
+    const isSports =
+      isSportsContent(text) ||
+      originalUrl.toLowerCase().includes('/sports/') ||
+      originalUrl.toLowerCase().includes('/sport/') ||
+      tags.some((t) => t.toLowerCase().includes('sport') || t.toLowerCase() === 'trinbago sports');
+
+    let category = raw.category;
+    if (isSports || category === 'sports') {
+      category = 'sports';
+      if (!tags.includes('Trinbago Sports')) {
+        tags.push('Trinbago Sports');
+      }
+    } else if (category === 'news' || !category) {
+      if (/crime|police|court|murder|robbery/i.test(text)) {
+        category = 'crime';
+      } else if (/economy|budget|bank|business|gas|energy/i.test(text)) {
+        category = 'business';
+      } else if (/parliament|minister|election|tha|government/i.test(text)) {
+        category = 'politics';
+      } else if (/carnival|pan|calypso|culture|doubles|foodie/i.test(text)) {
+        category = 'culture';
+      } else {
+        category = 'broadcast';
+      }
+    }
+
+    return {
+      ...raw,
+      category,
+      tags
+    } as Post;
+  });
 }
 
 export class SocialIngestionEngine {
@@ -449,51 +520,20 @@ export class SocialIngestionEngine {
   }
 
   /**
-   * Fetches ingested social & broadcast feed with cache-busting and resilient fallback
+   * Fetches ingested social & broadcast feed with cache-busting, smart recency selection, and category normalization
    */
   public async fetchIngestedFeed(): Promise<IngestionResult> {
     const errors: string[] = [];
     const sourceCounts: Partial<Record<SourceId, number>> = {};
     const cacheBuster = `?_t=${Date.now()}`;
 
-    // 1. First attempt reading decoupled remote data storage branch (with cache-busting)
-    if (this.config.decoupledDataUrl) {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 1800);
-        const res = await fetch(`${this.config.decoupledDataUrl}${cacheBuster}`, { 
-          cache: 'no-store',
-          signal: controller.signal 
-        });
-        clearTimeout(timeout);
+    let bestPayload: any = null;
+    let storageSource: 'local-bundle' | 'decoupled-remote' = 'local-bundle';
 
-        if (res.ok) {
-          const payload = await res.json();
-          if (Array.isArray(payload.posts) && payload.posts.length > 0) {
-            for (const post of payload.posts) {
-              sourceCounts[post.sourceId as SourceId] = (sourceCounts[post.sourceId as SourceId] || 0) + 1;
-            }
-
-            return {
-              posts: payload.posts,
-              totalIngested: payload.posts.length,
-              sourceCounts,
-              errors: payload.errors || [],
-              timestamp: payload.meta?.generatedAt || new Date().toISOString(),
-              isOfflineFallback: false,
-              storageSource: 'decoupled-remote'
-            };
-          }
-        }
-      } catch {
-        // Fallback directly to local bundle cache
-      }
-    }
-
-    // 2. Try reading the local backend worker cache file (public/data/ingested-posts.json)
+    // 1. Try reading the local backend worker cache file (public/data/ingested-posts.json)
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 2500);
+      const timeout = setTimeout(() => controller.abort(), 2000);
       const res = await fetch(`${this.config.cacheEndpoint}${cacheBuster}`, { 
         cache: 'no-store',
         signal: controller.signal 
@@ -503,34 +543,69 @@ export class SocialIngestionEngine {
       if (res.ok) {
         const payload = await res.json();
         if (Array.isArray(payload.posts) && payload.posts.length > 0) {
-          for (const post of payload.posts) {
-            sourceCounts[post.sourceId as SourceId] = (sourceCounts[post.sourceId as SourceId] || 0) + 1;
-          }
-
-          return {
-            posts: payload.posts,
-            totalIngested: payload.posts.length,
-            sourceCounts,
-            errors: payload.errors || [],
-            timestamp: payload.meta?.generatedAt || new Date().toISOString(),
-            isOfflineFallback: false,
-            storageSource: 'local-bundle'
-          };
+          bestPayload = payload;
+          storageSource = 'local-bundle';
         }
       }
     } catch {
-      // Worker output not yet generated or endpoint unreachable
+      // Local bundle not reachable or in non-browser environment
+    }
+
+    // 2. Check remote decoupled endpoint if enabled, but ONLY supersede local if remote is strictly NEWER
+    if (this.config.decoupledDataUrl) {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 2000);
+        const res = await fetch(`${this.config.decoupledDataUrl}${cacheBuster}`, { 
+          cache: 'no-store',
+          signal: controller.signal 
+        });
+        clearTimeout(timeout);
+
+        if (res.ok) {
+          const payload = await res.json();
+          if (Array.isArray(payload.posts) && payload.posts.length > 0) {
+            const remoteTime = new Date(payload.meta?.generatedAt || 0).getTime();
+            const localTime = new Date(bestPayload?.meta?.generatedAt || 0).getTime();
+            if (!bestPayload || remoteTime > localTime) {
+              bestPayload = payload;
+              storageSource = 'decoupled-remote';
+            }
+          }
+        }
+      } catch {
+        // Decoupled remote branch fallback handled gracefully
+      }
+    }
+
+    if (bestPayload && Array.isArray(bestPayload.posts) && bestPayload.posts.length > 0) {
+      const sanitizedPosts = sanitizeIngestedPosts(bestPayload.posts);
+      for (const post of sanitizedPosts) {
+        sourceCounts[post.sourceId as SourceId] = (sourceCounts[post.sourceId as SourceId] || 0) + 1;
+      }
+
+      return {
+        posts: sanitizedPosts,
+        totalIngested: sanitizedPosts.length,
+        sourceCounts,
+        errors: bestPayload.errors || [],
+        timestamp: bestPayload.meta?.generatedAt || new Date().toISOString(),
+        isOfflineFallback: false,
+        storageSource
+      };
     }
 
     // 3. Fall back cleanly to the built-in authentic offline catalog with refreshed recency
     const now = Date.now();
-    const fallbackPosts: Post[] = OFFLINE_SOCIAL_FALLBACK.map((post, idx) => {
-      const recencyMins = 15 + (idx * 22);
-      return {
-        ...post,
-        publishedAt: new Date(now - recencyMins * 60 * 1000).toISOString()
-      };
-    });
+    const fallbackPosts: Post[] = sanitizeIngestedPosts(
+      OFFLINE_SOCIAL_FALLBACK.map((post, idx) => {
+        const recencyMins = 15 + (idx * 22);
+        return {
+          ...post,
+          publishedAt: new Date(now - recencyMins * 60 * 1000).toISOString()
+        };
+      })
+    );
 
     for (const post of fallbackPosts) {
       sourceCounts[post.sourceId] = (sourceCounts[post.sourceId] || 0) + 1;

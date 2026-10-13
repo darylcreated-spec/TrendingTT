@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Post } from '../types';
+import { isSportsPost } from '../services/scraperEngine';
 import { PostCard } from './PostCard';
 import { 
   Zap, 
@@ -49,20 +50,22 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
   // Segregate posts into distinct editorial buckets, ensuring newest posts appear first
   const sortByNewest = (a: Post, b: Post) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
 
-  const breakingPosts = posts
-    .filter((p) => p.isBreaking || p.category === 'breaking' || p.trendingScore >= 95)
-    .sort(sortByNewest);
+  const isSports = (p: Post) => isSportsPost(p);
 
   const sportsPosts = posts
-    .filter((p) => p.category === 'sports' || p.tags.some((t) => /cricket|football|cpl|red force|soca warriors|track/i.test(t)))
+    .filter((p) => isSports(p))
+    .sort(sortByNewest);
+
+  const breakingPosts = posts
+    .filter((p) => !isSports(p) && (p.isBreaking || p.category === 'breaking'))
     .sort(sortByNewest);
 
   const socialPosts = posts
-    .filter((p) => p.category === 'social' || p.sourceType === 'social')
+    .filter((p) => !isSports(p) && !breakingPosts.includes(p) && (p.category === 'social' || p.sourceType === 'social'))
     .sort(sortByNewest);
 
   const generalPosts = posts
-    .filter((p) => !breakingPosts.includes(p) && !sportsPosts.includes(p) && !socialPosts.includes(p))
+    .filter((p) => !isSports(p) && !breakingPosts.slice(0, 3).includes(p) && !socialPosts.slice(0, 3).includes(p))
     .sort(sortByNewest);
 
   return (
@@ -146,7 +149,7 @@ export const SectionedFeed: React.FC<SectionedFeedProps> = ({
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full min-w-0">
-              {sportsPosts.slice(0, 3).map((post) => (
+              {sportsPosts.slice(0, 6).map((post) => (
                 <PostCard
                   key={post.id}
                   post={post}

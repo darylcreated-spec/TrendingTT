@@ -7,6 +7,36 @@ export interface ScrapeResult {
   timestamp: string;
 }
 
+// Sports detection keywords covering national and regional disciplines, competitions, and venues
+export const SPORTS_KEYWORDS = [
+  'sport', 'sports', 'sporting', 'spots',
+  'cricket', 'cpl', 't20', 'red force', 'brian lara', 'queen\'s park oval', 'queens park oval',
+  'tarouba', 'pooran', 'nicholas pooran', 'pollard', 'kieron pollard', 'narine', 'sunil narine',
+  'bravo', 'dwayne bravo', 'darren bravo', 'windies', 'west indies', 'cwi', 'super50', 'super 50',
+  'soca warriors', 'football', 'soccer', 'ttfa', 'concacaf', 'fifa', 'hasely crawford',
+  'pro league', 'premier league', 'premier football league', 'ttpfl',
+  'intercol', 'secondary schools', 'secondary schools sports', 'ssfl',
+  'olympic', 'olympics', 'ttoc', 'canoc', 'track and field', 'athletics', 'athlete', 'athletes', 'athelte',
+  'relay', 'keshorn', 'walcott', 'carifta', 'carifta games', 'marathon',
+  'swimming', 'cycling', 'netball', 'basketball', 'wnba', 'nba', 'volleyball', 'rugby', 'boxing', 'badminton', 'table tennis', 'martial arts',
+  'brian lewis', 'atiba charles', 'jereem richards', 'jehue gordon', 'ato boldon'
+];
+
+export function isSportsContent(text: string): boolean {
+  if (!text) return false;
+  const lower = text.toLowerCase();
+  return SPORTS_KEYWORDS.some((kw) => lower.includes(kw));
+}
+
+export function isSportsPost(p: Partial<Post>): boolean {
+  if (!p) return false;
+  if (p.category === 'sports') return true;
+  if (p.originalUrl && (p.originalUrl.toLowerCase().includes('/sports/') || p.originalUrl.toLowerCase().includes('/sport/'))) return true;
+  if (p.tags && p.tags.some((t) => t.toLowerCase().includes('sport') || t.toLowerCase() === 'trinbago sports')) return true;
+  const combinedText = `${p.title || ''} ${p.summary || ''} ${p.content || ''} ${(p.tags || []).join(' ')}`;
+  return isSportsContent(combinedText);
+}
+
 // Keyword-based classification helper for Trinidad & Tobago media
 export function classifyTrinbagoContent(title: string, summary: string): {
   category: Post['category'];
@@ -16,13 +46,7 @@ export function classifyTrinbagoContent(title: string, summary: string): {
   const text = `${title} ${summary}`.toLowerCase();
   const tags: string[] = [];
 
-  // Sports detection
-  const sportsKeywords = [
-    'cricket', 'cpl', 't20', 'red force', 'brian lara', 'soca warriors', 'football',
-    'ttfa', 'olympic', 'track and field', 'relay', 'keshorn', 'athelte', 'carifta',
-    'intercol', 'secondary schools', 'queen\'s park oval', 'couva stadium'
-  ];
-  const isSports = sportsKeywords.some((kw) => text.includes(kw));
+  const isSports = isSportsContent(text);
 
   // Breaking / Urgency detection
   const breakingKeywords = [
@@ -49,12 +73,16 @@ export function classifyTrinbagoContent(title: string, summary: string): {
 
   let category: Post['category'] = 'broadcast';
 
-  if (isBreaking) {
-    category = 'breaking';
-    tags.push('Breaking TT');
-  } else if (isSports) {
+  // Sports classification takes strict precedence so sports articles are always routed to the sports section
+  if (isSports) {
     category = 'sports';
     tags.push('Trinbago Sports');
+    if (isBreaking) {
+      tags.push('Breaking Sports');
+    }
+  } else if (isBreaking) {
+    category = 'breaking';
+    tags.push('Breaking TT');
   } else if (isSocial) {
     category = 'social';
     tags.push('Trini Social Buzz');
@@ -167,7 +195,7 @@ const LIVE_BULLETIN_TEMPLATES = [
     author: 'TTT Sports Desk',
     originalUrl: 'https://www.ttt.live/sports/tkr-ticket-launch-tarouba',
     category: 'sports' as const,
-    tags: ['TKR', 'CPL', 'Brian Lara Stadium', 'Tarouba', 'Cricket'],
+    tags: ['TKR', 'CPL', 'Brian Lara Stadium', 'Tarouba', 'Cricket', 'Trinbago Sports'],
     trendingScore: 92,
     mediaUrl: 'https://images.unsplash.com/photo-1531415074868-036b1c57e359?auto=format&fit=crop&w=1200&q=80',
     isBreaking: false,
@@ -241,6 +269,13 @@ export async function fetchLiveTTFeeds(): Promise<ScrapeResult> {
 
             if (title && link) {
               const classification = classifyTrinbagoContent(title, description);
+              const isSportsLink = link.toLowerCase().includes('/sports/') || link.toLowerCase().includes('/sport/');
+              const finalCategory = (isSportsLink || classification.category === 'sports') 
+                ? 'sports' 
+                : (classification.category || feed.defaultCategory);
+              const finalTags = finalCategory === 'sports' && !classification.tags.includes('Trinbago Sports')
+                ? [...classification.tags, 'Trinbago Sports']
+                : classification.tags;
 
               result.newPosts.push({
                 id: `${feed.id}-live-${Date.now()}-${Math.floor(Math.random() * 10000)}`,
@@ -252,8 +287,8 @@ export async function fetchLiveTTFeeds(): Promise<ScrapeResult> {
                 sourceType: feed.sourceType,
                 originalUrl: link,
                 publishedAt: new Date(pubDate).toISOString(),
-                category: classification.category || feed.defaultCategory,
-                tags: [...classification.tags, feed.name, 'Trinidad & Tobago'],
+                category: finalCategory,
+                tags: [...finalTags, feed.name, 'Trinidad & Tobago'],
                 trendingScore: classification.isBreaking ? 98 : Math.floor(Math.random() * 20) + 75,
                 upvotes: Math.floor(Math.random() * 80) + 40,
                 commentsCount: Math.floor(Math.random() * 25) + 5,

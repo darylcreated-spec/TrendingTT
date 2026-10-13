@@ -512,6 +512,10 @@ export function normalizeYtDlpToPost(raw, target) {
   const description = (raw.description || raw.title || '').trim();
   const summary = description.length > 180 ? `${description.slice(0, 177)}...` : description;
 
+  const isSportsYt = /sport|spots|sporting|cricket|cpl|t20|red force|brian lara|soca warriors|football|soccer|ttfa|concacaf|fifa|olympic|track and field|athletics|athlete|carifta|intercol|secondary schools|ssfl|pro league|pooran|pollard|narine|windies|west indies|super50|tarouba|wnba|nba|brian lewis|basketball|netball/i.test(`${title} ${description} ${tags.join(' ')}`);
+  const finalCategory = isSportsYt ? 'sports' : target.category;
+  const finalTags = isSportsYt && !tags.includes('Trinbago Sports') ? [...tags, 'Trinbago Sports'] : tags;
+
   return {
     id: `yt-dlp-${target.platform}-${raw.id || Date.now()}`,
     title,
@@ -523,8 +527,8 @@ export function normalizeYtDlpToPost(raw, target) {
     author: raw.uploader || raw.channel || target.sourceName,
     originalUrl: raw.webpage_url || raw.url || target.url,
     publishedAt,
-    category: target.category,
-    tags,
+    category: finalCategory,
+    tags: finalTags,
     trendingScore: Math.min(99, Math.max(70, Math.floor(Math.log10(Math.max(10, viewCount)) * 18))),
     upvotes: likeCount,
     commentsCount: commentCount,
@@ -558,6 +562,9 @@ export function normalizeRssBridgeToPost(item, target) {
   }
 
   const isVideo = target.bridgeType === 'Instagram' || plainText.toLowerCase().includes('watch live') || plainText.toLowerCase().includes('reel');
+  const isSportsRss = /sport|spots|sporting|cricket|cpl|t20|red force|brian lara|soca warriors|football|soccer|ttfa|concacaf|fifa|olympic|track and field|athletics|athlete|carifta|intercol|secondary schools|ssfl|pro league|pooran|pollard|narine|windies|west indies|super50|tarouba|wnba|nba|brian lewis|basketball|netball/i.test(`${title} ${plainText} ${(target.tags || []).join(' ')}`);
+  const finalCategoryRss = isSportsRss ? 'sports' : target.category;
+  const finalTagsRss = isSportsRss && !target.tags.includes('Trinbago Sports') ? [...target.tags, 'Trinbago Sports'] : target.tags;
 
   return {
     id: `rss-bridge-${target.bridgeType.toLowerCase()}-${item.id || Buffer.from(url).toString('base64').slice(0, 16)}`,
@@ -570,8 +577,8 @@ export function normalizeRssBridgeToPost(item, target) {
     author: item.author?.name || target.username || target.sourceName,
     originalUrl: url,
     publishedAt: new Date(publishedAt).toISOString(),
-    category: target.category,
-    tags: target.tags,
+    category: finalCategoryRss,
+    tags: finalTagsRss,
     trendingScore: Math.floor(Math.random() * 15) + 80,
     upvotes: Math.floor(Math.random() * 200) + 50,
     commentsCount: Math.floor(Math.random() * 50) + 10,

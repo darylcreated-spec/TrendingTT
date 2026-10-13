@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import type { Post, Category, SortOption, TimeFilterOption, SourceId, ActiveView, UserProfile, TriniReactionType } from './types';
 import { INITIAL_POSTS } from './data/mockPosts';
+import { INGESTED_POSTS } from './data/ingestedPosts';
 import { SOURCES } from './data/sources';
 import { Storage } from './services/storage';
-import { fetchLiveTTFeeds, calculateTrendingVelocity } from './services/scraperEngine';
+import { fetchLiveTTFeeds, calculateTrendingVelocity, isSportsPost } from './services/scraperEngine';
 
 
 
@@ -65,10 +66,55 @@ export const App: React.FC = () => {
   // Navigation & View mode: Feed, Radar, Utilities, or Polls
   const [activeView, setActiveView] = useState<ActiveView>('feed');
 
-  // Core Feed States: Default to newest posts first (latest)
+  // Core Feed States: Default to newest posts first (strictly latest by publishedAt descending)
   const [posts, setPosts] = useState<Post[]>(() => {
-    const combined = [...Storage.getCustomPosts(), ...INITIAL_POSTS];
-    return combined.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+    const custom = Storage.getCustomPosts();
+    const cached = Storage.getCachedFeed();
+    // Prioritize authentic bundled ingested news + recent custom posts + valid cached items
+    const initialCandidates = [...custom, ...INGESTED_POSTS, ...cached];
+    const idMap = new Map<string, Post>();
+    const titleMap = new Map<string, string>();
+
+    for (const post of initialCandidates) {
+      if (!post || !post.id || !post.title || !post.publishedAt) continue;
+      const normTitle = post.title.toLowerCase().trim();
+      const existing = idMap.get(post.id) || (titleMap.has(normTitle) ? idMap.get(titleMap.get(normTitle)!) : undefined);
+
+      const isSports = isSportsPost(post);
+      const normalized: Post = isSports
+        ? {
+            ...post,
+            category: 'sports',
+            tags: post.tags?.includes('Trinbago Sports') ? post.tags : [...(post.tags || []), 'Trinbago Sports']
+          }
+        : post;
+
+      if (!existing) {
+        idMap.set(normalized.id, normalized);
+        titleMap.set(normTitle, normalized.id);
+      } else {
+        // Newer publishedAt always takes precedence over older versions
+        const existingTime = new Date(existing.publishedAt).getTime();
+        const incomingTime = new Date(normalized.publishedAt).getTime();
+        if (incomingTime > existingTime) {
+          idMap.set(normalized.id, normalized);
+          titleMap.set(normTitle, normalized.id);
+        }
+      }
+    }
+
+    // Only fallback to mock seed archive if zero ingested or custom posts exist
+    if (idMap.size === 0) {
+      for (const post of INITIAL_POSTS) {
+        idMap.set(post.id, post);
+      }
+    }
+
+    const initialList = Array.from(idMap.values()).sort(
+      (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    );
+    Storage.saveCachedFeed(initialList);
+    return initialList;
   });
   const [category, setCategory] = useState<Category>('all');
   const [sortOption, setSortOption] = useState<SortOption>('latest');
@@ -181,23 +227,39 @@ export const App: React.FC = () => {
           const idMap = new Map<string, Post>();
           const titleMap = new Map<string, string>();
 
-          // 1. Fresh incoming posts take top billing and update any older versions
-          for (const post of freshPosts) {
-            idMap.set(post.id, post);
-            titleMap.set(post.title.toLowerCase().trim(), post.id);
-          }
+          // Merge all existing (prev) and newly incoming (freshPosts) posts
+          // Crucially: for any duplicate post, keep the version with the newer publishedAt timestamp
+          for (const post of [...prev, ...freshPosts]) {
+            if (!post || !post.id || !post.title || !post.publishedAt) continue;
+            const normTitle = post.title.toLowerCase().trim();
+            const existing = idMap.get(post.id) || (titleMap.has(normTitle) ? idMap.get(titleMap.get(normTitle)!) : undefined);
 
-          // 2. Retain existing posts only if not superseded
-          for (const post of prev) {
-            const normalizedTitle = post.title.toLowerCase().trim();
-            if (!idMap.has(post.id) && !titleMap.has(normalizedTitle)) {
-              idMap.set(post.id, post);
-              titleMap.set(normalizedTitle, post.id);
+            const isSports = isSportsPost(post);
+            const normalized: Post = isSports
+              ? {
+                  ...post,
+                  category: 'sports',
+                  tags: post.tags?.includes('Trinbago Sports') ? post.tags : [...(post.tags || []), 'Trinbago Sports']
+                }
+              : post;
+
+            if (!existing) {
+              idMap.set(normalized.id, normalized);
+              titleMap.set(normTitle, normalized.id);
+            } else {
+              const existingTime = new Date(existing.publishedAt).getTime();
+              const newTime = new Date(normalized.publishedAt).getTime();
+              if (newTime >= existingTime) {
+                idMap.set(normalized.id, normalized);
+                titleMap.set(normTitle, normalized.id);
+              }
             }
           }
 
           const combined = Array.from(idMap.values());
-          return combined.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+          const sorted = combined.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+          Storage.saveCachedFeed(sorted);
+          return sorted;
         });
 
         if (!silent) {
@@ -228,10 +290,8 @@ export const App: React.FC = () => {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
 
-    // Initial background ingestion and feed refresh on startup
-    const initialTimeout = setTimeout(() => {
-      handleTriggerScrape(true);
-    }, 200);
+    // Initial background ingestion and feed refresh on startup (immediate launch)
+    handleTriggerScrape(true);
 
     // Auto-refresh feeds every 5 minutes in the background
     const autoRefreshTimer = setInterval(() => {
@@ -248,7 +308,6 @@ export const App: React.FC = () => {
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
-      clearTimeout(initialTimeout);
       clearInterval(autoRefreshTimer);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
@@ -421,7 +480,10 @@ export const App: React.FC = () => {
         if (category === 'breaking' && !post.isBreaking) return false;
         if (category === 'broadcast' && post.sourceType !== 'broadcast') return false;
         if (category === 'social' && post.sourceType !== 'social') return false;
-        if (!['breaking', 'broadcast', 'social'].includes(category) && post.category !== category) {
+        if (category === 'sports') {
+          return isSportsPost(post);
+        }
+        if (!['breaking', 'broadcast', 'social', 'sports'].includes(category) && post.category !== category) {
           return false;
         }
       }
@@ -467,7 +529,7 @@ export const App: React.FC = () => {
   }, [filteredPosts, sortOption]);
 
   const breakingPosts = useMemo(() => {
-    return posts.filter((p) => p.isBreaking || p.trendingScore >= 95);
+    return posts.filter((p) => (p.isBreaking || p.category === 'breaking') && !isSportsPost(p));
   }, [posts]);
 
   return (

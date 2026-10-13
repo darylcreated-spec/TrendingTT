@@ -18,7 +18,8 @@ const STORAGE_KEYS = {
   CONFIRMED_UTILITY_REPORTS: 'trending_tt_confirmed_utility_reports',
   USER_PROFILE: 'trending_tt_user_profile',
   MACKO_VOTES: 'trending_tt_macko_votes',
-  TRINI_REACTIONS: 'trending_tt_reactions'
+  TRINI_REACTIONS: 'trending_tt_reactions',
+  FEED_CACHE: 'trending_tt_feed_cache'
 };
 
 
@@ -81,17 +82,67 @@ export const Storage = {
     return { bookmarked, allBookmarks: bookmarks };
   },
 
+  getCachedFeed(): Post[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.FEED_CACHE);
+      if (!data) return [];
+      const posts: Post[] = JSON.parse(data);
+      if (!Array.isArray(posts)) return [];
+      const cutoffMs = Date.now() - 48 * 60 * 60 * 1000;
+      // Filter out stale posts older than 48h and any old mock templates that were previously stuck in cache
+      const valid = posts.filter((p) => {
+        if (!p || !p.id || !p.title || !p.publishedAt) return false;
+        if (
+          p.id.startsWith('mock-') ||
+          p.id === 'tv6-001' ||
+          p.id === 'cnc3-002' ||
+          p.id === 'tiktok-003' ||
+          p.id === 'ttt-004' ||
+          p.id === 'newsday-005' ||
+          p.id === 'facebook-006' ||
+          p.id === 'instagram-007' ||
+          p.id === 'express-008' ||
+          p.id === 'guardian-009'
+        ) {
+          return false;
+        }
+        const time = new Date(p.publishedAt).getTime();
+        return !isNaN(time) && time > cutoffMs;
+      });
+      return valid;
+    } catch {
+      return [];
+    }
+  },
+
+  clearFeedCache(): void {
+    try {
+      localStorage.removeItem(STORAGE_KEYS.FEED_CACHE);
+    } catch (e) {
+      void e;
+    }
+  },
+
+  saveCachedFeed(posts: Post[]): void {
+    try {
+      const toSave = posts.slice(0, 80);
+      localStorage.setItem(STORAGE_KEYS.FEED_CACHE, JSON.stringify(toSave));
+    } catch (e) {
+      void e;
+    }
+  },
+
   getCustomPosts(): Post[] {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.CUSTOM_POSTS);
       if (!data) return [];
       const posts: Post[] = JSON.parse(data);
       if (!Array.isArray(posts)) return [];
-      // Retain breaking posts or posts from the past 48 hours to prevent stale ghost posts
+      // Retain posts from the past 48 hours to prevent stale ghost posts
       const cutoffMs = Date.now() - 48 * 60 * 60 * 1000;
       const valid = posts.filter(p => {
         const time = new Date(p.publishedAt).getTime();
-        return !isNaN(time) && (time > cutoffMs || p.isBreaking);
+        return !isNaN(time) && time > cutoffMs;
       });
       if (valid.length !== posts.length) {
         localStorage.setItem(STORAGE_KEYS.CUSTOM_POSTS, JSON.stringify(valid));
