@@ -45,12 +45,15 @@ jobs:
       - name: Run Python Local News Scraper (Decoupled Mode)
         run: python3 scripts/news_scraper.py --output public/data/ingested-posts.json --decoupled
 
+      - name: Run Python Utilities Scraper
+        run: python3 scripts/utilities_scraper.py --output public/data/utilities.json
+
       - name: Commit & Push Updated Data to Decoupled Data Branch
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: data-feed
           create_branch: true
           commit_message: "chore(data): auto-update ingested social feeds [skip ci]"
-          file_pattern: "public/data/ingested-posts.json"
+          file_pattern: "public/data/ingested-posts.json public/data/utilities.json"
           commit_user_name: "Trending TT Bot"
           commit_user_email: "bot@trendingtt.com"

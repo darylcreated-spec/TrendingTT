@@ -19,7 +19,9 @@ import {
   Ship,
   Anchor,
   PhoneCall,
-  ExternalLink
+  ExternalLink,
+  Wind,
+  Thermometer
 } from 'lucide-react';
 import type { 
   HighwayId, 
@@ -35,7 +37,7 @@ import {
   INITIAL_MARITIME_SAILINGS 
 } from '../data/radarAndPollData';
 import { Storage } from '../services/storage';
-import { RadarService } from '../services/radarService';
+import { RadarService, type OpenMeteoWeather } from '../services/radarService';
 import { formatPostTimeOnly } from '../utils/dateUtils';
 import { CarouselTabs, type CarouselTabItem } from './CarouselTabs';
 import { DataOriginBadge } from './DataOriginBadge';
@@ -78,12 +80,14 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
   const [trafficSegments, setTrafficSegments] = useState(() => RadarService.refreshTrafficSegments(INITIAL_TRAFFIC_SEGMENTS));
   const [ttmsAdvisory, setTtmsAdvisory] = useState(() => RadarService.refreshWeatherAdvisory(INITIAL_TTMS_ADVISORY));
   const [riverLevels, setRiverLevels] = useState(() => RadarService.refreshRiverLevels(INITIAL_RIVER_LEVELS));
+  const [liveWeather, setLiveWeather] = useState<OpenMeteoWeather | null>(null);
   const [lastRadarSync, setLastRadarSync] = useState(() => formatPostTimeOnly(new Date().toISOString()));
   const [isRefreshingRadar, setIsRefreshingRadar] = useState(false);
 
   // Manual & automatic Radar refresh
   const handleRefreshRadar = () => {
     setIsRefreshingRadar(true);
+    RadarService.fetchOpenMeteoWeather().then(setLiveWeather).catch(() => {});
     setTimeout(() => {
       const refreshed = RadarService.refreshAllRadarData(trafficSegments, ttmsAdvisory, riverLevels);
       setTrafficSegments(refreshed.trafficSegments);
@@ -97,11 +101,11 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
 
   // Auto-refresh telemetry on mount and periodically every 60s
   useEffect(() => {
-    const refreshed = RadarService.refreshAllRadarData(INITIAL_TRAFFIC_SEGMENTS, INITIAL_TTMS_ADVISORY, INITIAL_RIVER_LEVELS);
-    setTrafficSegments(refreshed.trafficSegments);
-    setTtmsAdvisory(refreshed.ttmsAdvisory);
-    setRiverLevels(refreshed.riverLevels);
-    setLastRadarSync(refreshed.timestamp);
+    let isMounted = true;
+
+    RadarService.fetchOpenMeteoWeather().then((w) => {
+      if (isMounted) setLiveWeather(w);
+    }).catch(() => {});
 
     const intervalId = setInterval(() => {
       setTrafficSegments(prev => RadarService.refreshTrafficSegments(prev));
@@ -109,7 +113,10 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
       setLastRadarSync(formatPostTimeOnly(new Date().toISOString()));
     }, 60000);
 
-    return () => clearInterval(intervalId);
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
   }, []);
 
   // Community reports state & persistence
@@ -303,9 +310,48 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
         />
       </div>
 
-      {/* SECTION 1: TTMS OFFICIAL WEATHER ADVISORY */}
+      {/* SECTION 1: LIVE LOCAL WEATHER TELEMETRY & TTMS ADVISORY */}
       {(activeTab === 'all' || activeTab === 'weather') && (
-        <div className="bg-amber-950/20 border border-amber-800/60 rounded-2xl p-5 shadow-lg relative">
+        <div className="space-y-4">
+          {/* Live Open-Meteo Weather Bar */}
+          {liveWeather && (
+            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-md flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400">
+                  <CloudRain className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white">
+                      {liveWeather.location}
+                    </span>
+                    <DataOriginBadge origin={liveWeather.dataOrigin} />
+                  </div>
+                  <div className="text-xs text-slate-400 mt-0.5">
+                    {liveWeather.conditionText} • Updated {liveWeather.updatedAt}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 text-xs font-mono">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-950/70 border border-slate-800">
+                  <Thermometer className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="text-slate-200 font-bold">{liveWeather.temperatureC}°C</span>
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-950/70 border border-slate-800">
+                  <Droplet className="w-3.5 h-3.5 text-cyan-400" />
+                  <span className="text-slate-200">{liveWeather.relativeHumidity}% Humidity</span>
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-950/70 border border-slate-800">
+                  <Wind className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="text-slate-200">{liveWeather.windSpeedKmh} km/h Wind</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TTMS OFFICIAL WEATHER ADVISORY */}
+          <div className="bg-amber-950/20 border border-amber-800/60 rounded-2xl p-5 shadow-lg relative">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-amber-800/40">
             <div className="flex items-center gap-2.5">
               <span className="p-2 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400">
@@ -447,6 +493,7 @@ export const TrafficWeatherRadar: React.FC<TrafficWeatherRadarProps> = ({
             </div>
           </div>
         </div>
+      </div>
       )}
 
       {/* SECTION 2: HIGHWAYS & TRAFFIC RADAR */}

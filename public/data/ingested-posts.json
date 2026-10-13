@@ -3,23 +3,23 @@
     "generator": "Trending TT Multi-Source News Scraper (Python 3.12)",
     "version": "2.2.0",
     "timezone": "AST (America/Port_of_Spain)",
-    "generatedAt": "2026-10-13T17:13:39.346188-04:00",
-    "storageMode": "bundled",
-    "storageBranch": "main",
+    "generatedAt": "2026-10-13T19:01:31.249807-04:00",
+    "storageMode": "decoupled",
+    "storageBranch": "data-feed",
     "stats": {
-      "scrapedCount": 26,
-      "totalNormalized": 38,
+      "scrapedCount": 32,
+      "totalNormalized": 64,
       "retentionDays": 7,
       "sourcesRepresented": [
-        "tiktok",
-        "guardian",
         "ttt",
+        "guardian",
         "express",
+        "cnc3",
         "instagram",
-        "newsday",
-        "ian",
         "tv6",
-        "cnc3"
+        "tiktok",
+        "newsday",
+        "ian"
       ]
     }
   },
@@ -34,7 +34,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/videos",
-      "publishedAt": "2026-10-13T17:13:39.332464-04:00",
+      "publishedAt": "2026-10-13T19:01:30.651895-04:00",
       "category": "crime",
       "tags": [
         "I.A.N Network",
@@ -46,6 +46,7 @@
       "upvotes": 312,
       "commentsCount": 88,
       "isBreaking": true,
+      "dataOrigin": "live",
       "media": {
         "type": "video",
         "url": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1200&q=80",
@@ -64,7 +65,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/posts/central-division-highway",
-      "publishedAt": "2026-10-13T20:23:27.172Z",
+      "publishedAt": "2026-10-12T20:45:52.548Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -94,7 +95,7 @@
       "sourceType": "broadcast",
       "author": "Ian Alleyne",
       "originalUrl": "https://www.facebook.com/ianalleyne/videos/morvant-community-standoff",
-      "publishedAt": "2026-10-13T20:33:27.172Z",
+      "publishedAt": "2026-10-12T20:55:52.548Z",
       "category": "crime",
       "tags": [
         "Crime Watch",
@@ -124,7 +125,7 @@
       "sourceType": "social",
       "author": "@maracas_vibes868",
       "originalUrl": "https://www.tiktok.com/tag/trinitiktok",
-      "publishedAt": "2026-10-13T20:37:27.171Z",
+      "publishedAt": "2026-10-12T20:59:52.548Z",
       "category": "culture",
       "tags": [
         "#trinitiktok",
@@ -154,14 +155,13 @@
       "sourceType": "newspaper",
       "author": "Express Sports Editor",
       "originalUrl": "https://trinidadexpress.com/sports/soca-warriors-knockout-roster",
-      "publishedAt": "2026-10-13T20:48:27.172Z",
+      "publishedAt": "2026-10-12T21:10:52.548Z",
       "category": "sports",
       "tags": [
         "Soca Warriors",
         "TTFA",
         "Concacaf",
-        "Hasely Crawford Stadium",
-        "Trinbago Sports"
+        "Hasely Crawford Stadium"
       ],
       "trendingScore": 97,
       "upvotes": 512,
@@ -183,7 +183,7 @@
       "sourceType": "broadcast",
       "author": "TTT News Bureau",
       "originalUrl": "https://www.youtube.com/@tttliveonline/videos",
-      "publishedAt": "2026-10-13T17:13:39.332464-04:00",
+      "publishedAt": "2026-10-13T19:01:30.651895-04:00",
       "category": "broadcast",
       "tags": [
         "TTT Live",
@@ -195,6 +195,7 @@
       "upvotes": 120,
       "commentsCount": 35,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "video",
         "url": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80",
@@ -213,7 +214,7 @@
       "sourceType": "broadcast",
       "author": "CCN TV6 News Desk",
       "originalUrl": "https://www.youtube.com/watch?v=tv6-sample-news-7pm",
-      "publishedAt": "2026-10-13T19:38:27.172Z",
+      "publishedAt": "2026-10-12T20:00:52.548Z",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -242,8 +243,8 @@
       "sourceType": "newspaper",
       "author": "Newsday Tobago Desk",
       "originalUrl": "https://newsday.co.tt/news/local/ferry-rush-tobago",
-      "publishedAt": "2026-10-13T17:13:39.332464-04:00",
-      "category": "broadcast",
+      "publishedAt": "2026-10-12T17:36:14.296637-04:00",
+      "category": "news",
       "tags": [
         "T&T Newsday",
         "Tobago Ferry",
@@ -271,14 +272,13 @@
       "sourceType": "social",
       "author": "@tv6tnt",
       "originalUrl": "https://www.instagram.com/reel/tv6-pooran-sixes",
-      "publishedAt": "2026-10-13T19:03:27.172Z",
+      "publishedAt": "2026-10-12T19:25:52.548Z",
       "category": "sports",
       "tags": [
         "Cricket TT",
         "Queens Park Oval",
         "Nicholas Pooran",
-        "Instagram Reels",
-        "Trinbago Sports"
+        "Instagram Reels"
       ],
       "trendingScore": 94,
       "upvotes": 755,
@@ -292,6 +292,238 @@
       }
     },
     {
+      "id": "py-cnc3-no-flowers-photography-at-migh-cc2bfd03",
+      "title": "CNC3 News: No flowers, photography at Mighty Sparrow's lying in repose",
+      "summary": "Members of the public attending the lying in repose and celebration of life for calypso legend the Mighty Sparrow are being asked to observe strict guidelines, including a ban on photography, videography and flowers a...",
+      "content": "Members of the public attending the lying in repose and celebration of life for calypso legend the Mighty Sparrow are being asked to observe strict guidelines, including a ban on photography, videography and flowers a...",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 News Desk",
+      "originalUrl": "https://www.cnc3.co.tt/no-flowers-photography-at-mighty-sparrows-lying-in-repose/",
+      "publishedAt": "2026-10-13T19:01:30.644366-04:00",
+      "category": "broadcast",
+      "tags": [
+        "CNC3 News",
+        "Lead Story",
+        "Trinidad"
+      ],
+      "trendingScore": 93,
+      "upvotes": 84,
+      "commentsCount": 26,
+      "isBreaking": false,
+      "dataOrigin": "live",
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "3:10"
+      }
+    },
+    {
+      "id": "py-cnc3-penal-man-granted-75000-bail-o-8e2457e8",
+      "title": "CNC3 News: Penal man granted $75,000 bail on home invasion charge",
+      "summary": "A 29-year-old Penal man charged with home invasion was granted $75,000 bail when he appeared before the Siparia Masters Court on Monday. Peter Marshall, of Penal Rock Road, was not called upon to plead to the charge. ...",
+      "content": "A 29-year-old Penal man charged with home invasion was granted $75,000 bail when he appeared before the Siparia Masters Court on Monday. Peter Marshall, of Penal Rock Road, was not called upon to plead to the charge. ...",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 News Desk",
+      "originalUrl": "https://www.cnc3.co.tt/penal-man-granted-75000-bail-on-home-invasion-charge/",
+      "publishedAt": "2026-10-13T19:01:30.644366-04:00",
+      "category": "broadcast",
+      "tags": [
+        "CNC3 News",
+        "Lead Story",
+        "Trinidad"
+      ],
+      "trendingScore": 93,
+      "upvotes": 84,
+      "commentsCount": 26,
+      "isBreaking": false,
+      "dataOrigin": "live",
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "3:10"
+      }
+    },
+    {
+      "id": "py-cnc3-budget-2027-a-people-centered--e0d9a1f1",
+      "title": "CNC3 News: Budget 2027 A People-Centered Approach: Investing in Communities, Transforming the Economy and Securing a Sustainable Future",
+      "summary": "Presented by Minister of Finance Davendranath Tancoo October 12, 2026 Introduction It is my privilege to present the 2027 National Budget to this Honourable House and to the people of Trinidad and Tobago. When this UN...",
+      "content": "Presented by Minister of Finance Davendranath Tancoo October 12, 2026 Introduction It is my privilege to present the 2027 National Budget to this Honourable House and to the people of Trinidad and Tobago. When this UN...",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 News Desk",
+      "originalUrl": "https://www.cnc3.co.tt/budget-2027-a-people-centered-approach-investing-in-communities-transforming-the-economy-and-securing-a-sustainable-future/",
+      "publishedAt": "2026-10-13T19:01:30.646373-04:00",
+      "category": "broadcast",
+      "tags": [
+        "CNC3 News",
+        "Lead Story",
+        "Trinidad"
+      ],
+      "trendingScore": 93,
+      "upvotes": 84,
+      "commentsCount": 26,
+      "isBreaking": false,
+      "dataOrigin": "live",
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "3:10"
+      }
+    },
+    {
+      "id": "py-cnc3-pwc-flags-unanswered-questions-8ff25305",
+      "title": "CNC3 News: PwC flags unanswered questions in budget's digital tax plans",
+      "summary": "PwC has warned that several details of the Government's proposed tax changes remain unresolved, including how Trinidad and Tobago intends to collect VAT on digital services supplied by foreign companies without creati...",
+      "content": "PwC has warned that several details of the Government's proposed tax changes remain unresolved, including how Trinidad and Tobago intends to collect VAT on digital services supplied by foreign companies without creati...",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 News Desk",
+      "originalUrl": "https://www.cnc3.co.tt/pwc-flags-unanswered-questions-in-budgets-digital-tax-plans/",
+      "publishedAt": "2026-10-13T19:01:30.647373-04:00",
+      "category": "broadcast",
+      "tags": [
+        "CNC3 News",
+        "Lead Story",
+        "Trinidad"
+      ],
+      "trendingScore": 93,
+      "upvotes": 84,
+      "commentsCount": 26,
+      "isBreaking": false,
+      "dataOrigin": "live",
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "3:10"
+      }
+    },
+    {
+      "id": "py-cnc3-ey-warns-of-challenges-taxing--8dab26a0",
+      "title": "CNC3 News: EY warns of challenges taxing foreign digital services",
+      "summary": "The Government's plan to impose VAT on digital services supplied by foreign companies will require a new registration and collection system, as the measure seeks to bring services provided by non-resident businesses i...",
+      "content": "The Government's plan to impose VAT on digital services supplied by foreign companies will require a new registration and collection system, as the measure seeks to bring services provided by non-resident businesses i...",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 News Desk",
+      "originalUrl": "https://www.cnc3.co.tt/ey-warns-of-challenges-taxing-foreign-digital-services/",
+      "publishedAt": "2026-10-13T19:01:30.647373-04:00",
+      "category": "broadcast",
+      "tags": [
+        "CNC3 News",
+        "Lead Story",
+        "Trinidad"
+      ],
+      "trendingScore": 93,
+      "upvotes": 84,
+      "commentsCount": 26,
+      "isBreaking": false,
+      "dataOrigin": "live",
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "3:10"
+      }
+    },
+    {
+      "id": "py-cnc3-couva-chamber-says-mandatory-t-e3e2fb5f",
+      "title": "CNC3 News: Couva Chamber says mandatory tax filing could boost revenue",
+      "summary": "By Shastri Boodan The Couva Point Lisas Chamber of Commerce believes mandatory income tax filing could bring millions of dollars in additional revenue to the Government by bringing more individuals and small business ...",
+      "content": "By Shastri Boodan The Couva Point Lisas Chamber of Commerce believes mandatory income tax filing could bring millions of dollars in additional revenue to the Government by bringing more individuals and small business ...",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 News Desk",
+      "originalUrl": "https://www.cnc3.co.tt/couva-chamber-says-mandatory-tax-filing-could-boost-revenue/",
+      "publishedAt": "2026-10-13T19:01:30.648880-04:00",
+      "category": "broadcast",
+      "tags": [
+        "CNC3 News",
+        "Lead Story",
+        "Trinidad"
+      ],
+      "trendingScore": 93,
+      "upvotes": 84,
+      "commentsCount": 26,
+      "isBreaking": false,
+      "dataOrigin": "live",
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "3:10"
+      }
+    },
+    {
+      "id": "py-cnc3-netflix-tax12-5-vat-on-foreign-db2f1f7e",
+      "title": "CNC3 News: 'NETFLIX TAX'12.5% VAT on foreign digital services and higher surcharge on electricity announced as Govt seeks to raise $1.18B in additional revenue",
+      "summary": "Minister of Finance Davendranath Tancoo has proposed a 12.5 per cent VAT on digital services supplied by foreign providers, which currently include streaming platforms such as Netflix, Hulu, AppleTV, HBO Max and Disne...",
+      "content": "Minister of Finance Davendranath Tancoo has proposed a 12.5 per cent VAT on digital services supplied by foreign providers, which currently include streaming platforms such as Netflix, Hulu, AppleTV, HBO Max and Disne...",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 News Desk",
+      "originalUrl": "https://www.cnc3.co.tt/netflix-tax12-5-vat-on-foreign-digital-services-and-higher-surcharge-on-electricity-announced-as-govt-seeks-to-raise-1-18b-in-additional-revenue/",
+      "publishedAt": "2026-10-13T19:01:30.649888-04:00",
+      "category": "broadcast",
+      "tags": [
+        "CNC3 News",
+        "Lead Story",
+        "Trinidad"
+      ],
+      "trendingScore": 93,
+      "upvotes": 84,
+      "commentsCount": 26,
+      "isBreaking": false,
+      "dataOrigin": "live",
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "3:10"
+      }
+    },
+    {
+      "id": "py-cnc3-farley-gutted-by-tobagos-budge-fd4c9b23",
+      "title": "CNC3 News: Farley 'gutted' by Tobago's budget allocation",
+      "summary": "Tobago House of Assembly (THA) Chief Secretary Farley Augustine has registered strong disagreement with the budgetary allocation granted to the island in the 2027 National Budget, saying he felt \"gutted\" by cuts to ca...",
+      "content": "Tobago House of Assembly (THA) Chief Secretary Farley Augustine has registered strong disagreement with the budgetary allocation granted to the island in the 2027 National Budget, saying he felt \"gutted\" by cuts to ca...",
+      "sourceId": "cnc3",
+      "sourceName": "CNC3 Television",
+      "sourceType": "broadcast",
+      "author": "CNC3 News Desk",
+      "originalUrl": "https://www.cnc3.co.tt/farley-gutted-by-tobagos-budget-allocation/",
+      "publishedAt": "2026-10-13T19:01:30.650895-04:00",
+      "category": "broadcast",
+      "tags": [
+        "CNC3 News",
+        "Lead Story",
+        "Trinidad"
+      ],
+      "trendingScore": 93,
+      "upvotes": 84,
+      "commentsCount": 26,
+      "isBreaking": false,
+      "dataOrigin": "live",
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "3:10"
+      }
+    },
+    {
       "id": "bridge-ig-cnc3-pan-carnival-reel",
       "targetId": "bridge-ig-cnc3",
       "title": "Instagram Reels: Massy Trinidad All Stars electrify Duke Street rehearsal yard",
@@ -302,7 +534,7 @@
       "sourceType": "social",
       "author": "@cnc3news",
       "originalUrl": "https://www.instagram.com/reel/cnc3-all-stars-duke-street",
-      "publishedAt": "2026-10-13T20:08:27.172Z",
+      "publishedAt": "2026-10-12T20:30:52.548Z",
       "category": "culture",
       "tags": [
         "CNC3 Reels",
@@ -332,7 +564,7 @@
       "sourceType": "newspaper",
       "author": "Guardian Media",
       "originalUrl": "https://www.guardian.co.tt/business/business-chambers-welcome-budget-measures-call-for-action-6.2.2687942.15ed16c660",
-      "publishedAt": "2026-10-13T17:13:37.694571-04:00",
+      "publishedAt": "2026-10-13T19:01:29.657516-04:00",
       "category": "business",
       "tags": [
         "Trinidad Guardian",
@@ -343,6 +575,7 @@
       "upvotes": 68,
       "commentsCount": 16,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
@@ -359,7 +592,7 @@
       "sourceType": "newspaper",
       "author": "Guardian Media",
       "originalUrl": "https://www.guardian.co.tt/business/it-is-an-election-budget-analysts-say-6.2.2687943.2536ed8e9e",
-      "publishedAt": "2026-10-13T17:13:37.694571-04:00",
+      "publishedAt": "2026-10-13T19:01:29.657516-04:00",
       "category": "business",
       "tags": [
         "Trinidad Guardian",
@@ -370,6 +603,7 @@
       "upvotes": 68,
       "commentsCount": 16,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
@@ -386,7 +620,7 @@
       "sourceType": "newspaper",
       "author": "Guardian Media",
       "originalUrl": "https://www.guardian.co.tt/business/will-ngcs-2027-gas-terms-be-right-for-a-deal-or-no-deal-6.2.2686631.32a4d3e042",
-      "publishedAt": "2026-10-13T17:13:37.695571-04:00",
+      "publishedAt": "2026-10-13T19:01:29.657516-04:00",
       "category": "business",
       "tags": [
         "Trinidad Guardian",
@@ -397,6 +631,7 @@
       "upvotes": 68,
       "commentsCount": 16,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
@@ -413,7 +648,7 @@
       "sourceType": "newspaper",
       "author": "Guardian Media",
       "originalUrl": "https://www.guardian.co.tt/article/triniborn-standup-comedian-cindyann-boissons-breast-cancer-journey-6.2.2687595.6a9293d4a8",
-      "publishedAt": "2026-10-13T17:13:37.695571-04:00",
+      "publishedAt": "2026-10-13T19:01:29.657516-04:00",
       "category": "culture",
       "tags": [
         "Trinidad Guardian",
@@ -424,6 +659,7 @@
       "upvotes": 68,
       "commentsCount": 16,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
@@ -440,8 +676,8 @@
       "sourceType": "newspaper",
       "author": "Guardian Media",
       "originalUrl": "https://www.guardian.co.tt/article/international-day-of-the-child-thirteen-is-still-thirteen-6.2.2687591.d3db222642",
-      "publishedAt": "2026-10-13T17:13:37.695571-04:00",
-      "category": "culture",
+      "publishedAt": "2026-10-13T19:01:29.657516-04:00",
+      "category": "broadcast",
       "tags": [
         "Trinidad Guardian",
         "Lead Story",
@@ -451,6 +687,7 @@
       "upvotes": 68,
       "commentsCount": 16,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
@@ -467,8 +704,8 @@
       "sourceType": "newspaper",
       "author": "Guardian Media",
       "originalUrl": "https://www.guardian.co.tt/article/kadelia-mc-sween-seeks-help-amid-cancer-battle-6.2.2687594.52690437da",
-      "publishedAt": "2026-10-13T17:13:37.695571-04:00",
-      "category": "broadcast",
+      "publishedAt": "2026-10-13T19:01:29.657516-04:00",
+      "category": "crime",
       "tags": [
         "Trinidad Guardian",
         "Lead Story",
@@ -478,6 +715,7 @@
       "upvotes": 68,
       "commentsCount": 16,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
@@ -494,18 +732,18 @@
       "sourceType": "newspaper",
       "author": "Guardian Media",
       "originalUrl": "https://www.guardian.co.tt/sports/cameron-windies-should-consider-pulling-out-of-icc-over--crisis-6.2.2687702.2fd27378fa",
-      "publishedAt": "2026-10-13T17:13:37.695571-04:00",
+      "publishedAt": "2026-10-13T19:01:29.657516-04:00",
       "category": "sports",
       "tags": [
         "Trinidad Guardian",
-        "Lead Story",
-        "National Report",
-        "Trinbago Sports"
+        "Trinbago Sports",
+        "Sports TT"
       ],
       "trendingScore": 91,
       "upvotes": 68,
       "commentsCount": 16,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
@@ -522,19 +760,18 @@
       "sourceType": "newspaper",
       "author": "Guardian Media",
       "originalUrl": "https://www.guardian.co.tt/sports/the-audacity-to-dream-6.2.2687704.ed531422f5",
-      "publishedAt": "2026-10-13T17:13:37.695571-04:00",
+      "publishedAt": "2026-10-13T19:01:29.657516-04:00",
       "category": "sports",
       "tags": [
         "Trinidad Guardian",
-        "Lead Story",
-        "National Report",
         "Trinbago Sports",
-        "Basketball"
+        "Sports TT"
       ],
       "trendingScore": 91,
       "upvotes": 68,
       "commentsCount": 16,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
@@ -551,7 +788,7 @@
       "sourceType": "broadcast",
       "author": "TV6 Newsroom",
       "originalUrl": "https://www.tv6tnt.com/news/7pmnews/budget-2027-highlights-a-people-centred-approach/article_66fa49af-2572-44dc-a11c-809a5bae7e7a.html",
-      "publishedAt": "2026-10-13T17:13:38.748139-04:00",
+      "publishedAt": "2026-10-13T19:01:30.308425-04:00",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -562,6 +799,7 @@
       "upvotes": 77,
       "commentsCount": 21,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "video",
         "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
@@ -579,7 +817,7 @@
       "sourceType": "broadcast",
       "author": "TV6 Newsroom",
       "originalUrl": "https://www.tv6tnt.com/news/7pmnews/pm-defends-governments-budget/article_1bde7777-ad9d-4b93-8877-37fda84ef2e2.html",
-      "publishedAt": "2026-10-13T17:13:38.748139-04:00",
+      "publishedAt": "2026-10-13T19:01:30.308425-04:00",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -590,6 +828,7 @@
       "upvotes": 77,
       "commentsCount": 21,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "video",
         "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
@@ -607,7 +846,7 @@
       "sourceType": "broadcast",
       "author": "TV6 Newsroom",
       "originalUrl": "https://www.tv6tnt.com/news/7pmnews/breakdown-of-budget-allocations/article_d2e874ec-f963-458d-bfba-0a3f0da0a1aa.html",
-      "publishedAt": "2026-10-13T17:13:38.749236-04:00",
+      "publishedAt": "2026-10-13T19:01:30.308937-04:00",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -618,6 +857,7 @@
       "upvotes": 77,
       "commentsCount": 21,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "video",
         "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
@@ -635,7 +875,7 @@
       "sourceType": "broadcast",
       "author": "TV6 Newsroom",
       "originalUrl": "https://www.tv6tnt.com/news/7pmnews/opposition-slams-budget/article_516ad27a-819f-429c-ace9-845e7e03f7c3.html",
-      "publishedAt": "2026-10-13T17:13:38.749236-04:00",
+      "publishedAt": "2026-10-13T19:01:30.308937-04:00",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -646,6 +886,7 @@
       "upvotes": 77,
       "commentsCount": 21,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "video",
         "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
@@ -663,7 +904,254 @@
       "sourceType": "broadcast",
       "author": "TV6 Newsroom",
       "originalUrl": "https://www.tv6tnt.com/news/7pmnews/natsec-gets-7-3b-of-budget-pie/article_d81909ba-fb8e-449d-ab54-0d81527fa220.html",
-      "publishedAt": "2026-10-13T17:13:38.749236-04:00",
+      "publishedAt": "2026-10-13T19:01:30.308937-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "dataOrigin": "live",
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "py-tv6-has-pm-forgotten-childrens-laws",
+      "title": "TV6: HAS PM FORGOTTEN CHILDREN'S LAWS?",
+      "summary": "CCN TV6 television report covering has pm forgotten children's laws?.",
+      "content": "CCN TV6 broadcast segment on HAS PM FORGOTTEN CHILDREN'S LAWS?.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/has-pm-forgotten-childrens-laws/article_b610371e-1b6a-4671-97f9-ae056feda0bd.html",
+      "publishedAt": "2026-10-13T19:01:30.308937-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "dataOrigin": "live",
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "py-guardian-is-tt-looking-for-petroleum-re-7a7bd358",
+      "title": "Is T&T looking for petroleum revenue in all the wrong places? Proposed safeguards for major transactions. by Anthony E Paul",
+      "summary": "Guardian Media lead report: Is T&T looking for petroleum revenue in all the wrong places? Proposed safeguards for major transactions. by Anthony E Paul.",
+      "content": "Guardian Media lead report: Is T&T looking for petroleum revenue in all the wrong places? Proposed safeguards for major transactions. by Anthony E Paul.",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/business/is-tt-looking-for-petroleum-revenue-in-all-the-wrong-places-6.2.2685771.5de9ca7815",
+      "publishedAt": "2026-10-12T17:36:11.923277-04:00",
+      "category": "business",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-calls-to-raise-senior-citizens-6c6ac729",
+      "title": "Trinidad and Tobago Association of Retired Persons Ltd executive director Reynold Cooper Calls to raise Senior Citizens Grant",
+      "summary": "Guardian Media lead report: Trinidad and Tobago Association of Retired Persons Ltd executive director Reynold Cooper Calls to raise Senior Citizens Grant.",
+      "content": "Guardian Media lead report: Trinidad and Tobago Association of Retired Persons Ltd executive director Reynold Cooper Calls to raise Senior Citizens Grant.",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/business/calls-to-raise-senior-citizens-grant-6.2.2686629.fa5f5267fb",
+      "publishedAt": "2026-10-12T17:36:11.923497-04:00",
+      "category": "business",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-analyst-wants-hike-in-minimum--9d90e336",
+      "title": "Trade union consultant and lecturer, Trevor Johnson Analyst wants hike in minimum wage...but Nunez-Tesheira warns that could dr...",
+      "summary": "Guardian Media lead report: Trade union consultant and lecturer, Trevor Johnson Analyst wants hike in minimum wage...but Nunez-Tesheira warns that could dr....",
+      "content": "Guardian Media lead report: Trade union consultant and lecturer, Trevor Johnson Analyst wants hike in minimum wage...but Nunez-Tesheira warns that could dr....",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/article/analyst-wants-hike-in-minimum-wagebut-nuneztesheira-warns-that-could-drive-higher-prices-6.2.2686630.eaf816b4e5",
+      "publishedAt": "2026-10-12T17:36:11.923639-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-breast-cancer-awareness-month--8078f01a",
+      "title": "Breast Cancer Awareness Month: Claudette Stewart Cancer tested her, but faith kept her moving Breast cancer survivor Claudette ...",
+      "summary": "Guardian Media lead report: Breast Cancer Awareness Month: Claudette Stewart Cancer tested her, but faith kept her moving Breast cancer survivor Claudette ....",
+      "content": "Guardian Media lead report: Breast Cancer Awareness Month: Claudette Stewart Cancer tested her, but faith kept her moving Breast cancer survivor Claudette ....",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/article/breast-cancer-awareness-month-claudette-stewart-6.2.2687054.7be620a4d2",
+      "publishedAt": "2026-10-12T17:36:11.923749-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-calypso-history-month-king-dav-0d48a9c1",
+      "title": "David Rudder Jason Audain we Calypso History Month: King David Rudder From Carnival stage to Caribbean anthem",
+      "summary": "Guardian Media lead report: David Rudder Jason Audain we Calypso History Month: King David Rudder From Carnival stage to Caribbean anthem.",
+      "content": "Guardian Media lead report: David Rudder Jason Audain we Calypso History Month: King David Rudder From Carnival stage to Caribbean anthem.",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/article/calypso-history-month-king-david-rudder-6.2.2687053.938ac2a857",
+      "publishedAt": "2026-10-12T17:36:11.923851-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-caribbean-folklore-month-the-v-20e6b2d2",
+      "title": "An artist's depiction of the events related to the stolen voice. we Caribbean Folklore Month: The voice that called from the woods",
+      "summary": "Guardian Media lead report: An artist's depiction of the events related to the stolen voice. we Caribbean Folklore Month: The voice that called from the woods.",
+      "content": "Guardian Media lead report: An artist's depiction of the events related to the stolen voice. we Caribbean Folklore Month: The voice that called from the woods.",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/article/caribbean-folklore-month-the-voice-that-called-from-the-woods-6.2.2687051.a0e28803e2",
+      "publishedAt": "2026-10-12T17:36:11.923940-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-guardian-neaves-strikes-gold-in-u23-car-add4d3a8",
+      "title": "Neaves strikes gold in U-23 Caribbean Road Race T&T's Jadian Neaves, centre, displays his gold medal and national flag on the p...",
+      "summary": "Guardian Media lead report: Neaves strikes gold in U-23 Caribbean Road Race T&T's Jadian Neaves, centre, displays his gold medal and national flag on the p....",
+      "content": "Guardian Media lead report: Neaves strikes gold in U-23 Caribbean Road Race T&T's Jadian Neaves, centre, displays his gold medal and national flag on the p....",
+      "sourceId": "guardian",
+      "sourceName": "Trinidad Guardian",
+      "sourceType": "newspaper",
+      "author": "Guardian Media",
+      "originalUrl": "https://www.guardian.co.tt/sports/neaves-strikes-gold-in-u23-caribbean-road-race-6.2.2686953.f95b586a13",
+      "publishedAt": "2026-10-12T17:36:11.924076-04:00",
+      "category": "sports",
+      "tags": [
+        "Trinidad Guardian",
+        "Lead Story",
+        "National Report"
+      ],
+      "trendingScore": 91,
+      "upvotes": 68,
+      "commentsCount": 16,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-tv6-wi-lose-3rd-t20-to-india",
+      "title": "TV6: WI LOSE 3RD T20 TO INDIA",
+      "summary": "CCN TV6 television report covering wi lose 3rd t20 to india.",
+      "content": "CCN TV6 broadcast segment on WI LOSE 3RD T20 TO INDIA.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/wi-lose-3rd-t20-to-india/article_ca061eb2-8a73-49f0-86fa-e4cfd3bb3765.html",
+      "publishedAt": "2026-10-12T17:36:13.654625-04:00",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -682,16 +1170,128 @@
       }
     },
     {
-      "id": "py-tv6-has-pm-forgotten-childrens-laws",
-      "title": "TV6: HAS PM FORGOTTEN CHILDREN'S LAWS?",
-      "summary": "CCN TV6 television report covering has pm forgotten children's laws?.",
-      "content": "CCN TV6 broadcast segment on HAS PM FORGOTTEN CHILDREN'S LAWS?.",
+      "id": "py-tv6-pca-investigating-tobago-police-shooting",
+      "title": "TV6: PCA INVESTIGATING TOBAGO POLICE SHOOTING",
+      "summary": "CCN TV6 television report covering pca investigating tobago police shooting.",
+      "content": "CCN TV6 broadcast segment on PCA INVESTIGATING TOBAGO POLICE SHOOTING.",
       "sourceId": "tv6",
       "sourceName": "CCN TV6",
       "sourceType": "broadcast",
       "author": "TV6 Newsroom",
-      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/has-pm-forgotten-childrens-laws/article_b610371e-1b6a-4671-97f9-ae056feda0bd.html",
-      "publishedAt": "2026-10-13T17:13:38.749236-04:00",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/pca-investigating-tobago-police-shooting/article_69d53c6d-40ee-4afb-8151-b787ad8fef46.html",
+      "publishedAt": "2026-10-12T17:36:13.655270-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "py-tv6-hosein-eyes-trade-labour-market",
+      "title": "TV6: HOSEIN EYES TRADE, LABOUR MARKET",
+      "summary": "CCN TV6 television report covering hosein eyes trade, labour market.",
+      "content": "CCN TV6 broadcast segment on HOSEIN EYES TRADE, LABOUR MARKET.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/hosein-eyes-trade-labour-market/article_7a382024-c884-401e-a1e7-9c21ca95f797.html",
+      "publishedAt": "2026-10-12T17:36:13.655567-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "py-tv6-budget-for-hardworking-law-abiding",
+      "title": "TV6: BUDGET FOR HARDWORKING & LAW ABIDING",
+      "summary": "CCN TV6 television report covering budget for hardworking & law abiding.",
+      "content": "CCN TV6 broadcast segment on BUDGET FOR HARDWORKING & LAW ABIDING.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/budget-for-hardworking-law-abiding/article_12069c2d-34ea-468e-9c7a-b5c9b99c4768.html",
+      "publishedAt": "2026-10-12T17:36:13.655804-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "py-tv6-shai-hope-on-loss",
+      "title": "TV6: SHAI HOPE ON LOSS",
+      "summary": "CCN TV6 television report covering shai hope on loss.",
+      "content": "CCN TV6 broadcast segment on SHAI HOPE ON LOSS.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/shai-hope-on-loss/article_fb49c7af-154a-4634-8b4e-70eb63f99d18.html",
+      "publishedAt": "2026-10-12T17:36:13.656066-04:00",
+      "category": "broadcast",
+      "tags": [
+        "TV6 News",
+        "Broadcast",
+        "Port of Spain"
+      ],
+      "trendingScore": 91,
+      "upvotes": 77,
+      "commentsCount": 21,
+      "isBreaking": false,
+      "media": {
+        "type": "video",
+        "url": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape",
+        "videoDuration": "2:45"
+      }
+    },
+    {
+      "id": "py-tv6-pantrinbago-change-of-heart",
+      "title": "TV6: PANTRINBAGO CHANGE OF HEART",
+      "summary": "CCN TV6 television report covering pantrinbago change of heart.",
+      "content": "CCN TV6 broadcast segment on PANTRINBAGO CHANGE OF HEART.",
+      "sourceId": "tv6",
+      "sourceName": "CCN TV6",
+      "sourceType": "broadcast",
+      "author": "TV6 Newsroom",
+      "originalUrl": "https://www.tv6tnt.com/news/7pmnews/pantrinbago-change-of-heart/article_45e3611d-390f-430c-85fb-f4b5be6adda2.html",
+      "publishedAt": "2026-10-12T17:36:13.656310-04:00",
       "category": "broadcast",
       "tags": [
         "TV6 News",
@@ -720,7 +1320,7 @@
       "sourceType": "broadcast",
       "author": "CNC3 News Anchor",
       "originalUrl": "https://www.youtube.com/watch?v=cnc3-sample-evening-7",
-      "publishedAt": "2026-10-13T19:23:27.172Z",
+      "publishedAt": "2026-10-12T19:45:52.548Z",
       "category": "business",
       "tags": [
         "CNC3 News",
@@ -749,7 +1349,7 @@
       "sourceType": "newspaper",
       "author": "Express News Desk",
       "originalUrl": "https://trinidadexpress.com/news/local/relief-for-vulnerable/article_ca8b00ef-883a-403a-aa3f-c4679c7c3770.html",
-      "publishedAt": "2026-10-13T17:13:36.982575-04:00",
+      "publishedAt": "2026-10-13T19:01:29.255137-04:00",
       "category": "business",
       "tags": [
         "Trinidad Express",
@@ -760,6 +1360,7 @@
       "upvotes": 65,
       "commentsCount": 18,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAQAAAAe/WZNAAAAEElEQVR42mM8U88ABowYDABAxQPltt5zqAAAAABJRU5ErkJggg==",
@@ -776,8 +1377,8 @@
       "sourceType": "newspaper",
       "author": "Express News Desk",
       "originalUrl": "https://trinidadexpress.com/news/local/light-bills-to-get-heavier/article_3eb9c07c-d3cb-4b8f-8967-826e79baf29e.html",
-      "publishedAt": "2026-10-13T17:13:36.982575-04:00",
-      "category": "business",
+      "publishedAt": "2026-10-13T19:01:29.255137-04:00",
+      "category": "broadcast",
       "tags": [
         "Trinidad Express",
         "Breaking TT",
@@ -787,6 +1388,7 @@
       "upvotes": 65,
       "commentsCount": 18,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
@@ -803,7 +1405,7 @@
       "sourceType": "newspaper",
       "author": "Express News Desk",
       "originalUrl": "https://trinidadexpress.com/news/local/farley-disappointed/article_01d1461e-c8b8-46af-9a68-c4d1076fa558.html",
-      "publishedAt": "2026-10-13T17:13:36.982575-04:00",
+      "publishedAt": "2026-10-13T19:01:29.256138-04:00",
       "category": "politics",
       "tags": [
         "Trinidad Express",
@@ -814,6 +1416,7 @@
       "upvotes": 65,
       "commentsCount": 18,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
@@ -830,8 +1433,8 @@
       "sourceType": "newspaper",
       "author": "Express News Desk",
       "originalUrl": "https://trinidadexpress.com/news/local/crime-fight-to-go-hi-tech/article_c926866a-c60f-49f5-9e67-fd72652f7f50.html",
-      "publishedAt": "2026-10-13T17:13:36.983585-04:00",
-      "category": "crime",
+      "publishedAt": "2026-10-13T19:01:29.256138-04:00",
+      "category": "politics",
       "tags": [
         "Trinidad Express",
         "Breaking TT",
@@ -841,6 +1444,7 @@
       "upvotes": 65,
       "commentsCount": 18,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
@@ -857,7 +1461,7 @@
       "sourceType": "newspaper",
       "author": "Express News Desk",
       "originalUrl": "https://trinidadexpress.com/news/local/empty-lazy-and-visionless-budget-says-beckles/article_a745f706-6d92-47ee-ac5c-ef21416dc355.html",
-      "publishedAt": "2026-10-13T17:13:36.983585-04:00",
+      "publishedAt": "2026-10-13T19:01:29.256138-04:00",
       "category": "business",
       "tags": [
         "Trinidad Express",
@@ -868,6 +1472,7 @@
       "upvotes": 65,
       "commentsCount": 18,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
@@ -884,8 +1489,8 @@
       "sourceType": "newspaper",
       "author": "Express News Desk",
       "originalUrl": "https://trinidadexpress.com/news/local/all-out-for-sparrow/article_20d41627-f9aa-4076-83fc-079917f4de23.html",
-      "publishedAt": "2026-10-13T17:13:36.983585-04:00",
-      "category": "culture",
+      "publishedAt": "2026-10-13T19:01:29.256138-04:00",
+      "category": "broadcast",
       "tags": [
         "Trinidad Express",
         "Breaking TT",
@@ -895,6 +1500,7 @@
       "upvotes": 65,
       "commentsCount": 18,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
@@ -911,7 +1517,7 @@
       "sourceType": "newspaper",
       "author": "Express News Desk",
       "originalUrl": "https://trinidadexpress.com/news/local/dignitaries-turn-out-for-airport-opening/article_10d05df7-0df4-4414-bd95-1ca4bce37295.html",
-      "publishedAt": "2026-10-13T17:13:36.983585-04:00",
+      "publishedAt": "2026-10-13T19:01:29.256138-04:00",
       "category": "politics",
       "tags": [
         "Trinidad Express",
@@ -922,6 +1528,7 @@
       "upvotes": 65,
       "commentsCount": 18,
       "isBreaking": false,
+      "dataOrigin": "live",
       "media": {
         "type": "image",
         "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
@@ -938,8 +1545,144 @@
       "sourceType": "newspaper",
       "author": "Express News Desk",
       "originalUrl": "https://trinidadexpress.com/news/local/sobers-no-sitting-minister-s-us-visa-revoked/article_211a9c7f-2260-42e4-a6e0-28384fa85bca.html",
-      "publishedAt": "2026-10-13T17:13:36.983585-04:00",
+      "publishedAt": "2026-10-13T19:01:29.256138-04:00",
       "category": "politics",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "dataOrigin": "live",
+      "media": {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_186f4fdf-3032-47ac-868-c23c645a",
+      "title": "Govt targets creating 50,000 jobs",
+      "summary": "JOB creation was one of the central promises of the United National Congress (UNC) ahead of the April 28, 2025 general election.Prime Minister Kamla Persad-Bissessar had pledged to generate more than 50,000 employment...",
+      "content": "JOB creation was one of the central promises of the United National Congress (UNC) ahead of the April 28, 2025 general election.Prime Minister Kamla Persad-Bissessar had pledged to generate more than 50,000 employment...",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/govt-targets-creating-50-000-jobs/article_186f4fdf-3032-47ac-868d-886888237e1a.html",
+      "publishedAt": "2026-10-12T17:36:11.579821-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_cdcb85ff-1761-4340-9c2-1c3bf7c4",
+      "title": "Sando Chamber: Enough talk",
+      "summary": "President of the Greater San Fernando Area Chamber of Commerce (GSFCC) Kiran Singh is calling for the national budget to move beyond promises of economic diversification, and to fund local businesses to produce, innov...",
+      "content": "President of the Greater San Fernando Area Chamber of Commerce (GSFCC) Kiran Singh is calling for the national budget to move beyond promises of economic diversification, and to fund local businesses to produce, innov...",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/sando-chamber-enough-talk/article_cdcb85ff-1761-4340-9c2d-d47a850b31b5.html",
+      "publishedAt": "2026-10-12T17:36:11.580039-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_ff3c7207-fa29-4cbc-af7-3fb8392d",
+      "title": "PM: Govt will rebalance society",
+      "summary": "Prime Minister Kamla Persad-Bissessar has signalled a shift in how some State resources are delivered, saying the Government intends to move away from laziness, wastage and the misuse of public assistance, and towards...",
+      "content": "Prime Minister Kamla Persad-Bissessar has signalled a shift in how some State resources are delivered, saying the Government intends to move away from laziness, wastage and the misuse of public assistance, and towards...",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/pm-govt-will-rebalance-society/article_ff3c7207-fa29-4cbc-af7f-19cb20552198.html",
+      "publishedAt": "2026-10-12T17:36:11.580233-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_cfd412e3-1a92-44b1-989-66854fd0",
+      "title": "LIVESTREAM SPARKS OUTRAGE",
+      "summary": "A 13-year-old girl who was removed from her mother's care following a police investigation has been found after she went missing for 25 days.The good news, however, soon turned ugly when a livestream showing her face ...",
+      "content": "A 13-year-old girl who was removed from her mother's care following a police investigation has been found after she went missing for 25 days.The good news, however, soon turned ugly when a livestream showing her face ...",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/livestream-sparks-outrage/article_cfd412e3-1a92-44b1-989a-0caff78a3daa.html",
+      "publishedAt": "2026-10-12T17:36:11.580423-04:00",
+      "category": "news",
+      "tags": [
+        "Trinidad Express",
+        "Breaking TT",
+        "National News"
+      ],
+      "trendingScore": 90,
+      "upvotes": 65,
+      "commentsCount": 18,
+      "isBreaking": false,
+      "media": {
+        "type": "image",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAQAAACRI2S5AAAAEklEQVR42mM8U8+AFzCOKgADAHdUC60wg0dkAAAAAElFTkSuQmCC",
+        "aspectRatio": "landscape"
+      }
+    },
+    {
+      "id": "py-express-article_82bf2b36-3049-4b33-82f-1e41fce9",
+      "title": "PM: No pressure, only progress ahead of budget",
+      "summary": "Express Investigative & Breaking report from Port of Spain.",
+      "content": "Express Investigative & Breaking report from Port of Spain.",
+      "sourceId": "express",
+      "sourceName": "Trinidad Express",
+      "sourceType": "newspaper",
+      "author": "Express News Desk",
+      "originalUrl": "https://trinidadexpress.com/news/local/pm-no-pressure-only-progress-ahead-of-budget/article_82bf2b36-3049-4b33-82fb-9da7517ee0b7.html",
+      "publishedAt": "2026-10-12T17:36:11.580567-04:00",
+      "category": "news",
       "tags": [
         "Trinidad Express",
         "Breaking TT",
@@ -966,7 +1709,7 @@
       "sourceType": "broadcast",
       "author": "TTT Live Studio",
       "originalUrl": "https://www.youtube.com/watch?v=ttt-sample-news-7pm",
-      "publishedAt": "2026-10-13T18:53:27.172Z",
+      "publishedAt": "2026-10-12T19:15:52.548Z",
       "category": "broadcast",
       "tags": [
         "TTT Live",
@@ -995,14 +1738,13 @@
       "sourceType": "broadcast",
       "author": "CNC3 Sports Desk",
       "originalUrl": "https://cnc3.co.tt/sports/tkr-squad-announcement",
-      "publishedAt": "2026-10-13T17:13:39.332464-04:00",
+      "publishedAt": "2026-10-12T17:36:14.296637-04:00",
       "category": "sports",
       "tags": [
         "CNC3 Sports",
         "CPL Cricket",
         "TKR",
-        "Trinidad Sports",
-        "Trinbago Sports"
+        "Trinidad Sports"
       ],
       "trendingScore": 88,
       "upvotes": 178,
@@ -1026,7 +1768,7 @@
       "sourceType": "broadcast",
       "author": "CCN TV6 Digital Desk",
       "originalUrl": "https://www.facebook.com/CCNTV6/posts/morning-edition-agriculture",
-      "publishedAt": "2026-10-13T19:58:27.172Z",
+      "publishedAt": "2026-10-12T20:20:52.548Z",
       "category": "broadcast",
       "tags": [
         "TV6 Facebook",
@@ -1055,7 +1797,7 @@
       "sourceType": "broadcast",
       "author": "CNC3 Television Digital Desk",
       "originalUrl": "https://www.facebook.com/CNC3Television/posts/port-logistics-update",
-      "publishedAt": "2026-10-13T19:48:27.172Z",
+      "publishedAt": "2026-10-12T20:10:52.548Z",
       "category": "business",
       "tags": [
         "CNC3 Facebook",
@@ -1084,7 +1826,7 @@
       "sourceType": "newspaper",
       "author": "Newsday Digital Desk",
       "originalUrl": "https://www.facebook.com/NewsdayTT/posts/sea-results-celebrations",
-      "publishedAt": "2026-10-13T18:13:27.172Z",
+      "publishedAt": "2026-10-12T18:35:52.548Z",
       "category": "culture",
       "tags": [
         "Newsday",

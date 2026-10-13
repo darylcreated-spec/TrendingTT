@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "generatedAt": "2026-10-13T19:02:14.733428-04:00",
+    "source": "Trending.TT Utility Telemetry Engine",
+    "version": "1.0",
+    "disruptionsCount": 4,
+    "schedulesCount": 5,
+    "telecomCount": 4,
+    "dataOrigin": "sample"
+  },
+  "disruptions": [
+    {
+      "id": "ttec-maraval-maint-01",
+      "providerId": "ttec",
+      "providerName": "T&TEC",
+      "category": "electricity",
+      "title": "Scheduled High-Voltage Line Clearing & Pole Maintenance",
+      "reason": "Vegetation management and circuit replacement along Saddle Road feeder lines.",
+      "affectedAreas": [
+        "Saddle Road",
+        "Boissiere Village",
+        "La Horquette Valley"
+      ],
+      "region": "North",
+      "scheduledTime": "Upcoming Service Window: 8:30 AM - 4:00 PM AST",
+      "estimatedRestoration": "4:30 PM AST",
+      "status": "scheduled",
+      "updatedAt": "Sample data — last reviewed April 2026",
+      "hotline": "800-TTEC (8832)",
+      "officialUrl": "https://ttec.co.tt/",
+      "bulletinNumber": "TTEC-N-2026-041",
+      "dataOrigin": "sample"
+    },
+    {
+      "id": "ttec-couva-grid-substation",
+      "providerId": "ttec",
+      "providerName": "T&TEC",
+      "category": "electricity",
+      "title": "Breaker Maintenance at Point Lisas Industrial Substation",
+      "reason": "Preventative relay maintenance to reinforce industrial feeder resilience.",
+      "affectedAreas": [
+        "Point Lisas",
+        "California",
+        "Esperanza Village"
+      ],
+      "region": "Central",
+      "scheduledTime": "Scheduled Sunday Window: 7:00 AM - 1:00 PM AST",
+      "estimatedRestoration": "1:30 PM AST",
+      "status": "scheduled",
+      "updatedAt": "Sample data — last reviewed April 2026",
+      "hotline": "800-TTEC (8832)",
+      "officialUrl": "https://ttec.co.tt/",
+      "bulletinNumber": "TTEC-C-2026-088",
+      "dataOrigin": "sample"
+    },
+    {
+      "id": "wasa-caroni-pipeline-repair",
+      "providerId": "wasa",
+      "providerName": "WASA",
+      "category": "water",
+      "title": "Transmission Main Leak Repair along Golden Grove Road",
+      "reason": "Emergency repair on a 42-inch transmission line feeding Central and South Trinidad.",
+      "affectedAreas": [
+        "Golden Grove",
+        "Arouca",
+        "Piarco Junction",
+        "Caroni Savannah Road"
+      ],
+      "region": "East",
+      "scheduledTime": "Maintenance Window: 6:00 AM - 6:00 PM AST",
+      "estimatedRestoration": "8:00 PM AST (gradual pressure normalization)",
+      "status": "active",
+      "updatedAt": "Sample data — last reviewed April 2026",
+      "hotline": "800-4420 / 800-4426",
+      "officialUrl": "https://www.wasa.gov.tt/",
+      "bulletinNumber": "WASA-PR-2026-112",
+      "dataOrigin": "sample"
+    },
+    {
+      "id": "wasa-navet-booster-service",
+      "providerId": "wasa",
+      "providerName": "WASA",
+      "category": "water",
+      "title": "Booster Pump Overhaul at San Fernando Reservoir",
+      "reason": "Mechanical upgrades to high-lift pumping systems supplying elevated communities.",
+      "affectedAreas": [
+        "Les Efforts East",
+        "Cross Crossing",
+        "Pleasantville"
+      ],
+      "region": "South",
+      "scheduledTime": "Service Window: 9:00 AM - 3:00 PM AST",
+      "estimatedRestoration": "5:00 PM AST",
+      "status": "scheduled",
+      "updatedAt": "Sample data — last reviewed April 2026",
+      "hotline": "800-4420",
+      "officialUrl": "https://www.wasa.gov.tt/",
+      "bulletinNumber": "WASA-PR-2026-114",
+      "dataOrigin": "sample"
+    }
+  ],
+  "waterSchedules": [
+    {
+      "id": "ws-pos-woodbrook-st-clair",
+      "area": "Woodbrook & St. Clair",
+      "boroughOrTown": "Port of Spain",
+      "region": "North",
+      "treatmentPlant": "Caroni Arena Water Treatment Plant",
+      "scheduleDays": "Daily",
+      "supplyHours": "5:00 AM - 10:00 PM AST",
+      "pressureStatus": "Normal Pressure",
+      "truckBorneContact": "800-4420 (POS District)",
+      "notes": "Direct reservoir feed via Maraval & St. Ann's booster stations."
+    },
+    {
+      "id": "ws-chaguanas-montrose-lange",
+      "area": "Montrose, Lange Park & Edinburgh 500",
+      "boroughOrTown": "Chaguanas",
+      "region": "Central",
+      "treatmentPlant": "Caroni Arena Water Treatment Plant",
+      "scheduleDays": "Mon, Wed, Fri, Sun",
+      "supplyHours": "6:00 AM - 6:00 PM AST",
+      "pressureStatus": "Normal Pressure",
+      "truckBorneContact": "800-4426 (Central Dispatch)",
+      "notes": "Rotational schedule in effect across Central elevated zones."
+    },
+    {
+      "id": "ws-san-fernando-viste-bella",
+      "area": "Vistabella, Marabella & Cocoyea",
+      "boroughOrTown": "San Fernando",
+      "region": "South",
+      "treatmentPlant": "Navet Water Treatment Plant",
+      "scheduleDays": "Tue, Thu, Sat",
+      "supplyHours": "4:00 AM - 8:00 PM AST",
+      "pressureStatus": "Low Pressure",
+      "truckBorneContact": "800-4420 (South Regional Office)",
+      "notes": "Navet transmission main maintenance; elevated areas experience reduced head."
+    },
+    {
+      "id": "ws-arima-malabar-o-meara",
+      "area": "Malabar, O'Meara & Pinto Road",
+      "boroughOrTown": "Arima",
+      "region": "East",
+      "treatmentPlant": "Hollis Water Treatment Plant & Guanapo Wells",
+      "scheduleDays": "Mon, Wed, Sat",
+      "supplyHours": "6:00 AM - 4:00 PM AST",
+      "pressureStatus": "Normal Pressure",
+      "truckBorneContact": "800-4426 (East District Dispatch)",
+      "notes": "Truck-borne relief available on non-supply days."
+    },
+    {
+      "id": "ws-scarborough-bacolet-crown-point",
+      "area": "Scarborough, Bacolet & Crown Point",
+      "boroughOrTown": "Tobago",
+      "region": "Tobago",
+      "treatmentPlant": "Courland & Hillsborough Reservoirs",
+      "scheduleDays": "Daily",
+      "supplyHours": "24 Hours (Continuous)",
+      "pressureStatus": "Normal Pressure",
+      "truckBorneContact": "639-6850 (Tobago Customer Center)",
+      "notes": "Direct island distribution network operating under full storage capacity."
+    }
+  ],
+  "telecomNotices": [
+    {
+      "id": "tel-flow-broadband",
+      "providerId": "flow",
+      "providerName": "Flow Trinidad",
+      "serviceType": "Fiber Internet",
+      "headline": "Flow Core Fiber Network Operational Across North & Central",
+      "affectedAreas": [
+        "Port of Spain",
+        "San Juan",
+        "Chaguanas"
+      ],
+      "region": "Nationwide",
+      "status": "operational",
+      "supportHotline": "223-FLOW (3569)",
+      "whatsappSupport": "497-3569",
+      "officialUrl": "https://discoverflow.co/trinidad/",
+      "updatedAt": "Sample data — last reviewed April 2026",
+      "dataOrigin": "sample"
+    },
+    {
+      "id": "tel-digicel-plus",
+      "providerId": "digicel",
+      "providerName": "Digicel+ Home & Entertainment",
+      "serviceType": "Fiber Internet",
+      "headline": "Digicel+ Fiber & Digital TV Feeds Fully Operational",
+      "affectedAreas": [
+        "Diego Martin",
+        "Tunapuna",
+        "San Fernando"
+      ],
+      "region": "Nationwide",
+      "status": "operational",
+      "supportHotline": "100 (Mobile) / 399-5353",
+      "whatsappSupport": "399-CARE",
+      "officialUrl": "https://www.digicelgroup.com/tt/en.html",
+      "updatedAt": "Sample data — last reviewed April 2026",
+      "dataOrigin": "sample"
+    },
+    {
+      "id": "tel-bmobile-tstt",
+      "providerId": "bmobile",
+      "providerName": "bmobile / TSTT",
+      "serviceType": "Mobile LTE/5G",
+      "headline": "TSTT National Mobile & Broadband Core Grid Stable",
+      "affectedAreas": [
+        "Trinidad & Tobago Nationwide"
+      ],
+      "region": "Nationwide",
+      "status": "operational",
+      "supportHotline": "824-TSTT (8788)",
+      "whatsappSupport": "789-TSTT",
+      "officialUrl": "https://bmobile.co.tt/",
+      "updatedAt": "Sample data — last reviewed April 2026",
+      "dataOrigin": "sample"
+    },
+    {
+      "id": "tel-amplia-broadband",
+      "providerId": "amplia",
+      "providerName": "Amplia Communications",
+      "serviceType": "Fiber Internet",
+      "headline": "Amplia Pure Fiber Backbone Operating Normally",
+      "affectedAreas": [
+        "Couva",
+        "Point Fortin",
+        "Arima"
+      ],
+      "region": "Nationwide",
+      "status": "operational",
+      "supportHotline": "800-2675",
+      "whatsappSupport": "790-2675",
+      "officialUrl": "https://amplia.co.tt/",
+      "updatedAt": "Sample data — last reviewed April 2026",
+      "dataOrigin": "sample"
+    }
+  ]
+}

@@ -9,6 +9,29 @@ export interface RadarRefreshResult {
   timestamp: string;
 }
 
+export interface OpenMeteoWeather {
+  temperatureC: number;
+  relativeHumidity: number;
+  windSpeedKmh: number;
+  weatherCode: number;
+  conditionText: string;
+  location: string;
+  updatedAt: string;
+  dataOrigin: 'live' | 'cached' | 'sample';
+}
+
+function getWeatherConditionText(code: number): string {
+  if (code === 0) return 'Clear Sky';
+  if (code === 1 || code === 2) return 'Partly Cloudy';
+  if (code === 3) return 'Overcast';
+  if (code === 45 || code === 48) return 'Misty / Fog';
+  if (code >= 51 && code <= 55) return 'Light Drizzle';
+  if (code >= 61 && code <= 65) return 'Passing Showers / Rain';
+  if (code >= 80 && code <= 82) return 'Heavy Tropical Showers';
+  if (code >= 95) return 'Thunderstorm Activity';
+  return 'Tropical Weather';
+}
+
 /**
  * Generates verified reference and community traffic/weather telemetry for Trinidad & Tobago.
  */
@@ -45,7 +68,7 @@ export const RadarService = {
       ...previous,
       issuedAt: previous.issuedAt || 'Official TTMS Bulletin',
       validUntil: 'Today, 11:59 PM AST',
-      dataOrigin: (previous.dataOrigin || 'sample') as const
+      dataOrigin: previous.dataOrigin || 'sample'
     };
   },
 
@@ -85,5 +108,49 @@ export const RadarService = {
       riverLevels: this.refreshRiverLevels(currentRivers),
       timestamp: formatPostTimeOnly(new Date().toISOString())
     };
+  },
+
+  /**
+   * Fetches real-time weather from Open-Meteo for Port of Spain, Trinidad & Tobago
+   */
+  async fetchOpenMeteoWeather(): Promise<OpenMeteoWeather> {
+    const defaultFallback: OpenMeteoWeather = {
+      temperatureC: 28,
+      relativeHumidity: 78,
+      windSpeedKmh: 14,
+      weatherCode: 2,
+      conditionText: 'Partly Cloudy',
+      location: 'Port of Spain, Trinidad',
+      updatedAt: 'Sample baseline — April 2026',
+      dataOrigin: 'sample'
+    };
+
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 4000);
+      const res = await fetch(
+        'https://api.open-meteo.com/v1/forecast?latitude=10.6667&longitude=-61.5167&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m',
+        { signal: controller.signal }
+      );
+      clearTimeout(timeout);
+
+      if (!res.ok) return defaultFallback;
+      const json = await res.json();
+      if (!json.current) return defaultFallback;
+
+      const code = Number(json.current.weather_code) || 0;
+      return {
+        temperatureC: Math.round(Number(json.current.temperature_2m) * 10) / 10,
+        relativeHumidity: Math.round(Number(json.current.relative_humidity_2m)),
+        windSpeedKmh: Math.round(Number(json.current.wind_speed_10m) * 10) / 10,
+        weatherCode: code,
+        conditionText: getWeatherConditionText(code),
+        location: 'Port of Spain & Piarco',
+        updatedAt: formatPostTimeOnly(new Date().toISOString()),
+        dataOrigin: 'live'
+      };
+    } catch {
+      return defaultFallback;
+    }
   }
 };

@@ -97,11 +97,17 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
 
   // Auto-refresh telemetry on mount and periodically every 60s
   useEffect(() => {
-    const refreshed = UtilityService.refreshAllUtilityData(INITIAL_UTILITY_DISRUPTIONS, INITIAL_WATER_SCHEDULES, INITIAL_TELECOM_NOTICES);
-    setDisruptions(refreshed.disruptions);
-    setWaterSchedules(refreshed.waterSchedules);
-    setTelecomNotices(refreshed.telecomNotices);
-    setLastSyncTime(refreshed.timestamp);
+    let isMounted = true;
+
+    UtilityService.fetchLiveUtilities().then((liveData) => {
+      if (!isMounted) return;
+      if (liveData) {
+        setDisruptions(liveData.disruptions);
+        setWaterSchedules(liveData.waterSchedules);
+        setTelecomNotices(liveData.telecomNotices);
+        setLastSyncTime(liveData.timestamp);
+      }
+    });
 
     const intervalId = setInterval(() => {
       setDisruptions(prev => UtilityService.refreshDisruptions(prev));
@@ -109,7 +115,10 @@ export const UtilitiesDashboard: React.FC<UtilitiesDashboardProps> = ({
       setLastSyncTime(formatPostTimeOnly(new Date().toISOString()));
     }, 60000);
 
-    return () => clearInterval(intervalId);
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
   }, []);
 
   // Community reports state

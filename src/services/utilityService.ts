@@ -115,5 +115,31 @@ export const UtilityService = {
       timestamp,
       activeOutagesCount
     };
+  },
+
+  /**
+   * Fetches ingested utility telemetry from /data/utilities.json
+   */
+  async fetchLiveUtilities(): Promise<UtilityRefreshResult | null> {
+    try {
+      const res = await fetch(`/data/utilities.json?_t=${Date.now()}`, { cache: 'no-store' });
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (!Array.isArray(data.disruptions)) return null;
+
+      const activeOutagesCount = data.disruptions.filter(
+        (d: UtilityDisruption) => d.status === 'active' || d.status === 'restoring'
+      ).length;
+
+      return {
+        disruptions: data.disruptions,
+        waterSchedules: data.waterSchedules || INITIAL_WATER_SCHEDULES,
+        telecomNotices: data.telecomNotices || INITIAL_TELECOM_NOTICES,
+        timestamp: data.meta?.generatedAt ? formatPostTimeOnly(data.meta.generatedAt) : formatPostTimeOnly(new Date().toISOString()),
+        activeOutagesCount
+      };
+    } catch {
+      return null;
+    }
   }
 };

@@ -28,7 +28,9 @@ import urllib.parse
 
 try:
     import requests
-    from bs4 import BeautifulSoup
+    from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
+    import warnings
+    warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 except ImportError:
     print("Warning: requests or beautifulsoup4 not found. Fallback to mock mode will be available.")
     requests = None
@@ -41,7 +43,7 @@ HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36 TrendingTT/2.0"
+        "Chrome/124.0.0.0 Safari/537.36"
     ),
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
@@ -49,6 +51,24 @@ HEADERS = {
 }
 
 DEFAULT_TIMEOUT = 12
+
+def fetch_url_with_retry(urls: Any, headers: Optional[Dict[str, str]] = None, retries: int = 2, backoff: float = 0.8) -> Optional[Any]:
+    """Attempts to GET a URL or list of URLs with exponential backoff retries."""
+    if not requests:
+        return None
+    if isinstance(urls, str):
+        urls = [urls]
+    req_headers = headers or HEADERS
+    for u in urls:
+        for attempt in range(retries + 1):
+            try:
+                resp = requests.get(u, headers=req_headers, timeout=DEFAULT_TIMEOUT)
+                if resp.status_code == 200:
+                    return resp
+            except Exception:
+                if attempt < retries:
+                    time.sleep(backoff * (attempt + 1))
+    return None
 
 def get_ast_now() -> datetime.datetime:
     """Returns current datetime in Atlantic Standard Time."""
@@ -481,49 +501,59 @@ def scrape_tv6() -> List[Dict[str, Any]]:
 # ============================================================================
 def scrape_cnc3() -> List[Dict[str, Any]]:
     posts: List[Dict[str, Any]] = []
-    url = "https://www.cnc3.co.tt/news/"
-    
     if not requests or not BeautifulSoup:
         return posts
 
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=DEFAULT_TIMEOUT)
-        if resp.status_code == 200:
+        # 1. Try CNC3 RSS Feed (fastest & most reliable)
+        resp = fetch_url_with_retry(["https://www.cnc3.co.tt/feed/", "https://cnc3.co.tt/feed/"])
+        if resp and resp.status_code == 200:
             soup = BeautifulSoup(resp.content, "html.parser")
-            items = soup.find_all(["article", "div"], class_=re.compile(r"post|story|article"))
-            for item in items[:6]:
-                h_el = item.find(["h2", "h3"])
-                if not h_el:
-                    continue
-                a_el = h_el.find("a") or item.find("a")
-                if not a_el:
+            items = soup.find_all("item")
+            for item in items[:8]:
+                raw_item = str(item)
+                title_el = item.find("title")
+                desc_el = item.find("description")
+                guid_el = item.find("guid")
+
+                # Extract link safely (handling html.parser <link/> void tag behavior)
+                link_match = re.search(r'<link\s*/>(https?://[^\s<"]+)', raw_item) or re.search(r'<link\s*>(https?://[^\s<"]+)</link>', raw_item, re.IGNORECASE)
+                link = link_match.group(1).split("?")[0] if link_match else (guid_el.get_text(strip=True) if guid_el else "")
+
+                if not title_el or not link:
                     continue
 
-                title = clean_text(h_el.get_text())
-                link = a_el.get("href", "")
-                if link and not link.startswith("http"):
-                    link = urllib.parse.urljoin("https://www.cnc3.co.tt", link)
-
+                title = clean_text(title_el.get_text())
+                desc = clean_text(desc_el.get_text()) if desc_el else ""
                 if not title or len(title) < 10:
                     continue
+                clean_desc = clean_text(BeautifulSoup(desc, "html.parser").get_text()) if desc else f"CNC3 News report: {title}."
+                if len(clean_desc) > 220:
+                    clean_desc = clean_desc[:217] + "..."
+
+                lower_text = (title + " " + clean_desc).lower()
+                cat = "sports" if is_sports_text(lower_text) else "broadcast"
+                tags = ["CNC3 News", "Lead Story", "Trinidad"]
+                if cat == "sports":
+                    tags.append("Trinbago Sports")
 
                 posts.append({
                     "id": generate_post_id("cnc3", link.split("/")[-2] if "/" in link else title[:20]),
                     "title": f"CNC3 News: {title}",
-                    "summary": f"CNC3 television evening bulletin report on {title}.",
-                    "content": f"CNC3 newsroom coverage on {title}.",
+                    "summary": clean_desc,
+                    "content": clean_desc,
                     "sourceId": "cnc3",
                     "sourceName": "CNC3 Television",
                     "sourceType": "broadcast",
-                    "author": "CNC3 Desk",
+                    "author": "CNC3 News Desk",
                     "originalUrl": link,
                     "publishedAt": format_iso_ast(),
-                    "category": "broadcast",
-                    "tags": ["CNC3 News", "Lead Story", "Trinidad"],
+                    "category": cat,
+                    "tags": tags,
                     "trendingScore": 93,
                     "upvotes": 84,
                     "commentsCount": 26,
-                    "isBreaking": False,
+                    "isBreaking": "breaking" in title.lower() or "alert" in title.lower(),
                     "dataOrigin": "live",
                     "media": {
                         "type": "video",
@@ -532,6 +562,51 @@ def scrape_cnc3() -> List[Dict[str, Any]]:
                         "videoDuration": "3:10"
                     }
                 })
+
+        # 2. Fallback to HTML scraping if RSS was empty
+        if not posts:
+            resp = fetch_url_with_retry(["https://www.cnc3.co.tt/news/", "https://www.cnc3.co.tt/category/news/", "https://www.cnc3.co.tt/"])
+            if resp and resp.status_code == 200:
+                soup = BeautifulSoup(resp.content, "html.parser")
+                items = soup.find_all(["article", "div"], class_=re.compile(r"post|story|article|entry"))
+                for item in items[:6]:
+                    h_el = item.find(["h2", "h3", "h4"])
+                    if not h_el:
+                        continue
+                    a_el = h_el.find("a") or item.find("a")
+                    if not a_el:
+                        continue
+                    title = clean_text(h_el.get_text())
+                    link = a_el.get("href", "")
+                    if link and not link.startswith("http"):
+                        link = urllib.parse.urljoin("https://www.cnc3.co.tt", link)
+                    if not title or len(title) < 10:
+                        continue
+                    posts.append({
+                        "id": generate_post_id("cnc3", link.split("/")[-2] if "/" in link else title[:20]),
+                        "title": f"CNC3 News: {title}",
+                        "summary": f"CNC3 television bulletin coverage on {title}.",
+                        "content": f"CNC3 newsroom coverage on {title}.",
+                        "sourceId": "cnc3",
+                        "sourceName": "CNC3 Television",
+                        "sourceType": "broadcast",
+                        "author": "CNC3 Desk",
+                        "originalUrl": link,
+                        "publishedAt": format_iso_ast(),
+                        "category": "broadcast",
+                        "tags": ["CNC3 News", "Lead Story", "Trinidad"],
+                        "trendingScore": 93,
+                        "upvotes": 84,
+                        "commentsCount": 26,
+                        "isBreaking": False,
+                        "dataOrigin": "live",
+                        "media": {
+                            "type": "video",
+                            "url": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1200&q=80",
+                            "aspectRatio": "landscape",
+                            "videoDuration": "3:10"
+                        }
+                    })
     except Exception as e:
         print(f"[CNC3] Scraper notice: {e}")
 
