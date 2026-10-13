@@ -60,62 +60,27 @@ const ViewLoadingFallback = () => (
 import { 
   Inbox, 
   CheckCircle,
+  ArrowUp
 } from 'lucide-react';
+import { mergePosts } from './services/feedMerge';
 
 export const App: React.FC = () => {
   // Navigation & View mode: Feed, Radar, Utilities, or Polls
   const [activeView, setActiveView] = useState<ActiveView>('feed');
 
-  // Core Feed States: Default to newest posts first (strictly latest by publishedAt descending)
+  // Core Feed States: Deduplicated and merged with mergePosts
   const [posts, setPosts] = useState<Post[]>(() => {
     const custom = Storage.getCustomPosts();
     const cached = Storage.getCachedFeed();
-    // Prioritize authentic bundled ingested news + recent custom posts + valid cached items
     const initialCandidates = [...custom, ...INGESTED_POSTS, ...cached];
-    const idMap = new Map<string, Post>();
-    const titleMap = new Map<string, string>();
-
-    for (const post of initialCandidates) {
-      if (!post || !post.id || !post.title || !post.publishedAt) continue;
-      const normTitle = post.title.toLowerCase().trim();
-      const existing = idMap.get(post.id) || (titleMap.has(normTitle) ? idMap.get(titleMap.get(normTitle)!) : undefined);
-
-      const isSports = isSportsPost(post);
-      const normalized: Post = isSports
-        ? {
-            ...post,
-            category: 'sports',
-            tags: post.tags?.includes('Trinbago Sports') ? post.tags : [...(post.tags || []), 'Trinbago Sports']
-          }
-        : post;
-
-      if (!existing) {
-        idMap.set(normalized.id, normalized);
-        titleMap.set(normTitle, normalized.id);
-      } else {
-        // Newer publishedAt always takes precedence over older versions
-        const existingTime = new Date(existing.publishedAt).getTime();
-        const incomingTime = new Date(normalized.publishedAt).getTime();
-        if (incomingTime > existingTime) {
-          idMap.set(normalized.id, normalized);
-          titleMap.set(normTitle, normalized.id);
-        }
-      }
-    }
-
-    // Only fallback to mock seed archive if zero ingested or custom posts exist
-    if (idMap.size === 0) {
-      for (const post of INITIAL_POSTS) {
-        idMap.set(post.id, post);
-      }
-    }
-
-    const initialList = Array.from(idMap.values()).sort(
-      (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    const initialList = mergePosts(
+      [],
+      initialCandidates.length > 0 ? initialCandidates : INITIAL_POSTS
     );
     Storage.saveCachedFeed(initialList);
     return initialList;
   });
+  const [pendingPosts, setPendingPosts] = useState<Post[]>([]);
   const [category, setCategory] = useState<Category>('all');
   const [sortOption, setSortOption] = useState<SortOption>('latest');
   const [timeFilter, setTimeFilter] = useState<TimeFilterOption>('24h');
@@ -223,47 +188,22 @@ export const App: React.FC = () => {
       }
 
       if (freshPosts.length > 0) {
-        setPosts((prev) => {
-          const idMap = new Map<string, Post>();
-          const titleMap = new Map<string, string>();
-
-          // Merge all existing (prev) and newly incoming (freshPosts) posts
-          // Crucially: for any duplicate post, keep the version with the newer publishedAt timestamp
-          for (const post of [...prev, ...freshPosts]) {
-            if (!post || !post.id || !post.title || !post.publishedAt) continue;
-            const normTitle = post.title.toLowerCase().trim();
-            const existing = idMap.get(post.id) || (titleMap.has(normTitle) ? idMap.get(titleMap.get(normTitle)!) : undefined);
-
-            const isSports = isSportsPost(post);
-            const normalized: Post = isSports
-              ? {
-                  ...post,
-                  category: 'sports',
-                  tags: post.tags?.includes('Trinbago Sports') ? post.tags : [...(post.tags || []), 'Trinbago Sports']
-                }
-              : post;
-
-            if (!existing) {
-              idMap.set(normalized.id, normalized);
-              titleMap.set(normTitle, normalized.id);
-            } else {
-              const existingTime = new Date(existing.publishedAt).getTime();
-              const newTime = new Date(normalized.publishedAt).getTime();
-              if (newTime >= existingTime) {
-                idMap.set(normalized.id, normalized);
-                titleMap.set(normTitle, normalized.id);
-              }
-            }
+        if (silent && posts.length > 0) {
+          const currentIds = new Set(posts.map((p) => p.id));
+          const brandNew = freshPosts.filter((p) => !currentIds.has(p.id));
+          if (brandNew.length > 0) {
+            setPendingPosts(brandNew);
           }
-
-          const combined = Array.from(idMap.values());
-          const sorted = combined.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-          Storage.saveCachedFeed(sorted);
-          return sorted;
-        });
-
-        if (!silent) {
-          showToast(`Ingested ${liveCount + socialCount} updates from broadcast, yt-dlp & social feeds`);
+        } else {
+          setPosts((prev) => {
+            const merged = mergePosts(prev, freshPosts);
+            Storage.saveCachedFeed(merged);
+            return merged;
+          });
+          setPendingPosts([]);
+          if (!silent) {
+            showToast(`Ingested ${liveCount + socialCount} updates from broadcast, yt-dlp & social feeds`);
+          }
         }
       } else {
         if (!silent) {
@@ -279,7 +219,7 @@ export const App: React.FC = () => {
         setIsRefreshing(false);
       }
     }
-  }, [showToast]);
+  }, [posts, showToast]);
 
   // Initialize PWA install events and auto-refresh timers
   useEffect(() => {
@@ -290,8 +230,10 @@ export const App: React.FC = () => {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
 
-    // Initial background ingestion and feed refresh on startup (immediate launch)
-    handleTriggerScrape(true);
+    // Initial background ingestion and feed refresh on startup (deferred to prevent synchronous setState)
+    const initialTimer = setTimeout(() => {
+      handleTriggerScrape(true);
+    }, 100);
 
     // Auto-refresh feeds every 5 minutes in the background
     const autoRefreshTimer = setInterval(() => {
@@ -307,6 +249,7 @@ export const App: React.FC = () => {
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
+      clearTimeout(initialTimer);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
       clearInterval(autoRefreshTimer);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
@@ -464,6 +407,7 @@ export const App: React.FC = () => {
 
   // Filter & Sort Logic
   const filteredPosts = useMemo(() => {
+    const now = Date.now();
     return posts.filter((post) => {
       // Bookmarks filter
       if (showBookmarksOnly && !bookmarkedIds.includes(post.id)) {
@@ -502,7 +446,7 @@ export const App: React.FC = () => {
 
       // Time Window Freshness Filter
       if (timeFilter !== 'all-time') {
-        const hoursAgo = (Date.now() - new Date(post.publishedAt).getTime()) / (1000 * 60 * 60);
+        const hoursAgo = (now - new Date(post.publishedAt).getTime()) / (1000 * 60 * 60);
         if (timeFilter === '24h' && hoursAgo > 24) return false;
         if (timeFilter === '48h' && hoursAgo > 48) return false;
         if (timeFilter === '7d' && hoursAgo > 24 * 7) return false;
@@ -623,6 +567,28 @@ export const App: React.FC = () => {
         {/* DEFAULT VIEW: NATIONAL NEWS FEED */}
         {activeView === 'feed' && (
           <>
+            {/* New Posts Floating Pill (Freshness indicator that doesn't jump the feed) */}
+            {pendingPosts.length > 0 && (
+              <div className="sticky top-20 z-40 flex justify-center mb-4">
+                <button
+                  onClick={() => {
+                    setPosts((prev) => {
+                      const merged = mergePosts(prev, pendingPosts);
+                      Storage.saveCachedFeed(merged);
+                      return merged;
+                    });
+                    setPendingPosts([]);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    showToast(`Loaded ${pendingPosts.length} new bulletins`);
+                  }}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold text-xs rounded-full shadow-2xl border border-red-400/40 transition-all transform hover:scale-105 active:scale-95 animate-pulse"
+                >
+                  <ArrowUp className="w-4 h-4" />
+                  <span>New bulletins available ({pendingPosts.length}) — tap to load</span>
+                </button>
+              </div>
+            )}
+
             {/* Live Traffic & Weather Radar Teaser Banner with 60-Second Commuter Audio Byte & Direct WhatsApp Share */}
             <RadarAlertBanner 
               onOpenRadar={() => setActiveView('radar')} 

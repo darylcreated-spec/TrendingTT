@@ -31,14 +31,54 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Network-first strategy with cache fallback for real-time news data
+// Network-first strategy for data feeds with cache fallback, stale-while-revalidate for assets
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
+  const url = new URL(event.request.url);
+  const isDataFeed = url.pathname.includes('/data/') || url.pathname.endsWith('.json');
+  const isStaticAsset = Boolean(url.pathname.match(/\.(js|css|png|svg|jpg|jpeg|webp|woff2?)$/));
+
+  if (isDataFeed) {
+    // Network-First for real-time news and utility feeds
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  if (isStaticAsset) {
+    // Cache-First with background revalidation for static assets
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        const fetchPromise = fetch(event.request)
+          .then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              const clone = networkResponse.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+            }
+            return networkResponse;
+          })
+          .catch(() => null);
+
+        return cachedResponse || fetchPromise;
+      })
+    );
+    return;
+  }
+
+  // Default network-first for document navigation
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
-        // Cache valid responses
         if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -48,7 +88,6 @@ self.addEventListener('fetch', (event) => {
         return networkResponse;
       })
       .catch(() => {
-        // Fallback to offline cache
         return caches.match(event.request).then((cachedResponse) => {
           if (cachedResponse) {
             return cachedResponse;
