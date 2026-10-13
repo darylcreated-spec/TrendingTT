@@ -387,17 +387,20 @@ export const BriefingModal: React.FC<BriefingModalProps> = ({
             </div>
           )}
 
-          {/* TAB 3: GEMINI API SETTINGS */}
+          {/* TAB 3: GEMINI API SETTINGS (ADVANCED) */}
           {activeTab === 'settings' && (
             <div className="max-w-xl mx-auto space-y-4">
-              <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
+              <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
                 <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
                   <Key className="w-4 h-4 text-red-500" />
-                  Google Gemini API Configuration
+                  Advanced: Custom Google Gemini API Key
                 </h3>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  To power dynamic live AI synthesis directly in your browser without any server, provide a Google Gemini API Key. Your key is stored securely in your browser&apos;s localStorage and never transmitted elsewhere.
+                  By default, Trending.TT synthesizes briefings server-side via secure serverless functions without exposing any API keys to the browser.
                 </p>
+                <div className="p-3 bg-amber-950/40 border border-amber-500/30 rounded-xl text-xs text-amber-200/90 font-medium">
+                  Warning: Any key entered below is stored locally on this device in your browser&apos;s localStorage and is never transmitted to our servers.
+                </div>
               </div>
 
               <div className="space-y-1.5">
@@ -406,7 +409,7 @@ export const BriefingModal: React.FC<BriefingModalProps> = ({
                   type="password"
                   value={apiKey}
                   onChange={(e) => setApiKey(e.target.value)}
-                  placeholder="AIzaSy..."
+                  placeholder="Enter your Gemini API key..."
                   className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-red-500"
                 />
               </div>

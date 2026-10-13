@@ -1,4 +1,5 @@
 import type { Post } from '../types';
+import { fetchServerBriefing } from './geminiService';
 
 export interface IntelligenceBriefing {
   id: string;
@@ -51,7 +52,17 @@ export class BriefingEngine {
   public static async generateBriefings(posts: Post[]): Promise<IntelligenceBriefing[]> {
     if (posts.length === 0) return [];
 
-    // Group posts into clusters
+    // Attempt serverless Gemini briefing first (secure, server-side GEMINI_API_KEY)
+    try {
+      const serverBriefings = await fetchServerBriefing(posts);
+      if (serverBriefings && serverBriefings.length > 0) {
+        return serverBriefings;
+      }
+    } catch {
+      // Fallback silently to editorial cluster synthesis
+    }
+
+    // Fallback: Group posts into clusters and synthesize deterministically
     const breakingCluster = posts.filter((p) => p.isBreaking || p.category === 'breaking' || p.trendingScore >= 95);
     const sportsCluster = posts.filter((p) => p.category === 'sports' || p.tags.some((t) => /cricket|football|cpl|red force|soca warriors/i.test(t)));
     const socialCluster = posts.filter((p) => p.category === 'social' || p.sourceType === 'social');
